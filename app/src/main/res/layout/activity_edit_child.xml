@@ -27,7 +27,6 @@
         android:autofillHints="Name of child to add"
         android:ems="10"
         android:hint="@string/child_name_edit_hint"
-        android:hintTextColor="#757575"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
