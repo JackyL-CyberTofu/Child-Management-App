@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">BeParentApp</string>
+    <string name="button_description">Add new children</string>
+    <string name="name_label">Name</string>
+    <string name="name_label">Name</string>
+    <string name="child_name_edit_hint">enter name of child</string>
 </resources>
