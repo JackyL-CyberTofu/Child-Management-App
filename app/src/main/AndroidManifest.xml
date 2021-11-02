@@ -10,14 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BeParentApp">
         <activity
+            android:name=".CoinFlipHistory"
+            android:exported="false" />
+        <activity
             android:name=".ChildConfigActivity"
             android:exported="false" />
         <activity
-            android:name=".ConflipActivity"
+            android:name=".CoinFlipActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:label="Coin Flip">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

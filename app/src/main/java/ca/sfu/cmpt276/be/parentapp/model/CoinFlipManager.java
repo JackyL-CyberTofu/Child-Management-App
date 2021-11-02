@@ -38,9 +38,9 @@ public class CoinFlipManager {
                 throw new IllegalStateException("Unexpected value: " + randomInt);
         }
 
-        String childPicked = getLastChildPicked().getName();
+        //String childPicked = getLastChildPicked().getName();
 
-        saveCoinFlip(result,userChoice, childPicked);
+        saveCoinFlip(result,userChoice, "John");
 
         return result;
     }
@@ -65,5 +65,7 @@ public class CoinFlipManager {
     public Coin getCoinFlipGame(int index){
         return this.coinFlipHistory.get(index);
     }
+
+    public ArrayList<Coin> getCoinList() { return this.coinFlipHistory; }
 
 }
