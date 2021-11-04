@@ -11,7 +11,8 @@
         android:theme="@style/Theme.BeParentApp">
         <activity
             android:name=".FlipHistoryActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="History"/>
         <activity
             android:name=".ChildConfigActivity"
             android:exported="false" />

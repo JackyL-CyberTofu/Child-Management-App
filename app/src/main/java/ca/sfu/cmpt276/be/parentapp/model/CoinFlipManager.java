@@ -5,7 +5,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
+
+import ca.sfu.cmpt276.be.parentapp.CoinFlipActivity;
 
 public class CoinFlipManager {
 
@@ -13,12 +16,31 @@ public class CoinFlipManager {
 
     ArrayList<Coin> coinFlipHistory = new ArrayList<Coin>();
     int nextChild = 0;
+    private List<CoinObserver> observers = new ArrayList<>();
+
 
     public static CoinFlipManager getInstance() {
         if (instance == null) {
             instance = new CoinFlipManager();
         }
         return instance;
+    }
+
+
+    public interface CoinObserver {
+        void notifyCounterChanged();
+    }
+
+    public void registerChangeCallback(CoinObserver obs) {
+        observers.add(obs);
+    }
+    public void unRegisterChangeCallback(CoinObserver obs) {
+        observers.remove(obs);
+    }
+    private void notifyValueHasChanged() {
+        for (CoinObserver obs : observers) {
+            obs.notifyCounterChanged();
+        }
     }
 
     public String flipRandomCoin(String userChoice){
@@ -41,6 +63,8 @@ public class CoinFlipManager {
         //String childPicked = getLastChildPicked().getName();
 
         saveCoinFlip(result,userChoice, "John");
+
+        notifyValueHasChanged();
 
         return result;
     }

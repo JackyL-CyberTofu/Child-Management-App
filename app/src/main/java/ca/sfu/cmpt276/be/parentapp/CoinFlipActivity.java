@@ -7,18 +7,20 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.ui.AppBarConfiguration;
 
 import ca.sfu.cmpt276.be.parentapp.databinding.ActivityCoinflipBinding;
+import ca.sfu.cmpt276.be.parentapp.model.ChildManager;
 import ca.sfu.cmpt276.be.parentapp.model.CoinFlipManager;
 
-public class CoinFlipActivity extends AppCompatActivity {
+public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManager.CoinObserver {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityCoinflipBinding binding;
@@ -26,6 +28,7 @@ public class CoinFlipActivity extends AppCompatActivity {
     private ImageView coin;
     MediaPlayer player;
     CoinFlipManager coinFlipManager = CoinFlipManager.getInstance();
+    ChildManager childManager = ChildManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,7 @@ public class CoinFlipActivity extends AppCompatActivity {
     }
 
     private void setupButton() {
+
         Button flipButton = (Button) findViewById(R.id.flipCoinButton);
         flipButton.setOnClickListener(view -> {
             flipCoin("Null");
@@ -57,6 +61,13 @@ public class CoinFlipActivity extends AppCompatActivity {
             flipCoin("Tails");
         });
 
+        if (childManager.getAll().size() == 0) {
+            headsButton.setVisibility(View.GONE);
+            tailsButton.setVisibility(View.GONE);
+        } else {
+            flipButton.setVisibility(View.GONE);
+        }
+
     }
 
     private void initializeCoin() {
@@ -65,6 +76,7 @@ public class CoinFlipActivity extends AppCompatActivity {
 
     private void flipCoin(String userChoice) {
         coin.animate().setDuration(3100).rotationXBy(2160).setListener(new AnimatorListenerAdapter() {
+
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
@@ -75,16 +87,6 @@ public class CoinFlipActivity extends AppCompatActivity {
                         break;
                     case "Tails":
                         coin.setImageResource(R.drawable.coin_tails);
-                        break;
-                }
-                Toast.makeText(CoinFlipActivity.this,"result "+result+" at "+ coinFlipManager.getCoinFlipGame(0).getDate(),Toast.LENGTH_SHORT).show();
-                int won = coinFlipManager.getCoinFlipGame(0).getPickerWon();
-                switch (won) {
-                    case 1:
-                        Toast.makeText(CoinFlipActivity.this,"You won",Toast.LENGTH_SHORT).show();
-                        break;
-                    case 0:
-                        Toast.makeText(CoinFlipActivity.this,"you lost" ,Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -114,4 +116,28 @@ public class CoinFlipActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void updateDisplayCoinResult() {
+        TextView tv = findViewById(R.id.flipResult);
+        if (coinFlipManager.getCoinList().size() > 0){
+            tv.setText(coinFlipManager.getCoinFlipGame(0).getResult());
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        coinFlipManager.registerChangeCallback(this);
+        updateDisplayCoinResult();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        coinFlipManager.unRegisterChangeCallback(this);
+    }
+
+    @Override
+    public void notifyCounterChanged() {
+        updateDisplayCoinResult();
+    }
 }

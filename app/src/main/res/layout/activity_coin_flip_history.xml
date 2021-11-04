@@ -8,9 +8,9 @@
 
     <ListView
         android:id="@+id/gamelist"
-        android:layout_marginTop="58dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:layout_marginTop="2dp">
 
     </ListView>
 
