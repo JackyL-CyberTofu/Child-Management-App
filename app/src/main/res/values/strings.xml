@@ -2,5 +2,6 @@
     <string name="BeParentApp">BeParentApp</string>
     <string name="Children">Children</string>
     <string name="Timeout">Timeout</string>
-    <string name="CoinFlipe">CoinFlip</string>
+    <string name="CoinFlip">CoinFlip</string>
+    <string name="Flip">Flip</string>
 </resources>
