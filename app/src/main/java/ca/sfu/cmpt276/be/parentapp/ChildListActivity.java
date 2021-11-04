@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.Objects;
+
 import ca.sfu.cmpt276.be.parentapp.model.Child;
 import ca.sfu.cmpt276.be.parentapp.model.ChildManager;
 
@@ -27,24 +29,27 @@ public class ChildListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_child_list);
-
-        populateList();
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Configure Children");
 
         showChildren();
         setUpAddButton();
+        setUpListViewClick();
+    }
+
+    private void setUpListViewClick() {
+        ListView childList = findViewById(R.id.childList);
+        childList.setOnItemClickListener((parent, viewClicked, position, id) -> {
+            Intent editChild = ChildEditActivity.makeIntent(ChildListActivity.this, position);
+            startActivity(editChild);
+        });
     }
 
     private void setUpAddButton() {
-        Button addButton = findViewById(R.id.addButton);
+        FloatingActionButton addButton = findViewById(R.id.addButton);
         addButton.setOnClickListener(v -> {
             Intent launchEmptyEdit = ChildEditActivity.makeIntent(ChildListActivity.this);
             startActivity(launchEmptyEdit);
         });
-    }
-
-    private void populateList() {
-        childrenManager.add(new Child("Dave"));
-        childrenManager.add(new Child("Steve"));
     }
 
     private void showChildren() {
@@ -71,7 +76,12 @@ public class ChildListActivity extends AppCompatActivity {
             nameView.setText(currentChild.getName());
             return itemView;
         }
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showChildren();
     }
 
     public static Intent makeIntent(Context context) {
