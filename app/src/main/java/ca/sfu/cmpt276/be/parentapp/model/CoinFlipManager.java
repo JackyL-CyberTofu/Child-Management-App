@@ -52,7 +52,7 @@ public class CoinFlipManager {
         String time = creationTime.format(formatter);
 
         Coin coinflip = new Coin(time, childPicked, userChoice, result);
-        coinFlipHistory.add(coinflip);
+        coinFlipHistory.add(0,coinflip);
 
     }
 
@@ -68,4 +68,5 @@ public class CoinFlipManager {
 
     public ArrayList<Coin> getCoinList() { return this.coinFlipHistory; }
 
+    public int currentGamesPlayed(){ return this.coinFlipHistory.size()-1; }
 }

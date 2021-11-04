@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CoinFlipActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:theme="@style/Theme.BeParentApp.AppBarOverlay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/Theme.BeParentApp.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <ImageView
+        android:id="@+id/coin_image"
+        android:layout_width="216dp"
+        android:layout_height="183dp"
+        android:src="@drawable/coin_heads"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.264" />
+
+    <Button
+        android:id="@+id/tailsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="36dp"
+        android:text="Flip Tails"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/flipCoinButton"
+
+        app:layout_constraintTop_toBottomOf="@+id/coin_image" />
+
+    <Button
+        android:id="@+id/headsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="36dp"
+        android:text="Flip Heads"
+        app:layout_constraintEnd_toStartOf="@+id/flipCoinButton"
+        app:layout_constraintHorizontal_weight="1"
+
+        app:layout_constraintTop_toBottomOf="@+id/coin_image" />
+
+    <Button
+        android:id="@+id/flipCoinButton"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="36dp"
+        android:text="Flip Coin"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/coin_image" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
