@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".TimeoutActivity">
+    android:layout_height="match_parent">
+
 
     <Button
-        android:id="@+id/button8"
+        android:id="@+id/button7"
         android:layout_width="54dp"
         android:layout_height="47dp"
         android:layout_marginStart="22dp"
@@ -29,17 +29,26 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.0"
         tools:visibility="visible" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="303dp"
+        android:layout_height="291dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="124dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
-        android:id="@+id/editTextTime"
+        android:id="@+id/editTextTextPersonName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="141dp"
+        android:layout_marginStart="98dp"
+        android:layout_marginTop="70dp"
         android:ems="10"
-        android:inputType="time"
+        android:inputType="textPersonName"
+        android:text="@string/PreviousWinners"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
