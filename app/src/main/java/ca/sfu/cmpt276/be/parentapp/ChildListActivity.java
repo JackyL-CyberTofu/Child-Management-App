@@ -30,6 +30,7 @@ public class ChildListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_child_list);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Configure Children");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         showChildren();
         setUpAddButton();
@@ -76,6 +77,12 @@ public class ChildListActivity extends AppCompatActivity {
             nameView.setText(currentChild.getName());
             return itemView;
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 
     @Override

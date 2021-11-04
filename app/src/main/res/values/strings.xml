@@ -6,4 +6,11 @@
     <string name="save_button_label">Save changes</string>
     <string name="deleteButtonText">DELETE</string>
     <string name="add_button_description">Add new child</string>
+    <string name="BeParentApp">BeParentApp</string>
+    <string name="Children">Children</string>
+    <string name="Timeout">Timeout</string>
+    <string name="CoinFlip">CoinFlip</string>
+    <string name="Flip">Flip</string>
+    <string name="History">History</string>
+    <string name="PreviousWinners">Previous Winners</string>
 </resources>
