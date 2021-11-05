@@ -32,5 +32,12 @@ public class MainActivity extends AppCompatActivity {
             Intent childActivity = ChildListActivity.makeIntent(MainActivity.this);
             startActivity(childActivity);
         });
+
+        Button button2 = findViewById(R.id.button4);
+
+        button2.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), CoinFlipActivity.class);
+            startActivity(intent);
+        });
     }
 }

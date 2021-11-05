@@ -10,17 +10,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BeParentApp">
         <activity
+            android:name=".FlipHistoryActivity"
+            android:exported="false"
+            android:label="History"/>
+        <activity
             android:name=".TimeoutActivity"
             android:exported="false" />
         <activity
             android:name=".ChildListActivity"
             android:exported="false" />
         <activity
-            android:name=".ConflipActivity"
-            android:exported="false" />
+            android:name=".CoinFlipActivity"
+            android:exported="false"
+            android:theme="@style/Theme.BeParentApp.NoActionBar"
+            android:label="Coin Flip"/>
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:label="Parent App"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
