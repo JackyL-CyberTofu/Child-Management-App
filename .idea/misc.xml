@@ -10,6 +10,20 @@
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_history.xml" value="0.33645833333333336" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_timeout.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/Jacky/StudioProjects/ParentApp/app/src/main/res/drawable/ic_heads.xml" value="0.4510416666666667" />
+        <entry key="..\:/Users/Jacky/StudioProjects/ParentApp/app/src/main/res/drawable/ic_tails.xml" value="0.4441025641025641" />
+        <entry key="..\:/Users/Jacky/StudioProjects/ParentApp/app/src/main/res/layout/activity_coin_flip_history.xml" value="0.20845997973657548" />
+        <entry key="..\:/Users/Jacky/StudioProjects/ParentApp/app/src/main/res/layout/activity_conflip.xml" value="0.2871376811594203" />
+        <entry key="..\:/Users/Jacky/StudioProjects/ParentApp/app/src/main/res/layout/activity_main.xml" value="0.20845997973657548" />
+        <entry key="..\:/Users/Jacky/StudioProjects/ParentApp/app/src/main/res/layout/item_view.xml" value="0.20845997973657548" />
+        <entry key="app/src/main/res/layout/activity_coin_flip2.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_coin_flip_history.xml" value="0.18693009118541035" />
+        <entry key="app/src/main/res/layout/activity_coinflip.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_conflip.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_main2.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/item_view.xml" value="0.1" />
+        <entry key="app/src/main/res/menu/coinflip.xml" value="0.2" />
       </map>
     </option>
   </component>

@@ -13,4 +13,5 @@
     <string name="Flip">Flip</string>
     <string name="History">History</string>
     <string name="PreviousWinners">Previous Winners</string>
+    <string name="nextChild">"Next child: "</string>
 </resources>
