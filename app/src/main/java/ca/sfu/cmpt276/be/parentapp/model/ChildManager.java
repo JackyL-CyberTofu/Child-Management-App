@@ -32,6 +32,10 @@ public class ChildManager implements Iterable<Child> {
         allChildren.remove(index);
     }
 
+    public void edit(int index, String editName) {
+        allChildren.get(index).setName(editName);
+    }
+
     public  ArrayList<Child> getAll() {
         return allChildren;
     }
