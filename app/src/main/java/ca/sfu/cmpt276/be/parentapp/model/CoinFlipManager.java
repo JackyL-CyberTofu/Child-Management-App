@@ -1,5 +1,7 @@
 package ca.sfu.cmpt276.be.parentapp.model;
 
+import android.widget.Toast;
+
 import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -15,8 +17,20 @@ public class CoinFlipManager {
     private static CoinFlipManager instance;
 
     ArrayList<Coin> coinFlipHistory = new ArrayList<Coin>();
+
+    public int getNextChild() {
+        return nextChild;
+    }
+
+    public void setNextChild(int nextChild) {
+        this.nextChild = nextChild;
+    }
+
     int nextChild = 0;
     private List<CoinObserver> observers = new ArrayList<>();
+
+
+    ChildManager childManager = ChildManager.getInstance();
 
 
     public static CoinFlipManager getInstance() {
@@ -60,12 +74,44 @@ public class CoinFlipManager {
                 throw new IllegalStateException("Unexpected value: " + randomInt);
         }
 
-        //String childPicked = getLastChildPicked().getName();
+        String childPick;
 
-        saveCoinFlip(result,userChoice, "John");
+        if (childManager.getAll().size()==0) {
+            childPick = null;
+        }
+        else {
+            childPick = childManager.get(nextChild).getName();
+            if (childManager.getAll().size() <= nextChild+1){
+                this.nextChild = 0;
+            }
+            else {
+                this.nextChild = this.nextChild + 1;
+            }
+        }
+
+        saveCoinFlip(result,userChoice, childPick);
 
         notifyValueHasChanged();
 
+        return result;
+    }
+
+    public String emptyFlip(){
+        Random rand = new Random();
+        int randomInt = rand.nextInt(2);
+        String result;
+
+        switch (randomInt) {
+            case 0:
+                result = "Heads";
+                break;
+            case 1:
+                result = "Tails";
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + randomInt);
+        }
+        notifyValueHasChanged();
         return result;
     }
 

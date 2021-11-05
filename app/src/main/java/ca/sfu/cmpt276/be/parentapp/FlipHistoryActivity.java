@@ -1,5 +1,6 @@
 package ca.sfu.cmpt276.be.parentapp;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -54,13 +55,29 @@ public class FlipHistoryActivity extends AppCompatActivity {
             }
 
             ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView1);
+            if (coinFlipManager.getCoinFlipGame(position).getPickerWon()==1){
+                imageView.setImageResource(R.drawable.ic_baseline_check_circle_outline_24);
+            }
+            else {
+                imageView.setImageResource(R.drawable.ic_baseline_highlight_off_24);
+            }
+            if (coinFlipManager.getCoinFlipGame(position).getPicker()==null){
+                imageView.setImageResource(R.drawable.ic_baseline_help_outline_24);
+            }
 
+            String result = coinFlipManager.getCoinFlipGame(position).getResult();
+            String time = coinFlipManager.getCoinFlipGame(position).getDate();
 
             TextView upper = (TextView) itemView.findViewById(R.id.textView1);
-            upper.setText(coinFlipManager.getCoinFlipGame(position).getDate());
+            upper.setText(result + " @ " + time);
 
             TextView under = (TextView) itemView.findViewById(R.id.textView2);
-            under.setText(coinFlipManager.getCoinFlipGame(position).getResult());
+            if (coinFlipManager.getCoinFlipGame(position).getPicker()==null){
+                under.setText("No Children Selected");
+            }
+            else {
+                under.setText("Picked by: " + coinFlipManager.getCoinFlipGame(position).getPicker());
+            }
 
             //Fill the view
             return itemView;

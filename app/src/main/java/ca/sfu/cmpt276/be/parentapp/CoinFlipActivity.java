@@ -11,10 +11,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.ui.AppBarConfiguration;
+
+import org.w3c.dom.Text;
+
+import java.util.Objects;
 
 import ca.sfu.cmpt276.be.parentapp.databinding.ActivityCoinflipBinding;
 import ca.sfu.cmpt276.be.parentapp.model.ChildManager;
@@ -39,9 +44,10 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
 
         setSupportActionBar(binding.toolbar);
 
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
         initializeCoin();
         setupButton();
-
     }
 
     private void setupButton() {
@@ -61,17 +67,38 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
             flipCoin("Tails");
         });
 
+        TextView nextChild = (TextView) findViewById(R.id.coinNextChild);
+
         if (childManager.getAll().size() == 0) {
             headsButton.setVisibility(View.GONE);
             tailsButton.setVisibility(View.GONE);
+            nextChild.setVisibility(View.GONE);
         } else {
             flipButton.setVisibility(View.GONE);
+            if (coinFlipManager.getNextChild() >= childManager.getAll().size()){
+                Toast.makeText(this,"list reset", Toast.LENGTH_SHORT).show();
+                coinFlipManager.setNextChild(0);
+            }
+            nextChild.setText("Next child: "+childManager.get(coinFlipManager.getNextChild()).getName());
         }
+
 
     }
 
     private void initializeCoin() {
         coin = findViewById(R.id.coin_image);
+        TextView tv = findViewById(R.id.flipResult);
+        String result = coinFlipManager.emptyFlip();
+        switch (result) {
+            case "Heads":
+                coin.setImageResource(R.drawable.coin_heads);
+                tv.setText("Heads");
+                break;
+            case "Tails":
+                coin.setImageResource(R.drawable.coin_tails);
+                tv.setText("Tails");
+                break;
+        }
     }
 
     private void flipCoin(String userChoice) {
@@ -113,6 +140,10 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
             Intent intent = new Intent(getApplicationContext(), FlipHistoryActivity.class);
             startActivity(intent);
         }
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -121,6 +152,10 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
         if (coinFlipManager.getCoinList().size() > 0){
             tv.setText(coinFlipManager.getCoinFlipGame(0).getResult());
         }
+
+        TextView nextChild = (TextView) findViewById(R.id.coinNextChild);
+        nextChild.setText("Next child: "+childManager.get(coinFlipManager.getNextChild()).getName());
+
     }
 
     @Override
