@@ -15,6 +15,7 @@ public class CoinFlipManager {
     ArrayList<Coin> coinFlipHistory = new ArrayList<Coin>();
 
     int childIndex = 0;
+
     ChildManager childManager = ChildManager.getInstance();
     private List<CoinObserver> observers = new ArrayList<>();
 
@@ -84,7 +85,7 @@ public class CoinFlipManager {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         String time = creationTime.format(formatter);
 
-        Coin coinGame = new Coin(time, childPicked, userChoice, result);
+        Coin coinGame = new Coin(creationTime, childPicked, userChoice, result);
         coinFlipHistory.add(0, coinGame);
 
     }
