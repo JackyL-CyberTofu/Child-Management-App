@@ -3,9 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_child_config.xml" value="0.17831813576494426" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_child_config.xml" value="0.25" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_child_list.xml" value="0.22" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_conflip.xml" value="0.17831813576494426" />
-        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_main.xml" value="0.17831813576494426" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_edit_child.xml" value="0.25" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_history.xml" value="0.33645833333333336" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_timeout.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/Jacky/StudioProjects/ParentApp/app/src/main/res/drawable/ic_heads.xml" value="0.4510416666666667" />
         <entry key="..\:/Users/Jacky/StudioProjects/ParentApp/app/src/main/res/drawable/ic_tails.xml" value="0.4441025641025641" />
