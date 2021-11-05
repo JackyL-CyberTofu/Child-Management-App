@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BeParentApp">
         <activity
+            android:name=".TimeoutActivity"
+            android:exported="false" />
+        <activity
             android:name=".ChildListActivity"
             android:exported="false" />
         <activity

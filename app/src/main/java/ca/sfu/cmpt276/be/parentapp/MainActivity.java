@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
@@ -14,6 +15,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         setUpChildButton();
+        setUpTimeoutButton();
+    }
+
+    private void setUpTimeoutButton() {
+        Button toTimeOut = findViewById(R.id.button3);
+        toTimeOut.setOnClickListener(view -> {
+            Intent timeoutActivity = TimeoutActivity.makeIntent(MainActivity.this);
+            startActivity(timeoutActivity);
+        });
     }
 
     private void setUpChildButton() {
