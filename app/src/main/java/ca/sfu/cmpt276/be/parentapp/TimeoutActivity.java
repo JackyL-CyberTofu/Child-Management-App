@@ -14,6 +14,11 @@ import android.widget.TextView;
 
 public class TimeoutActivity extends AppCompatActivity {
 
+    public static final int HOUR_CONVERTER_FOR_MILSECONDS = 3600000;
+    public static final int MIN_CONVERTER_FOR_MILSECONDS = 60000;
+    public static final int SECONDS_CONVERTER_FORMILSECONDS = 1000;
+    public static final int COUNT_DOWN_INTERVAL = 1000;
+    public static final int ONESECOND_IN_MILSECONDS = 1000;
     private TextView countdownText;
     private Button startButton;
     private Button stopButton;
@@ -34,6 +39,7 @@ public class TimeoutActivity extends AppCompatActivity {
     ConstraintLayout setting;
     ConstraintLayout timer;
 
+
     public static Intent makeIntent(Context context) {
         return new Intent(context, TimeoutActivity.class);
     }
@@ -43,6 +49,39 @@ public class TimeoutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeout);
 
+        assignViewComponents();
+
+
+
+        startButton.setOnClickListener(v -> {
+            firstState = true;
+            switchTimerDisplay();
+            startStop();
+        });
+
+        stopButton.setOnClickListener(v -> startStop());
+
+
+        cancelButton.setOnClickListener(v -> {
+            switchSettingDisplay();
+            firstState = true;
+            stopTimer();
+        });
+
+        updateTimer();
+    }
+
+    private void switchSettingDisplay() {
+        setting.setVisibility(View.VISIBLE);
+        timer.setVisibility(View.GONE);
+    }
+
+    private void switchTimerDisplay() {
+        setting.setVisibility(View.GONE);
+        timer.setVisibility(View.VISIBLE);
+    }
+
+    private void assignViewComponents() {
         countdownText = findViewById(R.id.textView_countdown);
         startButton = findViewById(R.id.button_start_countdown);
         stopButton = findViewById(R.id.button_pause_timer);
@@ -56,26 +95,6 @@ public class TimeoutActivity extends AppCompatActivity {
         timer = findViewById(R.id.timer);
 
         timer.setVisibility(View.GONE);
-
-
-        startButton.setOnClickListener(v -> {
-            firstState = true;
-
-            setting.setVisibility(View.GONE);
-            timer.setVisibility(View.VISIBLE);
-            startStop();
-        });
-
-        stopButton.setOnClickListener(v -> startStop());
-
-        cancelButton.setOnClickListener(v -> {
-            setting.setVisibility(View.VISIBLE);
-            timer.setVisibility(View.GONE);
-            firstState = true;
-            stopTimer();
-        });
-
-        updateTimer();
     }
 
 
@@ -92,12 +111,12 @@ public class TimeoutActivity extends AppCompatActivity {
             String sHour = hourText.getText().toString();
             String sMin = minText.getText().toString();
             String sSecond = secondText.getText().toString();
-            time = (Long.parseLong(sHour) * 3600000) + (Long.parseLong(sMin) * 60000) + (Long.parseLong(sSecond) * 1000) + 1000;
+            time = (Long.parseLong(sHour) * HOUR_CONVERTER_FOR_MILSECONDS) + (Long.parseLong(sMin) * MIN_CONVERTER_FOR_MILSECONDS) + (Long.parseLong(sSecond) * SECONDS_CONVERTER_FORMILSECONDS) + ONESECOND_IN_MILSECONDS;
         } else {
             time = tempTime;
         }
 
-        countDownTimer = new CountDownTimer(time, 1000) {
+        countDownTimer = new CountDownTimer(time, COUNT_DOWN_INTERVAL) {
             @Override
             public void onTick(long millisUntilFinished) {
                 tempTime = millisUntilFinished;
@@ -122,20 +141,27 @@ public class TimeoutActivity extends AppCompatActivity {
 
     private void updateTimer() {
 
-        int hour = (int) tempTime / 3600000;
-        int minutes = (int) tempTime % 3600000 / 60000;
-        int seconds = (int) tempTime % 3600000 % 60000 / 1000;
+        int hour = (int) tempTime / HOUR_CONVERTER_FOR_MILSECONDS;
+        int minutes = (int) tempTime % HOUR_CONVERTER_FOR_MILSECONDS / MIN_CONVERTER_FOR_MILSECONDS;
+        int seconds = (int) tempTime % HOUR_CONVERTER_FOR_MILSECONDS % MIN_CONVERTER_FOR_MILSECONDS / SECONDS_CONVERTER_FORMILSECONDS;
 
-        String timeLeftText;
+        StringBuilder stringBuilderTimeLeft = new StringBuilder();
 
-        timeLeftText = "" + hour + ":";
+        stringBuilderTimeLeft.append("");
+        stringBuilderTimeLeft.append(hour);
+        stringBuilderTimeLeft.append(":");
 
-        if (minutes < 10) timeLeftText += "0";
-        timeLeftText += minutes + ":";
+        if (minutes < 10) {
+            stringBuilderTimeLeft.append("0");
+        }
+        stringBuilderTimeLeft.append(minutes);
+        stringBuilderTimeLeft.append(":");
 
-        if (seconds < 10) timeLeftText += "0";
-        timeLeftText += seconds;
+        if (seconds < 10) {
+            stringBuilderTimeLeft.append("0");
+        }
+        stringBuilderTimeLeft.append(seconds);
 
-        countdownText.setText(timeLeftText);
+        countdownText.setText(stringBuilderTimeLeft.toString());
     }
 }

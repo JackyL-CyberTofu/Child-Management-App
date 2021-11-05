@@ -19,8 +19,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpTimeoutButton() {
-        Button toTimeOut = findViewById(R.id.button3);
-        toTimeOut.setOnClickListener(view -> {
+        Button button_timeout = findViewById(R.id.button3);
+        button_timeout.setOnClickListener(view -> {
             Intent timeoutActivity = TimeoutActivity.makeIntent(MainActivity.this);
             startActivity(timeoutActivity);
         });
