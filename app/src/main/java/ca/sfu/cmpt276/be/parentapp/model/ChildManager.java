@@ -44,6 +44,7 @@ public class ChildManager implements Iterable<Child> {
         allChildren = replacement;
     }
 
+
     @NonNull
     @Override
     public Iterator<Child> iterator() {

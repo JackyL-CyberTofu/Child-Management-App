@@ -2,6 +2,7 @@ package ca.sfu.cmpt276.be.parentapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +12,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.Objects;
 
@@ -26,6 +29,8 @@ public class ChildEditActivity extends AppCompatActivity {
     private boolean doEdit;
     private int childPosition;
 
+    SharedPreferences saveSP;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +38,8 @@ public class ChildEditActivity extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).setTitle("Edit Child");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        saveSP = getSharedPreferences("SaveData", Context.MODE_PRIVATE);
 
 
         setExtras();
@@ -44,6 +51,12 @@ public class ChildEditActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         saveAndExit();
         return true;
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        saveData();
     }
 
     private void setUpDeleteButton() {
@@ -100,6 +113,18 @@ public class ChildEditActivity extends AppCompatActivity {
         } else {
             Objects.requireNonNull(getSupportActionBar()).setTitle("Add Child");
         }
+    }
+
+    private void saveData() {
+        ChildManager childManager = ChildManager.getInstance();
+
+        SharedPreferences.Editor editor = saveSP.edit();
+        Gson gson = new GsonBuilder().create();
+
+        String gsonChildren = gson.toJson(childManager.getAll());
+
+        editor.putString(MainActivity.SP_CHILDREN_GSON, gsonChildren);
+        editor.apply();
     }
 
     public static Intent makeIntent(Context context) {
