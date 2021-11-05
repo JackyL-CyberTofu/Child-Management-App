@@ -67,7 +67,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
 
         TextView nextChild = (TextView) findViewById(R.id.coinNextChild);
 
-        if (childManager.getAll().size() == 0) {
+        if (!childNotEmpty()) {
             headsButton.setVisibility(View.GONE);
             tailsButton.setVisibility(View.GONE);
             nextChild.setVisibility(View.GONE);
@@ -135,7 +135,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
         }
 
         TextView nextChild = (TextView) findViewById(R.id.coinNextChild);
-        if (childManager.getAll().size() != 0) {
+        if (childNotEmpty()) {
             if (coinFlipManager.getChildIndex() >= childManager.getAll().size()) {
                 Toast.makeText(this, "Child Deleted. Order is reset.", Toast.LENGTH_SHORT).show();
                 coinFlipManager.setChildIndex(0);
@@ -143,6 +143,10 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
             nextChild.setText(String.format("%s%s", getString(R.string.nextChild), childManager.get(coinFlipManager.getChildIndex()).getName()));
         }
 
+    }
+
+    private boolean childNotEmpty() {
+        return childManager.getAll().size() != 0;
     }
 
     @Override
