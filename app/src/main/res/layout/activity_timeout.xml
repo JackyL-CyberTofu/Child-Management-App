@@ -16,6 +16,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <NumberPicker
+            android:id="@+id/numberPicker"
+            android:layout_width="65dp"
+            android:layout_height="132dp"
+            android:layout_margin="2dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/textView5"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/textView5"
+            app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
+        <NumberPicker
+            android:id="@+id/numberPicker2"
+            android:layout_width="65dp"
+            android:layout_height="132dp"
+            android:layout_margin="2dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/textView6"
+            app:layout_constraintStart_toStartOf="@+id/textView6"
+            app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
+        <NumberPicker
+            android:id="@+id/numberPicker3"
+            android:layout_width="68dp"
+            android:layout_height="130dp"
+            android:layout_margin="2dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/textView7"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/textView7"
+            app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
         <Button
             android:id="@+id/button8"
             android:layout_width="54dp"
@@ -83,60 +116,70 @@
             app:layout_constraintStart_toEndOf="@+id/textView6"
             app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
-        <EditText
-            android:id="@+id/editText_hour"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:hint="0"
-            android:gravity="center"
-            android:inputType="number"
-            app:layout_constraintEnd_toEndOf="@+id/textView5"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/textView5"
-            app:layout_constraintTop_toTopOf="@+id/guideline3" />
-
-        <EditText
-            android:id="@+id/editText_min"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="0"
-            android:maxLength="2"
-            android:inputType="number"
-            app:layout_constraintEnd_toEndOf="@+id/textView6"
-            app:layout_constraintStart_toStartOf="@+id/textView6"
-            app:layout_constraintTop_toTopOf="@+id/guideline3" />
-
-        <EditText
-            android:id="@+id/editText_second"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="0"
-            android:maxLength="2"
-            android:inputType="number"
-            app:layout_constraintEnd_toEndOf="@+id/textView7"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/textView7"
-            app:layout_constraintTop_toTopOf="@+id/guideline3" />
-
         <Button
             android:id="@+id/button_start_countdown"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="2dp"
             android:backgroundTint="@color/PaleBlue"
             android:text="Start"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText_min" />
+            app:layout_constraintTop_toBottomOf="@+id/numberPicker2" />
+
+        <Button
+            android:id="@+id/oneTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
+            android:layout_marginEnd="15dp"
+            android:text="1:00"
+            app:layout_constraintEnd_toStartOf="@+id/twoTimer"
+            app:layout_constraintTop_toBottomOf="@+id/button_start_countdown" />
+
+        <Button
+            android:id="@+id/twoTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="2:00"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_start_countdown" />
+
+        <Button
+            android:id="@+id/threeTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="17dp"
+            android:text="3:00"
+            app:layout_constraintStart_toEndOf="@+id/twoTimer"
+            app:layout_constraintTop_toBottomOf="@+id/button_start_countdown" />
+
+        <Button
+            android:id="@+id/fiveTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="5:00"
+            app:layout_constraintEnd_toStartOf="@+id/tenTimer"
+            app:layout_constraintHorizontal_bias="0.84"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/twoTimer" />
+
+        <Button
+            android:id="@+id/tenTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="10:00"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.68"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/twoTimer" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
