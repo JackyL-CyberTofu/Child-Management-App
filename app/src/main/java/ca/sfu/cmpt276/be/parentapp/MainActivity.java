@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import ca.sfu.cmpt276.be.parentapp.model.Child;
 import ca.sfu.cmpt276.be.parentapp.model.ChildManager;
+import ca.sfu.cmpt276.be.parentapp.model.JsonSaver;
 
 public class MainActivity extends AppCompatActivity {
     public static final String SP_CHILDREN_GSON = "ChildrenGSON";
@@ -42,6 +43,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadData() {
+        JsonSaver test = new JsonSaver(new JsonSaver.saveData() {
+            @Override
+            public String load() {
+                return null;
+            }
+
+            @Override
+            public void save(String saveJson) {
+
+            }
+        });
+
         ChildManager childManager = ChildManager.getInstance();
         Gson gson = new GsonBuilder().create();
 
