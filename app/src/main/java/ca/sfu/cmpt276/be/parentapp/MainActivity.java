@@ -1,22 +1,14 @@
 package ca.sfu.cmpt276.be.parentapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
+import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
-
-import ca.sfu.cmpt276.be.parentapp.model.Child;
-import ca.sfu.cmpt276.be.parentapp.model.ChildManager;
-import ca.sfu.cmpt276.be.parentapp.model.JsonSaver;
+import ca.sfu.cmpt276.be.parentapp.model.DataManager;
 
 public class MainActivity extends AppCompatActivity {
     public static final String SP_CHILDREN_GSON = "ChildrenGSON";
@@ -28,8 +20,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        saveSP = getSharedPreferences("SaveData", Context.MODE_PRIVATE);
-
+        setUpSaving();
         loadData();
         setUpChildButton();
     }
@@ -42,25 +33,26 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void loadData() {
-        JsonSaver test = new JsonSaver(new JsonSaver.saveData() {
+    private void setUpSaving() {
+        DataManager dataManager = DataManager.getInstance();
+        dataManager.setSaveOption(new DataManager.SaveManager() {
             @Override
             public String load() {
-                return null;
+                saveSP = getApplicationContext().getSharedPreferences("SaveData", Context.MODE_PRIVATE);
+                return saveSP.getString(SP_CHILDREN_GSON, "");
             }
 
             @Override
             public void save(String saveJson) {
-
+                saveSP = getApplicationContext().getSharedPreferences("SaveData", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = saveSP.edit();
+                editor.putString(MainActivity.SP_CHILDREN_GSON, saveJson);
+                editor.apply();
             }
         });
+    }
 
-        ChildManager childManager = ChildManager.getInstance();
-        Gson gson = new GsonBuilder().create();
-
-        String gsonChildren = saveSP.getString(SP_CHILDREN_GSON, "");
-        if (!gsonChildren.isEmpty()) {
-            childManager.loadList(gson.fromJson(gsonChildren, new TypeToken<ArrayList<Child>>(){}.getType()));
-        }
+    private void loadData() {
+        DataManager.getInstance().loadData();
     }
 }

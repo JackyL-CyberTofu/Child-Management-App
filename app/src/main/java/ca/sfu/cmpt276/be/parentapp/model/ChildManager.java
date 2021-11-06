@@ -10,40 +10,36 @@ import java.util.Iterator;
  * that can load, save, and edit children.
  */
 public class ChildManager implements Iterable<Child> {
-    private ArrayList<Child> allChildren = new ArrayList<>();
-    private static ChildManager instance;
+    private ArrayList<Child> allChildren = DataManager.getInstance().getChildList();
 
-    public static ChildManager getInstance() {
-        if (instance == null) {
-            instance = new ChildManager();
-        }
-        return instance;
-    }
-
-    public void add(Child addThis) {
-        allChildren.add(addThis);
-    }
 
     public Child get(int index) {
         return allChildren.get(index);
     }
 
+    public void add(Child addThis) {
+        allChildren.add(addThis);
+        saveList();
+    }
+
     public void remove(int index) {
         allChildren.remove(index);
+        saveList();
+
     }
 
     public void edit(int index, String editName) {
         allChildren.get(index).setName(editName);
+        saveList();
     }
 
     public  ArrayList<Child> getAll() {
         return allChildren;
     }
 
-    public void loadList(ArrayList<Child> replacement) {
-        allChildren = replacement;
+    public void saveList() {
+        DataManager.getInstance().saveData();
     }
-
 
     @NonNull
     @Override

@@ -22,8 +22,7 @@ import ca.sfu.cmpt276.be.parentapp.model.Child;
 import ca.sfu.cmpt276.be.parentapp.model.ChildManager;
 
 public class ChildListActivity extends AppCompatActivity {
-    private final ChildManager childrenManager = ChildManager.getInstance();
-
+    private static ChildManager childManager = new ChildManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,14 +60,14 @@ public class ChildListActivity extends AppCompatActivity {
 
     private class ChildListAdapter extends ArrayAdapter<Child> {
         public ChildListAdapter() {
-            super(ChildListActivity.this, R.layout.layout_child_item, childrenManager.getAll());
+            super(ChildListActivity.this, R.layout.layout_child_item, childManager.getAll());
         }
 
         @NonNull
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             View itemView = convertView;
-            Child currentChild = childrenManager.get(position);
+            Child currentChild = childManager.get(position);
             if (itemView == null) {
                 itemView = getLayoutInflater().inflate(R.layout.layout_child_item, parent, false);
             }

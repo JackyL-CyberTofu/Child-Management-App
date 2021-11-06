@@ -2,7 +2,6 @@ package ca.sfu.cmpt276.be.parentapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,8 +11,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.util.Objects;
 
@@ -24,12 +21,9 @@ public class ChildEditActivity extends AppCompatActivity {
 
     private static final String EXTRA_CHILD_LOCATION = "childLocation";
     private static final String EXTRA_DO_EDIT = "doEdit";
-    private final ChildManager childManager = ChildManager.getInstance();
 
     private boolean doEdit;
     private int childPosition;
-
-    SharedPreferences saveSP;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +33,6 @@ public class ChildEditActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle("Edit Child");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        saveSP = getSharedPreferences("SaveData", Context.MODE_PRIVATE);
 
 
         setExtras();
@@ -56,7 +49,6 @@ public class ChildEditActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
-        saveData();
     }
 
     private void setUpDeleteButton() {
@@ -73,6 +65,7 @@ public class ChildEditActivity extends AppCompatActivity {
     }
 
     private void deleteChild() {
+        ChildManager childManager = new ChildManager();
         childManager.remove(childPosition);
     }
 
@@ -89,8 +82,9 @@ public class ChildEditActivity extends AppCompatActivity {
     }
 
     private void save(String newName) {
+        ChildManager childManager = new ChildManager();
         if (doEdit) {
-            childManager.get(childPosition).setName(newName);
+            childManager.edit(childPosition, newName);
         } else {
             childManager.add(new Child(newName));
         }
@@ -102,6 +96,7 @@ public class ChildEditActivity extends AppCompatActivity {
     }
 
     private void setExtras() {
+        ChildManager childManager = new ChildManager();
         Intent intent = getIntent();
         doEdit = intent.getBooleanExtra(EXTRA_DO_EDIT, false);
         childPosition = intent.getIntExtra(EXTRA_CHILD_LOCATION, -1);
@@ -115,17 +110,6 @@ public class ChildEditActivity extends AppCompatActivity {
         }
     }
 
-    private void saveData() {
-        ChildManager childManager = ChildManager.getInstance();
-
-        SharedPreferences.Editor editor = saveSP.edit();
-        Gson gson = new GsonBuilder().create();
-
-        String gsonChildren = gson.toJson(childManager.getAll());
-
-        editor.putString(MainActivity.SP_CHILDREN_GSON, gsonChildren);
-        editor.apply();
-    }
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, ChildEditActivity.class);
