@@ -27,7 +27,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
 
     MediaPlayer player;
     CoinFlipManager coinFlipManager = CoinFlipManager.getInstance();
-    ChildManager childManager = ChildManager.getInstance();
+    ChildManager childManager = new ChildManager();
     private AppBarConfiguration appBarConfiguration;
     private ActivityCoinflipBinding binding;
     private ImageView coin;
@@ -48,24 +48,24 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
 
     private void setupButton() {
 
-        coin = (ImageView) findViewById(R.id.coin_image);
+        coin = findViewById(R.id.coin_image);
 
-        Button flipButton = (Button) findViewById(R.id.flipCoinButton);
-        flipButton.setOnClickListener(view -> {
-            flipCoin("Null");
-        });
+        Button flipButton = findViewById(R.id.flipCoinButton);
+        flipButton.setOnClickListener(view ->
+            flipCoin("Null")
+        );
 
-        Button headsButton = (Button) findViewById(R.id.headsButton);
-        headsButton.setOnClickListener(view -> {
-            flipCoin("Heads");
-        });
+        Button headsButton = findViewById(R.id.headsButton);
+        headsButton.setOnClickListener(view ->
+            flipCoin("Heads")
+        );
 
-        Button tailsButton = (Button) findViewById(R.id.tailsButton);
-        tailsButton.setOnClickListener(view -> {
-            flipCoin("Tails");
-        });
+        Button tailsButton = findViewById(R.id.tailsButton);
+        tailsButton.setOnClickListener(view ->
+            flipCoin("Tails")
+        );
 
-        TextView nextChild = (TextView) findViewById(R.id.coinNextChild);
+        TextView nextChild = findViewById(R.id.coinNextChild);
 
         if (!childNotEmpty()) {
             headsButton.setVisibility(View.GONE);
@@ -134,7 +134,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
             tv.setText(coinFlipManager.getCoinFlipGame(0).getResult());
         }
 
-        TextView nextChild = (TextView) findViewById(R.id.coinNextChild);
+        TextView nextChild = findViewById(R.id.coinNextChild);
         if (childNotEmpty()) {
             if (coinFlipManager.getChildIndex() >= childManager.getAll().size()) {
                 Toast.makeText(this, "Child Deleted. Order is reset.", Toast.LENGTH_SHORT).show();
