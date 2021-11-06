@@ -12,11 +12,11 @@ public class CoinFlipManager {
 
     private static CoinFlipManager instance;
 
-    ArrayList<Coin> coinFlipHistory = new ArrayList<Coin>();
+    ArrayList<Coin> coinFlipHistory = new ArrayList<>();
 
     int childIndex = 0;
 
-    ChildManager childManager = ChildManager.getInstance();
+    ChildManager childManager = new ChildManager();
     private List<CoinObserver> observers = new ArrayList<>();
 
     public static CoinFlipManager getInstance() {
