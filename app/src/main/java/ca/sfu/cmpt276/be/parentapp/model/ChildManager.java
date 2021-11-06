@@ -10,7 +10,7 @@ import java.util.Iterator;
  * that can load, save, and edit children.
  */
 public class ChildManager implements Iterable<Child> {
-    private ArrayList<Child> allChildren = DataManager.getInstance().getChildList();
+    private final ArrayList<Child> allChildren = DataManager.getInstance().getChildList();
 
 
     public Child get(int index) {
@@ -38,7 +38,11 @@ public class ChildManager implements Iterable<Child> {
     }
 
     public void saveList() {
-        DataManager.getInstance().saveData();
+        DataManager.getInstance().serializeChildren();
+    }
+
+    public boolean isEmpty() {
+        return allChildren.isEmpty();
     }
 
     @NonNull

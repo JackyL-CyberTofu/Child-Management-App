@@ -11,8 +11,7 @@ import java.util.Random;
 public class CoinFlipManager {
 
     private static CoinFlipManager instance;
-
-    ArrayList<Coin> coinFlipHistory = new ArrayList<>();
+    ArrayList<Coin> coinFlipHistory = DataManager.getInstance().getCoinFlipHistory();
 
     int childIndex = 0;
 
@@ -87,7 +86,7 @@ public class CoinFlipManager {
 
         Coin coinGame = new Coin(creationTime, childPicked, userChoice, result);
         coinFlipHistory.add(0, coinGame);
-
+        DataManager.getInstance().serializeCoinflips();
     }
 
     public Coin getCoinFlipGame(int index) {
@@ -105,6 +104,7 @@ public class CoinFlipManager {
     public void setChildIndex(int childIndex) {
         this.childIndex = childIndex;
     }
+
 
     public interface CoinObserver {
         void notifyCounterChanged();
