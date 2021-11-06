@@ -1,5 +1,6 @@
 package ca.sfu.cmpt276.be.parentapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -7,11 +8,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+
+import java.util.Objects;
 
 public class TimeoutActivity extends AppCompatActivity {
 
@@ -51,6 +55,8 @@ public class TimeoutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_timeout);
 
         assignViewComponents();
+
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         NumberPicker numberPicker = findViewById(R.id.numberPicker);
         setupNumberPicker(numberPicker, 99);
@@ -220,5 +226,16 @@ public class TimeoutActivity extends AppCompatActivity {
         stringBuilderTimeLeft.append(seconds);
 
         countdownText.setText(stringBuilderTimeLeft.toString());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
