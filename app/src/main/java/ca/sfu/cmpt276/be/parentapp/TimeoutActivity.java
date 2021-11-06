@@ -1,5 +1,6 @@
 package ca.sfu.cmpt276.be.parentapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -7,10 +8,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.TextView;
+
+import java.util.Objects;
 
 public class TimeoutActivity extends AppCompatActivity {
 
@@ -51,7 +56,18 @@ public class TimeoutActivity extends AppCompatActivity {
 
         assignViewComponents();
 
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
+        NumberPicker numberPicker = findViewById(R.id.numberPicker);
+        setupNumberPicker(numberPicker, 99);
+
+        NumberPicker numberPicker2 = findViewById(R.id.numberPicker2);
+        setupNumberPicker(numberPicker2, 60);
+
+        NumberPicker numberPicker3 = findViewById(R.id.numberPicker3);
+        setupNumberPicker(numberPicker3, 60);
+
+        setupTimerShortcuts(numberPicker, numberPicker2, numberPicker3);
 
         startButton.setOnClickListener(v -> {
             firstState = true;
@@ -61,7 +77,6 @@ public class TimeoutActivity extends AppCompatActivity {
 
         stopButton.setOnClickListener(v -> startStop());
 
-
         cancelButton.setOnClickListener(v -> {
             switchSettingDisplay();
             firstState = true;
@@ -69,6 +84,51 @@ public class TimeoutActivity extends AppCompatActivity {
         });
 
         updateTimer();
+    }
+
+    private void setupNumberPicker(NumberPicker numberPicker, int i2) {
+        numberPicker.setFormatter(i -> {
+            numberPicker.setMinValue(0);
+            numberPicker.setMaxValue(i2);
+            return String.format("%02d", i);
+        });
+    }
+
+    private void setupTimerShortcuts(NumberPicker numberPicker, NumberPicker numberPicker2, NumberPicker numberPicker3) {
+        Button oneButton = findViewById(R.id.oneTimer);
+        oneButton.setOnClickListener(view -> {
+            numberPicker2.setValue(1);
+            numberPicker.setValue(0);
+            numberPicker3.setValue(0);
+        });
+
+        Button twoButton = findViewById(R.id.twoTimer);
+        twoButton.setOnClickListener(view -> {
+            numberPicker2.setValue(2);
+            numberPicker.setValue(0);
+            numberPicker3.setValue(0);
+        });
+
+        Button threeButton = findViewById(R.id.threeTimer);
+        threeButton.setOnClickListener(view -> {
+            numberPicker2.setValue(3);
+            numberPicker.setValue(0);
+            numberPicker3.setValue(0);
+        });
+
+        Button fiveButton = findViewById(R.id.fiveTimer);
+        fiveButton.setOnClickListener(view -> {
+            numberPicker2.setValue(5);
+            numberPicker.setValue(0);
+            numberPicker3.setValue(0);
+        });
+
+        Button tenButton = findViewById(R.id.tenTimer);
+        tenButton.setOnClickListener(view -> {
+            numberPicker2.setValue(10);
+            numberPicker.setValue(0);
+            numberPicker3.setValue(0);
+        });
     }
 
     private void switchSettingDisplay() {
@@ -87,9 +147,7 @@ public class TimeoutActivity extends AppCompatActivity {
         stopButton = findViewById(R.id.button_pause_timer);
         cancelButton = findViewById(R.id.button_cancel_timer);
 
-        hourText = findViewById(R.id.editText_hour);
-        minText = findViewById(R.id.editText_min);
-        secondText = findViewById(R.id.editText_second);
+
 
         setting = findViewById(R.id.setting);
         timer = findViewById(R.id.timer);
@@ -108,9 +166,14 @@ public class TimeoutActivity extends AppCompatActivity {
 
     private void startTimer() {
         if (firstState) {
-            String sHour = hourText.getText().toString();
-            String sMin = minText.getText().toString();
-            String sSecond = secondText.getText().toString();
+
+            NumberPicker numberPicker = findViewById(R.id.numberPicker);
+            NumberPicker numberPicker2 = findViewById(R.id.numberPicker2);
+            NumberPicker numberPicker3 = findViewById(R.id.numberPicker3);
+
+            String sHour = Integer.toString(numberPicker.getValue());
+            String sMin = Integer.toString(numberPicker2.getValue());
+            String sSecond = Integer.toString(numberPicker3.getValue());
             time = (Long.parseLong(sHour) * HOUR_CONVERTER_FOR_MILSECONDS) + (Long.parseLong(sMin) * MIN_CONVERTER_FOR_MILSECONDS) + (Long.parseLong(sSecond) * SECONDS_CONVERTER_FORMILSECONDS) + ONESECOND_IN_MILSECONDS;
         } else {
             time = tempTime;
@@ -163,5 +226,16 @@ public class TimeoutActivity extends AppCompatActivity {
         stringBuilderTimeLeft.append(seconds);
 
         countdownText.setText(stringBuilderTimeLeft.toString());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
