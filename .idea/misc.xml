@@ -3,15 +3,24 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_child_config.xml" value="0.25" />
-        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_child_list.xml" value="0.22" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_child_config.xml" value="0.17831813576494426" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_conflip.xml" value="0.17831813576494426" />
-        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_edit_child.xml" value="0.25" />
-        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_history.xml" value="0.33645833333333336" />
-        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_main.xml" value="0.17831813576494426" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_timeout.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/Joshu/Documents/Joshua's Stuff/University/Fall2021/CMPT276/project/app/src/main/res/layout/activity_edit_child.xml" value="0.2864583333333333" />
         <entry key="..\:/Users/Joshu/Documents/Joshua's Stuff/University/Fall2021/CMPT276/project/app/src/main/res/layout/activity_main.xml" value="0.335" />
+        <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2552083333333333" />
+        <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2552083333333333" />
+        <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_child_config.xml" value="0.2390625" />
+        <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_child_list.xml" value="0.2390625" />
+        <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_conflip.xml" value="0.2390625" />
+        <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_edit_child.xml" value="0.2390625" />
+        <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_history.xml" value="0.2390625" />
+        <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_main.xml" value="0.2390625" />
+        <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_timeout.xml" value="0.2390625" />
+        <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/layout_child_item.xml" value="0.2390625" />
+        <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2552083333333333" />
+        <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2552083333333333" />
       </map>
     </option>
   </component>
