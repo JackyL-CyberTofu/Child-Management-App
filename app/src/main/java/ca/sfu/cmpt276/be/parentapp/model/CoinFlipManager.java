@@ -11,10 +11,10 @@ import java.util.Random;
 public class CoinFlipManager {
 
     private static CoinFlipManager instance;
-    ArrayList<Coin> coinFlipHistory = DataManager.getInstance().getCoinFlipHistory();
 
     int childIndex = 0;
 
+    ArrayList<Coin> coinFlipHistory = DataManager.getInstance().getCoinFlipHistory();
     ChildManager childManager = new ChildManager();
     private List<CoinObserver> observers = new ArrayList<>();
 

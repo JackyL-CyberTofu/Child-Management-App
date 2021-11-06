@@ -53,7 +53,6 @@ public class DataManager {
         }
     }
 
-
     public void deserializeData() {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeJSONReader() {})
@@ -82,7 +81,6 @@ public class DataManager {
         String gsonCoinflip = gson.toJson(coinFlipHistory);
         saveOption.save(COINFLIP_SAVENAME, gsonCoinflip);
     }
-
 
     public ArrayList<Child> getChildList() {
         return childList;
