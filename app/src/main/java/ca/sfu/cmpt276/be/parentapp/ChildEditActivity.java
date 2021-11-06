@@ -21,7 +21,6 @@ public class ChildEditActivity extends AppCompatActivity {
 
     private static final String EXTRA_CHILD_LOCATION = "childLocation";
     private static final String EXTRA_DO_EDIT = "doEdit";
-    private final ChildManager childManager = ChildManager.getInstance();
 
     private boolean doEdit;
     private int childPosition;
@@ -35,6 +34,7 @@ public class ChildEditActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
+
         setExtras();
         setUpSaveButton();
         setUpDeleteButton();
@@ -44,6 +44,11 @@ public class ChildEditActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         saveAndExit();
         return true;
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
     }
 
     private void setUpDeleteButton() {
@@ -60,6 +65,7 @@ public class ChildEditActivity extends AppCompatActivity {
     }
 
     private void deleteChild() {
+        ChildManager childManager = new ChildManager();
         childManager.remove(childPosition);
     }
 
@@ -76,8 +82,9 @@ public class ChildEditActivity extends AppCompatActivity {
     }
 
     private void save(String newName) {
+        ChildManager childManager = new ChildManager();
         if (doEdit) {
-            childManager.get(childPosition).setName(newName);
+            childManager.edit(childPosition, newName);
         } else {
             childManager.add(new Child(newName));
         }
@@ -89,6 +96,7 @@ public class ChildEditActivity extends AppCompatActivity {
     }
 
     private void setExtras() {
+        ChildManager childManager = new ChildManager();
         Intent intent = getIntent();
         doEdit = intent.getBooleanExtra(EXTRA_DO_EDIT, false);
         childPosition = intent.getIntExtra(EXTRA_CHILD_LOCATION, -1);
@@ -101,6 +109,7 @@ public class ChildEditActivity extends AppCompatActivity {
             Objects.requireNonNull(getSupportActionBar()).setTitle("Add Child");
         }
     }
+
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, ChildEditActivity.class);
