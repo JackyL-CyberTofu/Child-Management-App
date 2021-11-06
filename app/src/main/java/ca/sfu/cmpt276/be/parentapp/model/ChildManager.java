@@ -17,6 +17,10 @@ public class ChildManager implements Iterable<Child> {
         return allChildren.get(index);
     }
 
+    public String getName(int index) {
+        return this.get(index).getName();
+    }
+
     public void add(Child addThis) {
         allChildren.add(addThis);
         saveList();
@@ -35,6 +39,10 @@ public class ChildManager implements Iterable<Child> {
 
     public  ArrayList<Child> getAll() {
         return allChildren;
+    }
+
+    public int size() {
+        return allChildren.size();
     }
 
     public void saveList() {
