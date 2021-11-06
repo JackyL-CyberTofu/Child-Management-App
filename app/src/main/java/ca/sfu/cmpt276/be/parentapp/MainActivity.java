@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import ca.sfu.cmpt276.be.parentapp.model.DataManager;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String SP_CHILDREN_GSON = "ChildrenGSON";
+    public static final String SP_SAVE_NAME = "SaveData";
     SharedPreferences saveSP;
 
 
@@ -54,22 +53,22 @@ public class MainActivity extends AppCompatActivity {
         DataManager dataManager = DataManager.getInstance();
         dataManager.setSaveOption(new DataManager.SaveManager() {
             @Override
-            public String load() {
-                saveSP = getApplicationContext().getSharedPreferences("SaveData", Context.MODE_PRIVATE);
-                return saveSP.getString(SP_CHILDREN_GSON, "");
+            public String load(String saveName) {
+                saveSP = getApplicationContext().getSharedPreferences(SP_SAVE_NAME, Context.MODE_PRIVATE);
+                return saveSP.getString(saveName, "");
             }
 
             @Override
-            public void save(String saveJson) {
-                saveSP = getApplicationContext().getSharedPreferences("SaveData", Context.MODE_PRIVATE);
+            public void save(String saveName, String saveJson) {
+                saveSP = getApplicationContext().getSharedPreferences(SP_SAVE_NAME, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = saveSP.edit();
-                editor.putString(MainActivity.SP_CHILDREN_GSON, saveJson);
+                editor.putString(saveName, saveJson);
                 editor.apply();
             }
         });
     }
 
     private void loadData() {
-        DataManager.getInstance().loadData();
+        DataManager.getInstance().deserializeData();
     }
 }
