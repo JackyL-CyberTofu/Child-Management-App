@@ -12,10 +12,11 @@ public class CoinFlipManager {
 
     private static CoinFlipManager instance;
 
-    ArrayList<Coin> coinFlipHistory = new ArrayList<>();
+    private DataManager dataManager = DataManager.getInstance();
 
-    int childIndex = 0;
+    int childIndex = DataManager.getInstance().getChildFlipIndex();
 
+    ArrayList<Coin> coinFlipHistory = DataManager.getInstance().getCoinFlipHistory();
     ChildManager childManager = new ChildManager();
     private List<CoinObserver> observers = new ArrayList<>();
 
@@ -66,14 +67,14 @@ public class CoinFlipManager {
     @Nullable
     private String getNextChild() {
         String childPick;
-        if (childManager.getAll().size() == 0) {
+        if (childManager.size() == 0) {
             childPick = null;
         } else {
-            childPick = childManager.get(childIndex).getName();
-            if (childManager.getAll().size() <= childIndex + 1) {
-                this.childIndex = 0;
+            childPick = childManager.getName(childIndex);
+            if (childManager.size() <= childIndex + 1) {
+                childIndex = 0;
             } else {
-                this.childIndex = this.childIndex + 1;
+                childIndex++;
             }
         }
         return childPick;
@@ -87,7 +88,7 @@ public class CoinFlipManager {
 
         Coin coinGame = new Coin(creationTime, childPicked, userChoice, result);
         coinFlipHistory.add(0, coinGame);
-
+        serializeCoinflips();
     }
 
     public Coin getCoinFlipGame(int index) {
@@ -104,6 +105,11 @@ public class CoinFlipManager {
 
     public void setChildIndex(int childIndex) {
         this.childIndex = childIndex;
+    }
+
+    private void serializeCoinflips() {
+        dataManager.setChildFlipIndex(childIndex);
+        dataManager.serializeCoinflips();
     }
 
     public interface CoinObserver {

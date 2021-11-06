@@ -146,7 +146,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
     }
 
     private boolean childNotEmpty() {
-        return childManager.getAll().size() != 0;
+        return !childManager.isEmpty();
     }
 
     @Override
