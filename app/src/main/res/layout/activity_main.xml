@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/photo_1503786482448_3351db7b0f93"
+        android:contentDescription="TODO"
         android:scaleType="centerCrop"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -19,20 +20,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        tools:visibility="visible"
-        android:contentDescription="TODO" />
+        tools:visibility="visible" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="135dp"
-        android:layout_marginTop="98dp"
+        android:layout_marginTop="60dp"
         android:layout_marginEnd="135dp"
+        android:layout_marginBottom="495dp"
         android:backgroundTint="@color/PaleBlue"
         android:text="@string/Children"
         app:icon="@drawable/ic_baseline_people_24"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,11 +46,13 @@
         android:layout_marginStart="139dp"
         android:layout_marginTop="28dp"
         android:layout_marginEnd="139dp"
+        android:layout_marginBottom="419dp"
         android:backgroundTint="@color/PaleBlue"
         android:text="@string/Timeout"
         app:icon="@drawable/ic_baseline_access_time_24"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/button" />
 
@@ -58,14 +63,14 @@
         android:layout_marginStart="138dp"
         android:layout_marginTop="28dp"
         android:layout_marginEnd="138dp"
+        android:layout_marginBottom="343dp"
         android:backgroundTint="@color/PaleBlue"
         android:text="@string/CoinFlip"
         app:icon="@drawable/ic_baseline_coin_24"
-        app:layout_constraintBottom_toBottomOf="@+id/button3"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/button3"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/button3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

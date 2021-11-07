@@ -16,7 +16,8 @@
             android:label="History"/>
         <activity
             android:name=".TimeoutActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="@string/Timeout"/>
         <activity
             android:name=".ChildListActivity"
             android:exported="false" />
