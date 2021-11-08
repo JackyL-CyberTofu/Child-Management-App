@@ -1,5 +1,10 @@
 package ca.sfu.cmpt276.be.parentapp;
 
+/**
+ * TimeoutActivity represents a feature of countown timer in the app.
+ * Users can set their customized time.
+ */
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +22,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -144,19 +148,11 @@ public class TimeoutActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-/*        try {
-            unregisterReceiver(broadcastReceiver);
-        } catch (Exception e) {
-            // Receiver was probably already stopped in onPause()
-        }*/
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
-        //unregisterReceiver(broadcastReceiver);
-        //stopService(new Intent(getApplicationContext(), TimeoutService.class));
-        //stopService(new Intent(getApplicationContext(), AlarmService.class));
         super.onDestroy();
     }
 
@@ -294,8 +290,12 @@ public class TimeoutActivity extends AppCompatActivity {
         timeoutManager.setTimerRunning(false);
         countdownText.setText("");
         switchSettingDisplay();
+
+        removeNotification();
+    }
+
+    private void removeNotification() {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
-        // notificationId is a unique int for each notification that you must define
         notificationManager.cancelAll();
     }
 

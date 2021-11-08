@@ -13,6 +13,11 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+/**
+ * AlarmService deals with alarm and vibration when time is up.
+ * It is run in the background by using Service.
+ */
+
 public class AlarmService extends Service {
     private MediaPlayer mediaPlayer;
     private Vibrator vibrator;

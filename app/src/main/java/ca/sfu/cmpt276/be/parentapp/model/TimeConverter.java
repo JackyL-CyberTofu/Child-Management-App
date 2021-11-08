@@ -1,6 +1,9 @@
 package ca.sfu.cmpt276.be.parentapp.model;
 
-import android.view.View;
+/**
+ * TimeConverter is a tool class for converting milliseconds to a second, minute and an hour.
+ * It also has a feature of converting time left in milliseconds to String.
+ */
 
 public class TimeConverter {
     public static final int HOUR_CONVERTER_FOR_MILSECONDS = 3600000;
