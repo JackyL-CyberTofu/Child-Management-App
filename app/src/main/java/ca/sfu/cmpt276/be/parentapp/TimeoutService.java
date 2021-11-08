@@ -43,18 +43,6 @@ public class TimeoutService extends Service {
         super.onDestroy();
     }
 
-/*
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if(action.equals("STOP_ALARM")){
-
-            }
-        }
-    };
-*/
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Bundle bundle = intent.getExtras();
