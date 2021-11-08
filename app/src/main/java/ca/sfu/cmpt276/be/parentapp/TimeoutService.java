@@ -1,26 +1,19 @@
 package ca.sfu.cmpt276.be.parentapp;
-
-import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.app.TaskStackBuilder;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.util.Log;
-import android.view.WindowManager;
-import android.widget.Toast;
-
-import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import ca.sfu.cmpt276.be.parentapp.model.TimeConverter;
 import ca.sfu.cmpt276.be.parentapp.model.TimeoutManager;
 
 public class TimeoutService extends Service {
@@ -59,15 +52,68 @@ public class TimeoutService extends Service {
                 tickIntent.putExtra("TimeLeft", millisecondsLeft);
                 //Log.i("Ticking",String.valueOf(millisecondsLeft));
                 sendBroadcast(tickIntent);
+
+                // Create an explicit intent for an Activity in your app
+                Intent intent = new Intent(getApplicationContext(), TimeoutActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+                intent.setAction("NOTIFICATION_CLICKED");
+                TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
+                stackBuilder.addNextIntentWithParentStack(intent);
+                PendingIntent pendingIntent = stackBuilder.getPendingIntent(1, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                // Create intent when clicking dismiss button at notifications.
+                Intent stopAlarmIntent = new Intent(getApplicationContext(), AlarmService.class);
+                stopAlarmIntent.setAction("STOP_ALARM");
+                PendingIntent stopAlarmPendingIntent =
+                        PendingIntent.getService(getApplicationContext(),0,stopAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                // Previous Notifications
+                String updatedTime = TimeConverter.toStringForMilSeconds(millisecondsLeft + TimeConverter.getSecondInMilSeconds());
+
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "TIMER")
+                        .setSmallIcon(R.drawable.ic_baseline_timer_24)
+                        .setContentTitle("Timeout")
+                        .setContentText(String.valueOf(updatedTime))
+                        .setContentIntent(pendingIntent)
+                        .setPriority(NotificationCompat.PRIORITY_MAX)
+                        .addAction(R.drawable.ic_stop_alarm,getString(R.string.dismiss), stopAlarmPendingIntent)
+                        .setAutoCancel(true);
+                createNotificationChannel();
+                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+                // notificationId is a unique int for each notification that you must define
+                notificationManager.notify(0, builder.build());
+
+                //Show notifications
+
+/*                mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                // Sets an ID for the notification, so it can be updated
+                int notifyID = 1;
+                mNotifyBuilder = new NotificationCompat.Builder(this)
+                        .setContentTitle("New Message")
+                        .setContentText("You've received new messages.")
+                        .setSmallIcon(R.drawable.ic_notify_status)
+                numMessages = 0;
+                // Start of a loop that processes data and then notifies the user
+                mNotifyBuilder.setContentText(currentText)
+                        .setNumber(++numMessages);
+                // Because the ID remains unchanged, the existing notification is
+                // updated.
+                mNotificationManager.notify(notifyID, mNotifyBuilder.build());
+                sendBroadcast(tickIntent);*/
             }
 
             @Override
             public void onFinish() {
+                TimeoutManager timeoutManager = TimeoutManager.getInstance();
+                timeoutManager.setAlarmRunning(true);
                 Intent finishIntent = new Intent("TIME_OUT");
                 sendBroadcast(finishIntent);
                 //Log.i("Finished","TIME_OUT");
 
-                TimeoutManager timeoutManager = TimeoutManager.getInstance();
+                //Remove Notifications
+                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+                notificationManager.cancelAll();
+
                 timeoutManager.setTimerRunning(false);
 
                 // Create an explicit intent for an Activity in your app
@@ -94,7 +140,8 @@ public class TimeoutService extends Service {
                         .addAction(R.drawable.ic_stop_alarm,getString(R.string.dismiss), stopAlarmPendingIntent)
                         .setAutoCancel(true);
                 createNotificationChannel();
-                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+
+                notificationManager = NotificationManagerCompat.from(getApplicationContext());
                 // notificationId is a unique int for each notification that you must define
                 notificationManager.notify(0, builder.build());
 
