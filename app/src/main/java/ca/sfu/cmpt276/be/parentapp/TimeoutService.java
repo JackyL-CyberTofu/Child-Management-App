@@ -16,6 +16,9 @@ import androidx.core.app.NotificationManagerCompat;
 import ca.sfu.cmpt276.be.parentapp.model.TimeConverter;
 import ca.sfu.cmpt276.be.parentapp.model.TimeoutManager;
 
+/**
+ * TimeoutoService deals with background countdown work by using service.
+ */
 public class TimeoutService extends Service {
     public static final int COUNT_DOWN_INTERVAL = 20;
     private CountDownTimer countDownTimer = null;
@@ -50,7 +53,6 @@ public class TimeoutService extends Service {
             public void onTick(long millisecondsLeft) {
                 Intent tickIntent = new Intent("TIME_TICKED");
                 tickIntent.putExtra("TimeLeft", millisecondsLeft);
-                //Log.i("Ticking",String.valueOf(millisecondsLeft));
                 sendBroadcast(tickIntent);
 
                 // Create an explicit intent for an Activity in your app
@@ -83,23 +85,6 @@ public class TimeoutService extends Service {
                 // notificationId is a unique int for each notification that you must define
                 notificationManager.notify(0, builder.build());
 
-                //Show notifications
-
-/*                mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                // Sets an ID for the notification, so it can be updated
-                int notifyID = 1;
-                mNotifyBuilder = new NotificationCompat.Builder(this)
-                        .setContentTitle("New Message")
-                        .setContentText("You've received new messages.")
-                        .setSmallIcon(R.drawable.ic_notify_status)
-                numMessages = 0;
-                // Start of a loop that processes data and then notifies the user
-                mNotifyBuilder.setContentText(currentText)
-                        .setNumber(++numMessages);
-                // Because the ID remains unchanged, the existing notification is
-                // updated.
-                mNotificationManager.notify(notifyID, mNotifyBuilder.build());
-                sendBroadcast(tickIntent);*/
             }
 
             @Override
@@ -165,6 +150,7 @@ public class TimeoutService extends Service {
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel("TIMER", name, importance);
             channel.setDescription(description);
+
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
