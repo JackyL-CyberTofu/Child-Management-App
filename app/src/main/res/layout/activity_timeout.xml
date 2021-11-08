@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TimeoutActivity">
+    tools:context=".TimeoutActivity"
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/setting"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/photo_1503786482448_3351db7b0f93"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -177,7 +177,6 @@
         android:id="@+id/timer"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/photo_1503786482448_3351db7b0f93"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
