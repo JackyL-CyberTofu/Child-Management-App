@@ -4,7 +4,10 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.app.TaskStackBuilder;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -40,12 +43,27 @@ public class TimeoutService extends Service {
         super.onDestroy();
     }
 
+/*
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if(action.equals("STOP_ALARM")){
+
+            }
+        }
+    };
+*/
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Bundle bundle = intent.getExtras();
         if(intent != null && bundle != null) {
             this.milliseconds = (long) bundle.get("Time");
             Log.i("Receiving Time",String.valueOf(milliseconds));
+            if(intent.getAction().equals("STOP_ALARM")){
+                stopSelf();
+            }
         }
 
         countDownTimer = new CountDownTimer(milliseconds, COUNT_DOWN_INTERVAL) {
@@ -63,12 +81,6 @@ public class TimeoutService extends Service {
                 stackBuilder.addNextIntentWithParentStack(intent);
                 PendingIntent pendingIntent = stackBuilder.getPendingIntent(1, PendingIntent.FLAG_UPDATE_CURRENT);
 
-                // Create intent when clicking dismiss button at notifications.
-                Intent stopAlarmIntent = new Intent(getApplicationContext(), AlarmService.class);
-                stopAlarmIntent.setAction("STOP_ALARM");
-                PendingIntent stopAlarmPendingIntent =
-                        PendingIntent.getService(getApplicationContext(),0,stopAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
                 // Previous Notifications
                 String updatedTime = TimeConverter.toStringForMilSeconds(millisecondsLeft + TimeConverter.getSecondInMilSeconds());
 
@@ -77,8 +89,7 @@ public class TimeoutService extends Service {
                         .setContentTitle("Timeout")
                         .setContentText(String.valueOf(updatedTime))
                         .setContentIntent(pendingIntent)
-                        .setPriority(NotificationCompat.PRIORITY_MAX)
-                        .addAction(R.drawable.ic_stop_alarm,getString(R.string.dismiss), stopAlarmPendingIntent)
+                        .setPriority(NotificationCompat.PRIORITY_LOW)
                         .setAutoCancel(true);
                 createNotificationChannel();
                 NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
@@ -147,7 +158,7 @@ public class TimeoutService extends Service {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = getString(R.string.channel_name);
             String description = getString(R.string.channel_description);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_LOW;
             NotificationChannel channel = new NotificationChannel("TIMER", name, importance);
             channel.setDescription(description);
 

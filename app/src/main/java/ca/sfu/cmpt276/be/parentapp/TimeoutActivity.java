@@ -270,6 +270,7 @@ public class TimeoutActivity extends AppCompatActivity {
         }
 
         Intent serviceIntent = new Intent(this, TimeoutService.class);
+        serviceIntent.setAction("START_TIMING");
         serviceIntent.putExtra("Time", timeoutManager.getTimeChosen());
         startService(serviceIntent);
 

@@ -27,7 +27,9 @@ public class AlarmService extends Service {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if(action.equals("STOP_ALARM")){
+                removeNotifications();
                 mediaPlayer.stop();
+                vibrator.cancel();
                 stopSelf();
             }
         }
