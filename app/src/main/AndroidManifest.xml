@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.sfu.cmpt276.be.parentapp">
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:allowBackup="true"
@@ -17,7 +18,8 @@
         <activity
             android:name=".TimeoutActivity"
             android:exported="false"
-            android:label="@string/Timeout"/>
+            android:label="@string/Timeout"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".ChildListActivity"
             android:exported="false" />
@@ -27,19 +29,20 @@
             android:theme="@style/Theme.BeParentApp.NoActionBar"
             android:label="Coin Flip"/>
         <activity
+            android:name=".ChildEditActivity"
+            android:exported="false"/>
+        <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="Parent App"
-            >
+            android:label="Parent App" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ChildEditActivity"
-            android:exported="false"/>
+        <service android:name=".TimeoutService" />
+        <service android:name=".AlarmService" />
+
     </application>
 
 </manifest>
