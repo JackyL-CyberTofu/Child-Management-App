@@ -27,7 +27,7 @@
         android:autofillHints="Name of child to add"
         android:ems="10"
         android:hint="@string/child_name_edit_hint"
-        android:inputType="textPersonName"
+        android:inputType="textCapSentences"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/editNameDefault"

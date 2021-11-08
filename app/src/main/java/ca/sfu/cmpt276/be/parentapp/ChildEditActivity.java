@@ -3,11 +3,14 @@ package ca.sfu.cmpt276.be.parentapp;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -42,13 +45,35 @@ public class ChildEditActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        saveAndExit();
+        finish();
         return true;
     }
 
     @Override
     public void finish() {
         super.finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.child_list, menu);
+        MenuItem deleteOverflow = menu.findItem(R.id.deleteChildOverflow);
+        if (!doEdit) {
+            deleteOverflow.setVisible(false);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.saveChildrenActionButton) {
+            saveAndExit();
+        }
+
+        if (item.getItemId() == R.id.deleteChildOverflow) {
+            deleteAndExit();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setUpDeleteButton() {
