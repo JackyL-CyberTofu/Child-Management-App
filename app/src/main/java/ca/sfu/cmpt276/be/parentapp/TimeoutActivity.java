@@ -1,61 +1,80 @@
 package ca.sfu.cmpt276.be.parentapp;
 
+/**
+ * TimeoutActivity represents a feature of countown timer in the app.
+ * Users can set their customized time.
+ */
+
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import java.util.Objects;
 
-public class TimeoutActivity extends AppCompatActivity {
+import ca.sfu.cmpt276.be.parentapp.model.TimeConverter;
+import ca.sfu.cmpt276.be.parentapp.model.TimeoutManager;
 
-    public static final int HOUR_CONVERTER_FOR_MILSECONDS = 3600000;
-    public static final int MIN_CONVERTER_FOR_MILSECONDS = 60000;
-    public static final int SECONDS_CONVERTER_FORMILSECONDS = 1000;
-    public static final int COUNT_DOWN_INTERVAL = 1000;
-    public static final int ONESECOND_IN_MILSECONDS = 1000;
+public class TimeoutActivity extends AppCompatActivity {
+    private ConstraintLayout setting;
+    private ConstraintLayout timer;
     private TextView countdownText;
     private Button startButton;
     private Button stopButton;
     private Button cancelButton;
 
-    private EditText hourText;
-    private EditText minText;
-    private EditText secondText;
-
-    private CountDownTimer countDownTimer;
-
-    private boolean timerRunning;
-    private boolean firstState;
-
-    private long time = 0;
-    private long tempTime = 0;
-
-    ConstraintLayout setting;
-    ConstraintLayout timer;
-
+    private TimeoutManager timeoutManager;
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, TimeoutActivity.class);
     }
 
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i("Braodcast Received",String.valueOf(intent.getAction()));
+            String action = intent.getAction();
+            if(action.equals("TIME_TICKED")){
+                Log.i("Ticking",String.valueOf(intent.getAction()));
+                updateGUI(intent);
+            } else if (action.equals("TIME_OUT")) {
+                switchSettingDisplay();
+                popUpAlarmTurningOffDialog();
+            } else if (action.equals("NOTIFICATION_CLICKED")) {
+                Log.d("Notification", "Clicked and now in activity");
+                popUpAlarmTurningOffDialog();
+            }
+        }
+    };
+
+    private void removeNotifications() {
+        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(0);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        createIntentFilterAndRegisterReceiver();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeout);
 
+        timeoutManager = TimeoutManager.getInstance();
         assignViewComponents();
-
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         NumberPicker numberPicker = findViewById(R.id.numberPicker);
@@ -70,20 +89,79 @@ public class TimeoutActivity extends AppCompatActivity {
         setupTimerShortcuts(numberPicker, numberPicker2, numberPicker3);
 
         startButton.setOnClickListener(v -> {
-            firstState = true;
-            switchTimerDisplay();
-            startStop();
+            timeoutManager.setFirstState(true);
+            startOrStop();
         });
 
-        stopButton.setOnClickListener(v -> startStop());
+        stopButton.setOnClickListener(v -> startOrStop());
 
         cancelButton.setOnClickListener(v -> {
-            switchSettingDisplay();
-            firstState = true;
-            stopTimer();
+            timeoutManager.setFirstState(true);
+            cancelTimer();
         });
 
-        updateTimer();
+        if(timeoutManager.isTimerRunning()) {
+            switchTimerDisplay();
+        } else {
+            switchSettingDisplay();
+        }
+
+        if(timeoutManager.isAlarmRunning()) {
+            popUpAlarmTurningOffDialog();
+        }
+    }
+
+    private void popUpAlarmTurningOffDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(TimeoutActivity.this);
+        builder.setTitle("Time's up!");
+        builder.setMessage("You can turn off the alarm by clicking Yes button");
+        builder.setIcon(R.drawable.ic_baseline_timer_24);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                stopService(new Intent(getApplicationContext(), AlarmService.class));
+                removeNotifications();
+                TimeoutManager timeoutManager = TimeoutManager.getInstance();
+                timeoutManager.setAlarmRunning(false);
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (timeoutManager.isTimerRunning()) {
+            switchTimerDisplay();
+        } else {
+            switchSettingDisplay();
+        }
+        createIntentFilterAndRegisterReceiver();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(broadcastReceiver);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    private void createIntentFilterAndRegisterReceiver() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("TIME_TICKED");
+        intentFilter.addAction("TIME_OUT");
+        intentFilter.addAction("NOTIFICATION_CLICKED");
+        registerReceiver(broadcastReceiver, intentFilter);
     }
 
     private void setupNumberPicker(NumberPicker numberPicker, int i2) {
@@ -129,6 +207,20 @@ public class TimeoutActivity extends AppCompatActivity {
             numberPicker.setValue(0);
             numberPicker3.setValue(0);
         });
+
+        Button fifteenButton = findViewById(R.id.fifteenTime);
+        fifteenButton.setOnClickListener(view -> {
+            numberPicker2.setValue(15);
+            numberPicker.setValue(0);
+            numberPicker3.setValue(0);
+        });
+    }
+
+    private void updateGUI(Intent intent) {
+        Bundle bundle = intent.getExtras();
+        timeoutManager.setTempTime((long) bundle.get("TimeLeft"));
+        String updatedTime = TimeConverter.toStringForMilSeconds(timeoutManager.getTempTime() + TimeConverter.getSecondInMilSeconds());
+        countdownText.setText(updatedTime);
     }
 
     private void switchSettingDisplay() {
@@ -147,17 +239,15 @@ public class TimeoutActivity extends AppCompatActivity {
         stopButton = findViewById(R.id.button_pause_timer);
         cancelButton = findViewById(R.id.button_cancel_timer);
 
-
-
         setting = findViewById(R.id.setting);
         timer = findViewById(R.id.timer);
 
         timer.setVisibility(View.GONE);
     }
 
-
-    private void startStop() {
-        if (timerRunning) {
+    private void startOrStop() {
+        switchTimerDisplay();
+        if (timeoutManager.isTimerRunning()) {
             stopTimer();
         } else {
             startTimer();
@@ -165,8 +255,7 @@ public class TimeoutActivity extends AppCompatActivity {
     }
 
     private void startTimer() {
-        if (firstState) {
-
+        if (timeoutManager.isFirstState()) {
             NumberPicker numberPicker = findViewById(R.id.numberPicker);
             NumberPicker numberPicker2 = findViewById(R.id.numberPicker2);
             NumberPicker numberPicker3 = findViewById(R.id.numberPicker3);
@@ -174,68 +263,48 @@ public class TimeoutActivity extends AppCompatActivity {
             String sHour = Integer.toString(numberPicker.getValue());
             String sMin = Integer.toString(numberPicker2.getValue());
             String sSecond = Integer.toString(numberPicker3.getValue());
-            time = (Long.parseLong(sHour) * HOUR_CONVERTER_FOR_MILSECONDS) + (Long.parseLong(sMin) * MIN_CONVERTER_FOR_MILSECONDS) + (Long.parseLong(sSecond) * SECONDS_CONVERTER_FORMILSECONDS) + ONESECOND_IN_MILSECONDS;
+            timeoutManager.setTimeChosen((Long.parseLong(sHour) * TimeConverter.getHourInMilSeconds()) + (Long.parseLong(sMin) * TimeConverter.getMinInMilSeconds()) + (Long.parseLong(sSecond) * TimeConverter.getSecondInMilSeconds()));
+            timeoutManager.setTempTime(timeoutManager.getTimeChosen());
         } else {
-            time = tempTime;
+            timeoutManager.setTimeChosen(timeoutManager.getTempTime());
         }
 
-        countDownTimer = new CountDownTimer(time, COUNT_DOWN_INTERVAL) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                tempTime = millisUntilFinished;
-                updateTimer();
-            }
-
-            @Override
-            public void onFinish() {
-            }
-        }.start();
+        Intent serviceIntent = new Intent(this, TimeoutService.class);
+        serviceIntent.putExtra("Time", timeoutManager.getTimeChosen());
+        startService(serviceIntent);
 
         stopButton.setText("Pause");
-        timerRunning = true;
-        firstState = false;
+        timeoutManager.setTimerRunning(true);
+        timeoutManager.setFirstState(false);
     }
 
     private void stopTimer() {
-        countDownTimer.cancel();
-        timerRunning = false;
+        Log.d("stopTimer", String.valueOf(timeoutManager.getTempTime()));
+        stopService(new Intent(this, TimeoutService.class));
+        timeoutManager.setTimerRunning(false);
         stopButton.setText("Resume");
     }
 
-    private void updateTimer() {
+    private void cancelTimer() {
+        stopService(new Intent(this, TimeoutService.class));
+        timeoutManager.setTimerRunning(false);
+        countdownText.setText("");
+        switchSettingDisplay();
 
-        int hour = (int) tempTime / HOUR_CONVERTER_FOR_MILSECONDS;
-        int minutes = (int) tempTime % HOUR_CONVERTER_FOR_MILSECONDS / MIN_CONVERTER_FOR_MILSECONDS;
-        int seconds = (int) tempTime % HOUR_CONVERTER_FOR_MILSECONDS % MIN_CONVERTER_FOR_MILSECONDS / SECONDS_CONVERTER_FORMILSECONDS;
+        removeNotification();
+    }
 
-        StringBuilder stringBuilderTimeLeft = new StringBuilder();
-
-        stringBuilderTimeLeft.append("");
-        stringBuilderTimeLeft.append(hour);
-        stringBuilderTimeLeft.append(":");
-
-        if (minutes < 10) {
-            stringBuilderTimeLeft.append("0");
-        }
-        stringBuilderTimeLeft.append(minutes);
-        stringBuilderTimeLeft.append(":");
-
-        if (seconds < 10) {
-            stringBuilderTimeLeft.append("0");
-        }
-        stringBuilderTimeLeft.append(seconds);
-
-        countdownText.setText(stringBuilderTimeLeft.toString());
+    private void removeNotification() {
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+        notificationManager.cancelAll();
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }
