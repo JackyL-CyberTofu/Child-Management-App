@@ -36,8 +36,6 @@ public class ChildEditActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle("Edit Child");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-
         setExtras();
     }
 

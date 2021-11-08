@@ -9,16 +9,12 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="135dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="135dp"
-        android:layout_marginBottom="495dp"
+        android:layout_marginTop="68dp"
         android:backgroundTint="@color/PaleBlue"
         android:text="@string/Children"
         app:icon="@drawable/ic_baseline_people_24"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -27,32 +23,26 @@
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="139dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="139dp"
-        android:layout_marginBottom="419dp"
         android:backgroundTint="@color/PaleBlue"
         android:text="@string/Timeout"
         app:icon="@drawable/ic_baseline_access_time_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintVertical_bias="0.113" />
 
     <Button
         android:id="@+id/button4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="138dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="138dp"
-        android:layout_marginBottom="343dp"
         android:backgroundTint="@color/PaleBlue"
         android:text="@string/CoinFlip"
         app:icon="@drawable/ic_baseline_coin_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+        app:layout_constraintTop_toBottomOf="@+id/button3"
+        app:layout_constraintVertical_bias="0.138" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
