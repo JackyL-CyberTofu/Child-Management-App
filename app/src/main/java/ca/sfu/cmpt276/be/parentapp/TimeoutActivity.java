@@ -30,7 +30,6 @@ public class TimeoutActivity extends AppCompatActivity {
     public static final int SECONDS_CONVERTER_FORMILSECONDS = 1000;
     public static final int ONESECOND_IN_MILSECONDS = 1000;
 
-
     private ConstraintLayout setting;
     private ConstraintLayout timer;
     private TextView countdownText;
@@ -64,22 +63,6 @@ public class TimeoutActivity extends AppCompatActivity {
         }
     };
 
-    private void popUpAlarmTurningOffDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(TimeoutActivity.this);
-        builder.setTitle("Time's up!");
-        builder.setMessage("You can turn off the alarm by clicking Yes button");
-        builder.setIcon(R.drawable.ic_baseline_timer_24);
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                stopService(new Intent(getApplicationContext(), AlarmService.class));
-                removeNotifications();
-            }
-        });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
-
     private void removeNotifications() {
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(0);
@@ -87,20 +70,13 @@ public class TimeoutActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        createIntentFilterAndRegisterReceiver();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeout);
-
-        createIntentFilterAndRegisterReceiver();
 
         timeoutManager = TimeoutManager.getInstance();
         assignViewComponents();
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-
-        if(timeoutManager.isTimerRunning()) {
-            switchTimerDisplay();
-        } else {
-            switchSettingDisplay();
-        }
 
         NumberPicker numberPicker = findViewById(R.id.numberPicker);
         setupNumberPicker(numberPicker, 99);
@@ -124,6 +100,32 @@ public class TimeoutActivity extends AppCompatActivity {
             timeoutManager.setFirstState(true);
             cancelTimer();
         });
+
+        if(timeoutManager.isTimerRunning()) {
+            switchTimerDisplay();
+        } else {
+            switchSettingDisplay();
+        }
+
+        if(timeoutManager.isClickedNotification()) {
+            popUpAlarmTurningOffDialog();
+        }
+    }
+
+    private void popUpAlarmTurningOffDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(TimeoutActivity.this);
+        builder.setTitle("Time's up!");
+        builder.setMessage("You can turn off the alarm by clicking Yes button");
+        builder.setIcon(R.drawable.ic_baseline_timer_24);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                stopService(new Intent(getApplicationContext(), AlarmService.class));
+                removeNotifications();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     @Override

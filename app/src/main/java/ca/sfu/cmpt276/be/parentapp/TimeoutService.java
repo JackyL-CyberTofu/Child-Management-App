@@ -72,7 +72,7 @@ public class TimeoutService extends Service {
 
                 // Create an explicit intent for an Activity in your app
                 Intent intent = new Intent(getApplicationContext(), TimeoutActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
                 intent.setAction("NOTIFICATION_CLICKED");
                 TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
                 stackBuilder.addNextIntentWithParentStack(intent);
@@ -89,7 +89,7 @@ public class TimeoutService extends Service {
                         .setSmallIcon(R.drawable.ic_baseline_timer_24)
                         .setContentTitle("Timeout")
                         .setContentText("Time's up!")
-                        .setContentIntent(stopAlarmPendingIntent)
+                        .setContentIntent(pendingIntent)
                         .setPriority(NotificationCompat.PRIORITY_MAX)
                         .addAction(R.drawable.ic_stop_alarm,getString(R.string.dismiss), stopAlarmPendingIntent)
                         .setAutoCancel(true);
