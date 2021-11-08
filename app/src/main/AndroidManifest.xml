@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="ca.sfu.cmpt276.be.parentapp">
     <uses-permission android:name="android.permission.VIBRATE"/>
 
@@ -15,27 +16,39 @@
         <activity
             android:name=".FlipHistoryActivity"
             android:exported="false"
-            android:label="History"/>
+            android:screenOrientation="portrait"
+            android:label="History"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".TimeoutActivity"
             android:exported="false"
             android:label="@string/Timeout"
-            android:parentActivityName=".MainActivity"/>
+            android:screenOrientation="portrait"
+            android:parentActivityName=".MainActivity"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ChildListActivity"
-            android:exported="false" />
+            android:screenOrientation="portrait"
+            android:exported="false"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".CoinFlipActivity"
             android:exported="false"
             android:theme="@style/Theme.BeParentApp.NoActionBar"
-            android:label="Coin Flip"/>
+            android:screenOrientation="portrait"
+            android:label="Coin Flip"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ChildEditActivity"
-            android:exported="false"/>
+            android:screenOrientation="portrait"
+            android:exported="false"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="Parent App" >
+            android:screenOrientation="portrait"
+            android:label="Parent App"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
