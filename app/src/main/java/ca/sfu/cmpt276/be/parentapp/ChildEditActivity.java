@@ -39,8 +39,6 @@ public class ChildEditActivity extends AppCompatActivity {
 
 
         setExtras();
-        setUpSaveButton();
-        setUpDeleteButton();
     }
 
     @Override
@@ -74,19 +72,6 @@ public class ChildEditActivity extends AppCompatActivity {
             deleteAndExit();
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void setUpDeleteButton() {
-        Button deleteButton = findViewById(R.id.deleteButton);
-        if (!doEdit) {
-            deleteButton.setVisibility(View.GONE);
-        }
-        deleteButton.setOnClickListener(v -> deleteAndExit());
-    }
-
-    private void setUpSaveButton() {
-        FloatingActionButton saveFab = findViewById(R.id.saveButton);
-        saveFab.setOnClickListener(v -> saveAndExit());
     }
 
     private void deleteChild() {
