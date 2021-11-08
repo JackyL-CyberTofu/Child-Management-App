@@ -14,6 +14,13 @@
     <string name="History">History</string>
     <string name="PreviousWinners">Previous Winners</string>
     <string name="nextChild">"Next child: "</string>
+    <string name="save_children_button">saveChildrenButton</string>
+    <string name="delete_child_label">Delete</string>
+    <string name="flip_tail_label">Flip Tails</string>
+    <string name="flip_heads_label">Flip Heads</string>
+    <string name="flip_coin_label">Flip Coin</string>
+    <string name="coin_activity_description">Press button to flip!</string>
+    <string name="coin_content_description">Image of coin</string>
     <string name="channel_name">TIMER</string>
     <string name="channel_description">TIMER_NOTIFICATION</string>
     <string name="dismiss">DISMISS</string>

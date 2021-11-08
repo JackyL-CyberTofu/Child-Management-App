@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/saveChildrenActionButton"
+        android:icon="@drawable/ic_baseline_save_24_white"
+        android:title="@string/save_children_button"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/deleteChildOverflow"
+        android:title="@string/delete_child_label" />
+</menu>
