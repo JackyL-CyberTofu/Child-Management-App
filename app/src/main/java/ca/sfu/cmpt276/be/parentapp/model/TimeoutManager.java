@@ -4,14 +4,14 @@ public class TimeoutManager {
     private static TimeoutManager instance;
     private boolean isTimerRunning = false;
     private boolean firstState = true;
-    private boolean isClickedNotification = false;
+    private boolean isAlarmRunning = false;
 
-    public boolean isClickedNotification() {
-        return isClickedNotification;
+    public boolean isAlarmRunning() {
+        return isAlarmRunning;
     }
 
-    public void setClickedNotification(boolean clickedNotification) {
-        isClickedNotification = clickedNotification;
+    public void setAlarmRunning(boolean alarmRunning) {
+        isAlarmRunning = alarmRunning;
     }
 
     private long timeChosen = 0;

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
@@ -22,23 +23,16 @@ import android.widget.TextView;
 
 import java.util.Objects;
 
+import ca.sfu.cmpt276.be.parentapp.model.TimeConverter;
 import ca.sfu.cmpt276.be.parentapp.model.TimeoutManager;
 
 public class TimeoutActivity extends AppCompatActivity {
-    public static final int HOUR_CONVERTER_FOR_MILSECONDS = 3600000;
-    public static final int MIN_CONVERTER_FOR_MILSECONDS = 60000;
-    public static final int SECONDS_CONVERTER_FORMILSECONDS = 1000;
-    public static final int ONESECOND_IN_MILSECONDS = 1000;
-
     private ConstraintLayout setting;
     private ConstraintLayout timer;
     private TextView countdownText;
     private Button startButton;
     private Button stopButton;
     private Button cancelButton;
-    private EditText hourText;
-    private EditText minText;
-    private EditText secondText;
 
     private TimeoutManager timeoutManager;
 
@@ -52,10 +46,11 @@ public class TimeoutActivity extends AppCompatActivity {
             Log.i("Braodcast Received",String.valueOf(intent.getAction()));
             String action = intent.getAction();
             if(action.equals("TIME_TICKED")){
+                Log.i("Ticking",String.valueOf(intent.getAction()));
                 updateGUI(intent);
             } else if (action.equals("TIME_OUT")) {
                 switchSettingDisplay();
-                //popUpAlarmTurningOffDialog();
+                popUpAlarmTurningOffDialog();
             } else if (action.equals("NOTIFICATION_CLICKED")) {
                 Log.d("Notification", "Clicked and now in activity");
                 popUpAlarmTurningOffDialog();
@@ -107,7 +102,7 @@ public class TimeoutActivity extends AppCompatActivity {
             switchSettingDisplay();
         }
 
-        if(timeoutManager.isClickedNotification()) {
+        if(timeoutManager.isAlarmRunning()) {
             popUpAlarmTurningOffDialog();
         }
     }
@@ -122,6 +117,8 @@ public class TimeoutActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 stopService(new Intent(getApplicationContext(), AlarmService.class));
                 removeNotifications();
+                TimeoutManager timeoutManager = TimeoutManager.getInstance();
+                timeoutManager.setAlarmRunning(false);
             }
         });
         AlertDialog alertDialog = builder.create();
@@ -219,33 +216,8 @@ public class TimeoutActivity extends AppCompatActivity {
     private void updateGUI(Intent intent) {
         Bundle bundle = intent.getExtras();
         timeoutManager.setTempTime((long) bundle.get("TimeLeft"));
-        String updatedTime = toStringForMilSeconds(timeoutManager.getTempTime() + ONESECOND_IN_MILSECONDS);
+        String updatedTime = TimeConverter.toStringForMilSeconds(timeoutManager.getTempTime() + TimeConverter.getSecondInMilSeconds());
         countdownText.setText(updatedTime);
-    }
-
-    private String toStringForMilSeconds(long timeInMilSeconds){
-        int hour = (int) timeInMilSeconds / HOUR_CONVERTER_FOR_MILSECONDS;
-        int minutes = (int) timeInMilSeconds % HOUR_CONVERTER_FOR_MILSECONDS / MIN_CONVERTER_FOR_MILSECONDS;
-        int seconds = (int) timeInMilSeconds % HOUR_CONVERTER_FOR_MILSECONDS % MIN_CONVERTER_FOR_MILSECONDS / SECONDS_CONVERTER_FORMILSECONDS;
-
-        StringBuilder stringBuilderTime = new StringBuilder();
-
-        stringBuilderTime.append("");
-        stringBuilderTime.append(hour);
-        stringBuilderTime.append(":");
-
-        if (minutes < 10) {
-            stringBuilderTime.append("0");
-        }
-        stringBuilderTime.append(minutes);
-        stringBuilderTime.append(":");
-
-        if (seconds < 10) {
-            stringBuilderTime.append("0");
-        }
-        stringBuilderTime.append(seconds);
-
-        return stringBuilderTime.toString();
     }
 
     private void switchSettingDisplay() {
@@ -288,7 +260,7 @@ public class TimeoutActivity extends AppCompatActivity {
             String sHour = Integer.toString(numberPicker.getValue());
             String sMin = Integer.toString(numberPicker2.getValue());
             String sSecond = Integer.toString(numberPicker3.getValue());
-            timeoutManager.setTimeChosen((Long.parseLong(sHour) * HOUR_CONVERTER_FOR_MILSECONDS) + (Long.parseLong(sMin) * MIN_CONVERTER_FOR_MILSECONDS) + (Long.parseLong(sSecond) * SECONDS_CONVERTER_FORMILSECONDS));
+            timeoutManager.setTimeChosen((Long.parseLong(sHour) * TimeConverter.getHourInMilSeconds()) + (Long.parseLong(sMin) * TimeConverter.getMinInMilSeconds()) + (Long.parseLong(sSecond) * TimeConverter.getSecondInMilSeconds()));
             timeoutManager.setTempTime(timeoutManager.getTimeChosen());
         } else {
             timeoutManager.setTimeChosen(timeoutManager.getTempTime());
@@ -315,6 +287,9 @@ public class TimeoutActivity extends AppCompatActivity {
         timeoutManager.setTimerRunning(false);
         countdownText.setText("");
         switchSettingDisplay();
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+        // notificationId is a unique int for each notification that you must define
+        notificationManager.cancelAll();
     }
 
     @Override
