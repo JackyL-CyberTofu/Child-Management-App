@@ -10,7 +10,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_parent_app_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.BeParentApp">
+        android:theme="@style/Theme.BeParentApp"
+        android:screenOrientation="portrait">
         <activity
             android:name=".FlipHistoryActivity"
             android:exported="false"

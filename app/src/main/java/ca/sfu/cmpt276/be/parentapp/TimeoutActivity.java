@@ -211,6 +211,13 @@ public class TimeoutActivity extends AppCompatActivity {
             numberPicker.setValue(0);
             numberPicker3.setValue(0);
         });
+
+        Button fifteenButton = findViewById(R.id.fifteenTime);
+        fifteenButton.setOnClickListener(view -> {
+            numberPicker2.setValue(15);
+            numberPicker.setValue(0);
+            numberPicker3.setValue(0);
+        });
     }
 
     private void updateGUI(Intent intent) {
