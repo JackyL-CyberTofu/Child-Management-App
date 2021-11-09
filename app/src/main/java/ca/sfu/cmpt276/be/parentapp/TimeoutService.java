@@ -1,4 +1,5 @@
 package ca.sfu.cmpt276.be.parentapp;
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.util.Log;
+
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -20,7 +22,9 @@ import ca.sfu.cmpt276.be.parentapp.model.TimeConverter;
 import ca.sfu.cmpt276.be.parentapp.model.TimeoutManager;
 
 /**
- * TimeoutService deals with background countdown work by using service.
+ * TimeoutService deals with calculating time left in the background.
+ * Time is calculated by using CountDownTimer class.
+ * UI and notification is updated everytime COUNT_DOWN_INTERVAL is passed.
  */
 public class TimeoutService extends Service {
     public static final int COUNT_DOWN_INTERVAL = 20;
@@ -46,13 +50,13 @@ public class TimeoutService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Bundle bundle = null;
-        if(intent.getExtras() != null ){
+        if (intent.getExtras() != null) {
             bundle = intent.getExtras();
         }
-        if(intent != null && bundle != null) {
+        if (bundle != null) {
             this.milliseconds = (long) bundle.get("Time");
-            Log.i("Receiving Time",String.valueOf(milliseconds));
-            if(intent.getAction().equals("STOP_ALARM")){
+            Log.i("Receiving Time", String.valueOf(milliseconds));
+            if (intent.getAction().equals("STOP_ALARM")) {
                 stopSelf();
             }
         }
@@ -60,11 +64,12 @@ public class TimeoutService extends Service {
         countDownTimer = new CountDownTimer(milliseconds, COUNT_DOWN_INTERVAL) {
             @Override
             public void onTick(long millisecondsLeft) {
+                // Send Intent to the TimeoutActivity so that time left is updated.
                 Intent tickIntent = new Intent("TIME_TICKED");
                 tickIntent.putExtra("TimeLeft", millisecondsLeft);
                 sendBroadcast(tickIntent);
 
-                // Create an explicit intent for an Activity in your app
+                // Create an intent for moving to TimeoutActivity in your app
                 Intent intent = new Intent(getApplicationContext(), TimeoutActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
                 intent.setAction("NOTIFICATION_CLICKED");
@@ -72,38 +77,37 @@ public class TimeoutService extends Service {
                 stackBuilder.addNextIntentWithParentStack(intent);
                 PendingIntent pendingIntent = stackBuilder.getPendingIntent(1, PendingIntent.FLAG_UPDATE_CURRENT);
 
-                // Previous Notifications
+                // Calculate the time left
                 String updatedTime = TimeConverter.toStringForMilSeconds(millisecondsLeft + TimeConverter.getSecondInMilSeconds());
 
+                // Create a notification for Showing time left.
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "TIMER")
                         .setSmallIcon(R.drawable.ic_baseline_timer_24)
                         .setContentTitle("Timeout")
-                        .setContentText(String.valueOf(updatedTime))
+                        .setContentText(updatedTime)
                         .setContentIntent(pendingIntent)
                         .setPriority(NotificationCompat.PRIORITY_LOW)
                         .setAutoCancel(true);
                 createNotificationChannel();
                 NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
-                // notificationId is a unique int for each notification that you must define
-                notificationManager.notify(0, builder.build());
 
+                notificationManager.notify(0, builder.build());
             }
 
             @Override
             public void onFinish() {
+                // Update data for timeout manager and send intent for starting AlarmService.
                 TimeoutManager timeoutManager = TimeoutManager.getInstance();
                 timeoutManager.setAlarmRunning(true);
+                timeoutManager.setTimerRunning(false);
                 Intent finishIntent = new Intent("TIME_OUT");
                 sendBroadcast(finishIntent);
-                //Log.i("Finished","TIME_OUT");
 
-                //Remove Notifications
+                //Remove Notifications For time left
                 NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
                 notificationManager.cancelAll();
 
-                timeoutManager.setTimerRunning(false);
-
-                // Create an explicit intent for an Activity in your app
+                // Intent for moving onto TimeoutActivity when clicking notifications
                 Intent intent = new Intent(getApplicationContext(), TimeoutActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
                 intent.setAction("NOTIFICATION_CLICKED");
@@ -111,11 +115,11 @@ public class TimeoutService extends Service {
                 stackBuilder.addNextIntentWithParentStack(intent);
                 PendingIntent pendingIntent = stackBuilder.getPendingIntent(1, PendingIntent.FLAG_UPDATE_CURRENT);
 
-                // Create intent when clicking dismiss button at notifications.
+                // Intent for quitting alarm service when clicking dismiss button in the notification.
                 Intent stopAlarmIntent = new Intent(getApplicationContext(), AlarmService.class);
                 stopAlarmIntent.setAction("STOP_ALARM");
                 PendingIntent stopAlarmPendingIntent =
-                        PendingIntent.getService(getApplicationContext(),0,stopAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        PendingIntent.getService(getApplicationContext(), 0, stopAlarmIntent, PendingIntent.FLAG_IMMUTABLE);
 
                 // Create a notification for time-out!
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "TIMER")
@@ -124,12 +128,11 @@ public class TimeoutService extends Service {
                         .setContentText("Time's up!")
                         .setContentIntent(pendingIntent)
                         .setPriority(NotificationCompat.PRIORITY_MAX)
-                        .addAction(R.drawable.ic_stop_alarm,getString(R.string.dismiss), stopAlarmPendingIntent)
+                        .addAction(R.drawable.ic_stop_alarm, getString(R.string.dismiss), stopAlarmPendingIntent)
                         .setAutoCancel(true);
+                // Notification Channel
                 createNotificationChannel();
-
                 notificationManager = NotificationManagerCompat.from(getApplicationContext());
-                // notificationId is a unique int for each notification that you must define
                 notificationManager.notify(0, builder.build());
 
                 // Start AlarmService
@@ -143,20 +146,20 @@ public class TimeoutService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
+    // Notification Guideline from Android Reference
+    // https://developer.android.com/training/notify-user/build-notification
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = getString(R.string.channel_name);
-            String description = getString(R.string.channel_description);
-            int importance = NotificationManager.IMPORTANCE_LOW;
-            NotificationChannel channel = new NotificationChannel("TIMER", name, importance);
-            channel.setDescription(description);
+        CharSequence name = getString(R.string.channel_name);
+        String description = getString(R.string.channel_description);
+        int importance = NotificationManager.IMPORTANCE_LOW;
+        NotificationChannel channel = new NotificationChannel("TIMER", name, importance);
+        channel.setDescription(description);
 
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
+        // Register the channel with the system; you can't change the importance
+        // or other notification behaviors after this
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
     }
 }

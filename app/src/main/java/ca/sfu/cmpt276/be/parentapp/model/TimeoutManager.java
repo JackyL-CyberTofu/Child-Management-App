@@ -37,8 +37,8 @@ public class TimeoutManager {
         this.tempTime = tempTime;
     }
 
-    public static TimeoutManager getInstance(){
-        if(instance == null) {
+    public static TimeoutManager getInstance() {
+        if (instance == null) {
             instance = new TimeoutManager();
         }
         return instance;
