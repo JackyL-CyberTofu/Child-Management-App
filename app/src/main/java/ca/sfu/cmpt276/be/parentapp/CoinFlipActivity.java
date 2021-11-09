@@ -23,8 +23,9 @@ import ca.sfu.cmpt276.be.parentapp.databinding.ActivityCoinflipBinding;
 import ca.sfu.cmpt276.be.parentapp.model.ChildManager;
 import ca.sfu.cmpt276.be.parentapp.model.CoinFlipManager;
 
-/*
-Allows the user to flip a coin with animation.
+/**
+Activity with animations to simulate a real coin flip
+ Sends and process info from CoinFLipManager
  */
 
 public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManager.CoinObserver {

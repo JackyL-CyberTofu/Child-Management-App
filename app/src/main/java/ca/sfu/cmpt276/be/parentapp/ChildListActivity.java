@@ -30,7 +30,7 @@ public class ChildListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_child_list);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Configure Children");
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.text_configureChildren);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         showChildren();

@@ -12,13 +12,15 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.MessageFormat;
 import java.util.Objects;
 
 import ca.sfu.cmpt276.be.parentapp.model.Coin;
 import ca.sfu.cmpt276.be.parentapp.model.CoinFlipManager;
 
-/*
-Displays the list of flip that has occured.
+/**
+Diplays a list of previous coin flip results
+ Shows if the person that picked won, with the time and child name.
  */
 
 public class FlipHistoryActivity extends AppCompatActivity {
@@ -72,14 +74,14 @@ public class FlipHistoryActivity extends AppCompatActivity {
             String time = coinFlipManager.getCoinFlipGame(position).getDate();
 
             TextView upper = (TextView) itemView.findViewById(R.id.textView1);
-            upper.setText(result + " @ " + time);
+            upper.setText(MessageFormat.format("{0}{1}{2}", result, getString(R.string.AT), time));
 
             TextView under = (TextView) itemView.findViewById(R.id.textView2);
             if (coinFlipManager.getCoinFlipGame(position).getPicker()==null){
-                under.setText("No Children Selected");
+                under.setText(R.string.text_noChildrenSelected);
             }
             else {
-                under.setText("Picked by: " + coinFlipManager.getCoinFlipGame(position).getPicker());
+                under.setText(MessageFormat.format("{0}{1}", getString(R.string.text_pickedBy), coinFlipManager.getCoinFlipGame(position).getPicker()));
             }
 
             //Fill the view

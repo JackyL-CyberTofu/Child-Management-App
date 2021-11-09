@@ -36,4 +36,11 @@
     <string name="_15_00">15:00</string>
     <string name="pause">Pause</string>
     <string name="cancel">Cancel</string>
+    <string name="resume">Resume</string>
+    <string name="AT">" @ "</string>
+    <string name="text_noChildrenSelected">No Children Selected</string>
+    <string name="text_pickedBy">"Picked by: "</string>
+    <string name="text_configureChildren">Configure Children</string>
+    <string name="text_editChild">Edit Child</string>
+    <string name="text_addChild">Add Child</string>
 </resources>

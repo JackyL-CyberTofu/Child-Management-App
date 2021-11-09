@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TimeoutActivity"
-    android:background="@drawable/photo_1503786482448_3351db7b0f93">
+    android:background="@drawable/relaxing_water_background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/setting"
@@ -208,7 +208,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:gravity="center"
-            android:textSize="50dp"
+            android:textSize="50sp"
             app:layout_constraintBottom_toTopOf="@+id/guideline_4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -31,7 +31,7 @@ public class ChildEditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_child);
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Edit Child");
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.text_editChild);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setExtras();
@@ -112,7 +112,7 @@ public class ChildEditActivity extends AppCompatActivity {
             String childName = childManager.get(childPosition).getName();
             childNameEditText.setText(childName);
         } else {
-            Objects.requireNonNull(getSupportActionBar()).setTitle("Add Child");
+            Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.text_addChild);
         }
     }
 

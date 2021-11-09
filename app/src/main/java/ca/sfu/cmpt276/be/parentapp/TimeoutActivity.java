@@ -1,7 +1,7 @@
 package ca.sfu.cmpt276.be.parentapp;
 
 /*
- * TimeoutActivity represents a feature of countown timer in the app.
+ * TimeoutActivity represents a feature of countdown timer in the app.
  * Users can set their customized time. When user start the timer, it is working on the TimeoutService.
  */
 
@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.NotificationManagerCompat;
 
+import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -170,6 +171,7 @@ public class TimeoutActivity extends AppCompatActivity {
         registerReceiver(broadcastReceiver, intentFilter);
     }
 
+    @SuppressLint("DefaultLocale")
     private void setupNumberPicker(NumberPicker numberPicker, int i2) {
         numberPicker.setFormatter(i -> {
             numberPicker.setMinValue(0);
@@ -280,7 +282,7 @@ public class TimeoutActivity extends AppCompatActivity {
         serviceIntent.putExtra("Time", timeoutManager.getTimeChosen());
         startService(serviceIntent);
 
-        stopButton.setText(R.string.Pause);
+        stopButton.setText(R.string.pause);
         timeoutManager.setTimerRunning(true);
         timeoutManager.setFirstState(false);
     }
@@ -289,7 +291,7 @@ public class TimeoutActivity extends AppCompatActivity {
         Log.d("stopTimer", String.valueOf(timeoutManager.getTempTime()));
         stopService(new Intent(this, TimeoutService.class));
         timeoutManager.setTimerRunning(false);
-        stopButton.setText(R.string.Resume);
+        stopButton.setText(R.string.resume);
     }
 
     private void cancelTimer() {
