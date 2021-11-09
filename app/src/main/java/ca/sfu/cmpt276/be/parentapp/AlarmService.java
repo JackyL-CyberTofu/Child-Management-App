@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.os.IBinder;
+import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
 
@@ -23,13 +24,13 @@ public class AlarmService extends Service {
     private MediaPlayer mediaPlayer;
     private Vibrator vibrator;
 
-    // Braodcast Receiver from the intent when count down is finished.
+    // Broadcast Receiver from the intent when count down is finished.
     // When it is received, AlarmService will be stopped.
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+    final private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if(action.equals("STOP_ALARM")){
+            if (action.equals("STOP_ALARM")) {
                 removeNotifications();
                 mediaPlayer.stop();
                 vibrator.cancel();
@@ -60,10 +61,11 @@ public class AlarmService extends Service {
         registerReceiver(broadcastReceiver, intentFilter);
 
         Log.d("AlarmService", "AlarmAlarm");
-        if(intent.getAction().equals("START_ALARM")){
+        if (intent.getAction().equals("START_ALARM")) {
             mediaPlayer.start();
-            vibrator.vibrate(new long[]{100,1000,100,500,100,500,100,1000}, 0);
-        } else if(intent.getAction().equals("STOP_ALARM")){
+            long[] pattern = {100, 1000, 2000};
+            vibrator.vibrate(VibrationEffect.createWaveform(pattern, 0));
+        } else if (intent.getAction().equals("STOP_ALARM")) {
             removeNotifications();
             mediaPlayer.stop();
             vibrator.cancel();
@@ -74,7 +76,7 @@ public class AlarmService extends Service {
     }
 
     private void removeNotifications() {
-        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(0);
     }
 

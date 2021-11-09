@@ -1,9 +1,8 @@
 package ca.sfu.cmpt276.be.parentapp;
 
-/**
+/*
  * TimeoutActivity represents a feature of countown timer in the app.
  * Users can set their customized time. When user start the timer, it is working on the TimeoutService.
- *
  */
 
 import androidx.annotation.NonNull;
@@ -11,7 +10,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.core.content.ContextCompat;
 
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
@@ -47,29 +45,34 @@ public class TimeoutActivity extends AppCompatActivity {
     }
 
 
-     // Broadcast Receiver from TimeouService when the time is ticking
-     // It updates UI on the TimeoutActivity(How much time is left)
+    // Broadcast Receiver from TimeouService when the time is ticking
+    // It updates UI on the TimeoutActivity(How much time is left)
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.i("Braodcast Received",String.valueOf(intent.getAction()));
+            Log.i("Braodcast Received", String.valueOf(intent.getAction()));
             String action = intent.getAction();
-            if(action.equals("TIME_TICKED")){
-                Log.i("Ticking",String.valueOf(intent.getAction()));
-                updateGUI(intent);
-            } else if (action.equals("TIME_OUT")) {
-                switchSettingDisplay();
-                popUpAlarmTurningOffDialog();
-            } else if (action.equals("NOTIFICATION_CLICKED")) {
-                Log.d("Notification", "Clicked and now in activity");
-                popUpAlarmTurningOffDialog();
+            switch(action) {
+                case "TIME_TICKED":
+                    Log.i("Ticking", String.valueOf(intent.getAction()));
+                    updateGUI(intent);
+                    break;
+                case "TIME_OUT":
+                    switchSettingDisplay();
+                    popUpAlarmTurningOffDialog();
+                    break;
+                case "NOTIFICATION_CLICKED":
+                    Log.d("Notification", "Clicked and now in activity");
+                    popUpAlarmTurningOffDialog();
+                    break;
+                default:
             }
         }
     };
 
     private void removeNotifications() {
-        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(0);
     }
 
@@ -106,13 +109,13 @@ public class TimeoutActivity extends AppCompatActivity {
             cancelTimer();
         });
 
-        if(timeoutManager.isTimerRunning()) {
+        if (timeoutManager.isTimerRunning()) {
             switchTimerDisplay();
         } else {
             switchSettingDisplay();
         }
 
-        if(timeoutManager.isAlarmRunning()) {
+        if (timeoutManager.isAlarmRunning()) {
             popUpAlarmTurningOffDialog();
         }
     }
@@ -122,14 +125,11 @@ public class TimeoutActivity extends AppCompatActivity {
         builder.setTitle("Time's up!");
         builder.setMessage("You can turn off the alarm by clicking Yes button");
         builder.setIcon(R.drawable.ic_baseline_timer_24);
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                stopService(new Intent(getApplicationContext(), AlarmService.class));
-                removeNotifications();
-                TimeoutManager timeoutManager = TimeoutManager.getInstance();
-                timeoutManager.setAlarmRunning(false);
-            }
+        builder.setPositiveButton("Yes", (dialogInterface, i) -> {
+            stopService(new Intent(getApplicationContext(), AlarmService.class));
+            removeNotifications();
+            TimeoutManager timeoutManager = TimeoutManager.getInstance();
+            timeoutManager.setAlarmRunning(false);
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
@@ -280,7 +280,7 @@ public class TimeoutActivity extends AppCompatActivity {
         serviceIntent.putExtra("Time", timeoutManager.getTimeChosen());
         startService(serviceIntent);
 
-        stopButton.setText("Pause");
+        stopButton.setText(R.string.Pause);
         timeoutManager.setTimerRunning(true);
         timeoutManager.setFirstState(false);
     }
@@ -289,7 +289,7 @@ public class TimeoutActivity extends AppCompatActivity {
         Log.d("stopTimer", String.valueOf(timeoutManager.getTempTime()));
         stopService(new Intent(this, TimeoutService.class));
         timeoutManager.setTimerRunning(false);
-        stopButton.setText("Resume");
+        stopButton.setText(R.string.Resume);
     }
 
     private void cancelTimer() {

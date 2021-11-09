@@ -24,4 +24,6 @@
     <string name="channel_name">TIMER</string>
     <string name="channel_description">TIMER_NOTIFICATION</string>
     <string name="dismiss">DISMISS</string>
+    <string name="Pause">Pause</string>
+    <string name="Resume">Resume</string>
 </resources>
