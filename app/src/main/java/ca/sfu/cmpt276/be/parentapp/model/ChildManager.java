@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * ChildManager keeps track of all the Children in the app. It's an ArrayList of Child objects
- * that can load, save, and edit children.
+ * ChildManager gets the Child ArrayList from DataManager and can modify it with setters and
+ * getters. It is also iterable.
  */
 public class ChildManager implements Iterable<Child> {
     private final ArrayList<Child> allChildren = DataManager.getInstance().getChildList();

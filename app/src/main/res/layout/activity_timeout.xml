@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TimeoutActivity"
-    >
+    android:background="@drawable/photo_1503786482448_3351db7b0f93">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/setting"
