@@ -20,7 +20,7 @@ import ca.sfu.cmpt276.be.parentapp.model.TimeConverter;
 import ca.sfu.cmpt276.be.parentapp.model.TimeoutManager;
 
 /**
- * TimeoutoService deals with background countdown work by using service.
+ * TimeoutService deals with background countdown work by using service.
  */
 public class TimeoutService extends Service {
     public static final int COUNT_DOWN_INTERVAL = 20;
@@ -45,7 +45,10 @@ public class TimeoutService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Bundle bundle = intent.getExtras();
+        Bundle bundle = null;
+        if(intent.getExtras() != null ){
+            bundle = intent.getExtras();
+        }
         if(intent != null && bundle != null) {
             this.milliseconds = (long) bundle.get("Time");
             Log.i("Receiving Time",String.valueOf(milliseconds));

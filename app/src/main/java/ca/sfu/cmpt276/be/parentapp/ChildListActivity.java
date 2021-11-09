@@ -21,6 +21,9 @@ import java.util.Objects;
 import ca.sfu.cmpt276.be.parentapp.model.Child;
 import ca.sfu.cmpt276.be.parentapp.model.ChildManager;
 
+/**
+ * ChildListActivity shows all the Children stored in the app.
+ */
 public class ChildListActivity extends AppCompatActivity {
     private static ChildManager childManager = new ChildManager();
 

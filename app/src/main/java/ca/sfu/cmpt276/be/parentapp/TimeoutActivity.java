@@ -2,7 +2,8 @@ package ca.sfu.cmpt276.be.parentapp;
 
 /**
  * TimeoutActivity represents a feature of countown timer in the app.
- * Users can set their customized time.
+ * Users can set their customized time. When user start the timer, it is working on the TimeoutService.
+ *
  */
 
 import androidx.annotation.NonNull;
@@ -44,6 +45,10 @@ public class TimeoutActivity extends AppCompatActivity {
         return new Intent(context, TimeoutActivity.class);
     }
 
+    /**
+     * Broadcast Receiver from TimeouService when the time is ticking
+     * It updates UI on the TimeoutActivity(How much time is left)
+     */
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {

@@ -18,6 +18,10 @@ import java.util.Objects;
 import ca.sfu.cmpt276.be.parentapp.model.Coin;
 import ca.sfu.cmpt276.be.parentapp.model.CoinFlipManager;
 
+/*
+Displays the list of flip that has occured.
+ */
+
 public class FlipHistoryActivity extends AppCompatActivity {
 
     CoinFlipManager coinFlipManager = CoinFlipManager.getInstance();

@@ -3,6 +3,11 @@ package ca.sfu.cmpt276.be.parentapp.model;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/*
+Represents a game played. Has date, person that picked, that they selected
+and results
+ */
+
 public class Coin {
 
     private LocalDateTime date;

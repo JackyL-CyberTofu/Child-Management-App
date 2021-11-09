@@ -15,7 +15,8 @@ import androidx.annotation.Nullable;
 
 /**
  * AlarmService deals with alarm and vibration when time is up.
- * It is run in the background by using Service.
+ * It is run in the background by using Service. It is stopped when the user click notification dismiss button
+ * or ok button from alert dialog in the Timeout Activity.
  */
 
 public class AlarmService extends Service {

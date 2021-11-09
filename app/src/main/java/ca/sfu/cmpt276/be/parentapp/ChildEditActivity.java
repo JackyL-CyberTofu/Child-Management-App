@@ -20,8 +20,10 @@ import java.util.Objects;
 import ca.sfu.cmpt276.be.parentapp.model.Child;
 import ca.sfu.cmpt276.be.parentapp.model.ChildManager;
 
+/**
+ * ChildEditActivity manages the creation and edit of a single child in the app.
+ */
 public class ChildEditActivity extends AppCompatActivity {
-
     private static final String EXTRA_CHILD_LOCATION = "childLocation";
     private static final String EXTRA_DO_EDIT = "doEdit";
 
