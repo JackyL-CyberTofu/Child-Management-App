@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
@@ -45,10 +46,10 @@ public class TimeoutActivity extends AppCompatActivity {
         return new Intent(context, TimeoutActivity.class);
     }
 
-    /**
-     * Broadcast Receiver from TimeouService when the time is ticking
-     * It updates UI on the TimeoutActivity(How much time is left)
-     */
+
+     // Broadcast Receiver from TimeouService when the time is ticking
+     // It updates UI on the TimeoutActivity(How much time is left)
+
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
