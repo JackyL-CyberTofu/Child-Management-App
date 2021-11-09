@@ -1,6 +1,5 @@
 package ca.sfu.cmpt276.be.parentapp;
 
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,7 +29,7 @@ public class FlipHistoryActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         ArrayAdapter<Coin> adapter = new MyListAdapter();
-        ListView list = (ListView) findViewById(R.id.gamelist);
+        ListView list = (ListView) findViewById(R.id.game_list);
         list.setAdapter(adapter);
     }
 
@@ -54,7 +53,7 @@ public class FlipHistoryActivity extends AppCompatActivity {
                 itemView = getLayoutInflater().inflate(R.layout.item_view, parent, false);
             }
 
-            ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView1);
+            ImageView imageView = (ImageView) itemView.findViewById(R.id.winner_display);
             if (coinFlipManager.getCoinFlipGame(position).getPickerWon()==1){
                 imageView.setImageResource(R.drawable.ic_baseline_check_circle_outline_24);
             }

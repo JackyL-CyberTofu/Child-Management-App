@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -45,7 +44,7 @@ public class ChildListActivity extends AppCompatActivity {
     }
 
     private void setUpAddButton() {
-        FloatingActionButton addButton = findViewById(R.id.addButton);
+        FloatingActionButton addButton = findViewById(R.id.add_button);
         addButton.setOnClickListener(v -> {
             Intent launchEmptyEdit = ChildEditActivity.makeIntent(ChildListActivity.this);
             startActivity(launchEmptyEdit);
@@ -72,7 +71,7 @@ public class ChildListActivity extends AppCompatActivity {
                 itemView = getLayoutInflater().inflate(R.layout.layout_child_item, parent, false);
             }
 
-            TextView nameView = itemView.findViewById(R.id.childName);
+            TextView nameView = itemView.findViewById(R.id.child_name);
             nameView.setText(currentChild.getName());
             return itemView;
         }
