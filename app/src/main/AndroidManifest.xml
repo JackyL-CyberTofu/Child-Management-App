@@ -23,7 +23,7 @@
         <activity
             android:name=".TimeoutActivity"
             android:exported="false"
-            android:label="@string/Timeout"
+            android:label="@string/timeout"
             android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity"
             tools:ignore="LockedOrientationActivity" />

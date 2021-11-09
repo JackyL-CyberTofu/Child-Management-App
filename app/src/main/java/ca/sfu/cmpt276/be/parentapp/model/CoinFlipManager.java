@@ -8,9 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/*
-Handles the logic for the coin flip. When a user flip the coin
-it generates a Coin and saves it.
+/**
+Handles the logic of the coin flip.
+ Flips random side, stores the history of the coin flip, and
+ remembers the last child that picked
  */
 
 public class CoinFlipManager {

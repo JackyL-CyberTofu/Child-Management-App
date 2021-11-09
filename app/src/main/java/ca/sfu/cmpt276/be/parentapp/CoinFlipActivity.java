@@ -23,8 +23,9 @@ import ca.sfu.cmpt276.be.parentapp.databinding.ActivityCoinflipBinding;
 import ca.sfu.cmpt276.be.parentapp.model.ChildManager;
 import ca.sfu.cmpt276.be.parentapp.model.CoinFlipManager;
 
-/*
-Allows the user to flip a coin with animation.
+/**
+Activity with animations to simulate a real coin flip
+ Sends and process info from CoinFLipManager
  */
 
 public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManager.CoinObserver {
@@ -54,22 +55,22 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
 
         coin = findViewById(R.id.coin_image);
 
-        Button flipButton = findViewById(R.id.flipCoinButton);
+        Button flipButton = findViewById(R.id.flip_coin_button);
         flipButton.setOnClickListener(view ->
             flipCoin("Null")
         );
 
-        Button headsButton = findViewById(R.id.headsButton);
+        Button headsButton = findViewById(R.id.heads_button);
         headsButton.setOnClickListener(view ->
             flipCoin("Heads")
         );
 
-        Button tailsButton = findViewById(R.id.tailsButton);
+        Button tailsButton = findViewById(R.id.tails_button);
         tailsButton.setOnClickListener(view ->
             flipCoin("Tails")
         );
 
-        TextView nextChild = findViewById(R.id.coinNextChild);
+        TextView nextChild = findViewById(R.id.coin_next_child);
 
         if (!childNotEmpty()) {
             headsButton.setVisibility(View.GONE);
@@ -133,18 +134,18 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
 
     private void updateDisplayCoinResult() {
 
-        TextView tv = findViewById(R.id.flipResult);
+        TextView tv = findViewById(R.id.flip_result);
         if (coinFlipManager.getCoinList().size() > 0) {
             tv.setText(coinFlipManager.getCoinFlipGame(0).getResult());
         }
 
-        TextView nextChild = findViewById(R.id.coinNextChild);
+        TextView nextChild = findViewById(R.id.coin_next_child);
         if (childNotEmpty()) {
             if (coinFlipManager.getChildIndex() >= childManager.getAll().size()) {
                 Toast.makeText(this, "Child Deleted. Order is reset.", Toast.LENGTH_SHORT).show();
                 coinFlipManager.setChildIndex(0);
             }
-            nextChild.setText(String.format("%s%s", getString(R.string.nextChild), childManager.get(coinFlipManager.getChildIndex()).getName()));
+            nextChild.setText(String.format("%s%s", getString(R.string.next_child), childManager.get(coinFlipManager.getChildIndex()).getName()));
         }
 
     }

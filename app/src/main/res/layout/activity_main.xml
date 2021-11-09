@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/photo_1503786482448_3351db7b0f93"
+    android:background="@drawable/relaxing_water_background"
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/constraint_layout"
         android:layout_width="154dp"
         android:layout_height="217dp"
         android:layout_marginTop="57dp"
@@ -21,43 +21,43 @@
         app:layout_constraintVertical_bias="0.151">
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/coin_flip_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/PaleBlue"
-            android:text="@string/CoinFlip"
+            android:text="@string/coinflip"
             app:icon="@drawable/ic_baseline_coin_24"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/button3"
-            app:layout_constraintStart_toStartOf="@+id/button3"
-            app:layout_constraintTop_toBottomOf="@+id/button3" />
+            app:layout_constraintEnd_toEndOf="@+id/timeout_button"
+            app:layout_constraintStart_toStartOf="@+id/timeout_button"
+            app:layout_constraintTop_toBottomOf="@+id/timeout_button" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/children_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/PaleBlue"
-            android:text="@string/Children"
+            android:text="@string/children"
             app:icon="@drawable/ic_baseline_people_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/timeout_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_weight="1"
             android:backgroundTint="@color/PaleBlue"
-            android:text="@string/Timeout"
+            android:text="@string/timeout"
             app:icon="@drawable/ic_baseline_access_time_24"
-            app:layout_constraintEnd_toEndOf="@+id/button"
+            app:layout_constraintEnd_toEndOf="@+id/children_button"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/button"
-            app:layout_constraintTop_toBottomOf="@+id/button" />
+            app:layout_constraintStart_toStartOf="@+id/children_button"
+            app:layout_constraintTop_toBottomOf="@+id/children_button" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

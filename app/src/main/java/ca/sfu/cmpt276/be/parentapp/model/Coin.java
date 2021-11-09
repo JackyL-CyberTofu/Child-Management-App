@@ -3,18 +3,19 @@ package ca.sfu.cmpt276.be.parentapp.model;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-/*
-Represents a game played. Has date, person that picked, that they selected
-and results
+/**
+Represents one game of a coin flip
+ Saves the time of the flip, chold and what they picked
+ as well as the result of the flip.
  */
 
 public class Coin {
 
-    private LocalDateTime date;
-    private String picker;
-    private String pick;
-    private String result;
-    private int pickerWon;
+    private final LocalDateTime date;
+    private final String picker;
+    private final String pick;
+    private final String result;
+    private final int pickerWon;
 
     public Coin(LocalDateTime date, String picker, String pick, String result){
         this.date = date;
