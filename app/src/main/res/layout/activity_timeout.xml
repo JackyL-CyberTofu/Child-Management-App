@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TimeoutActivity"
-    android:background="@drawable/photo_1503786482448_3351db7b0f93">
+    android:background="@drawable/relaxing_water_background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/setting"
@@ -17,93 +17,93 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <NumberPicker
-            android:id="@+id/numberPicker"
+            android:id="@+id/number_picker"
             android:layout_width="65dp"
             android:layout_height="132dp"
             android:layout_margin="2dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="@+id/textView5"
+            app:layout_constraintEnd_toEndOf="@+id/hour_text"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/textView5"
-            app:layout_constraintTop_toTopOf="@+id/guideline3" />
+            app:layout_constraintStart_toStartOf="@+id/hour_text"
+            app:layout_constraintTop_toTopOf="@+id/guideline_2" />
 
         <NumberPicker
-            android:id="@+id/numberPicker2"
+            android:id="@+id/number_picker_2"
             android:layout_width="65dp"
             android:layout_height="132dp"
             android:layout_margin="2dp"
             android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="@+id/textView6"
-            app:layout_constraintStart_toStartOf="@+id/textView6"
-            app:layout_constraintTop_toTopOf="@+id/guideline3" />
+            app:layout_constraintEnd_toEndOf="@+id/minute_text"
+            app:layout_constraintStart_toStartOf="@+id/minute_text"
+            app:layout_constraintTop_toTopOf="@+id/guideline_2" />
 
         <NumberPicker
-            android:id="@+id/numberPicker3"
+            android:id="@+id/number_picker_3"
             android:layout_width="68dp"
             android:layout_height="130dp"
             android:layout_margin="2dp"
             android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="@+id/textView7"
+            app:layout_constraintEnd_toEndOf="@+id/second_text"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/textView7"
-            app:layout_constraintTop_toTopOf="@+id/guideline3" />
+            app:layout_constraintStart_toStartOf="@+id/second_text"
+            app:layout_constraintTop_toTopOf="@+id/guideline_2" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline2"
+            android:id="@+id/guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.2" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline3"
+            android:id="@+id/guideline_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.32" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/hour_text"
             android:layout_width="60dp"
             android:layout_height="0dp"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:gravity="center"
-            android:text="Hour"
-            app:layout_constraintBottom_toTopOf="@+id/guideline3"
-            app:layout_constraintEnd_toStartOf="@+id/textView6"
+            android:text="@string/hour"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_2"
+            app:layout_constraintEnd_toStartOf="@+id/minute_text"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline2" />
+            app:layout_constraintTop_toTopOf="@+id/guideline" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/minute_text"
             android:layout_width="60dp"
             android:layout_height="0dp"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:gravity="center"
-            android:text="Min"
-            app:layout_constraintBottom_toTopOf="@+id/guideline3"
-            app:layout_constraintEnd_toStartOf="@+id/textView7"
+            android:text="@string/min"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_2"
+            app:layout_constraintEnd_toStartOf="@+id/second_text"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/textView5"
-            app:layout_constraintTop_toTopOf="@+id/guideline2" />
+            app:layout_constraintStart_toEndOf="@+id/hour_text"
+            app:layout_constraintTop_toTopOf="@+id/guideline" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/second_text"
             android:layout_width="60dp"
             android:layout_height="0dp"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:gravity="center"
-            android:text="Second"
-            app:layout_constraintBottom_toTopOf="@+id/guideline3"
+            android:text="@string/second"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/textView6"
-            app:layout_constraintTop_toTopOf="@+id/guideline2" />
+            app:layout_constraintStart_toEndOf="@+id/minute_text"
+            app:layout_constraintTop_toTopOf="@+id/guideline" />
 
         <Button
             android:id="@+id/button_start_countdown"
@@ -111,70 +111,70 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:backgroundTint="@color/PaleBlue"
-            android:text="Start"
+            android:text="@string/start"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/numberPicker2" />
+            app:layout_constraintTop_toBottomOf="@+id/number_picker_2" />
 
         <Button
-            android:id="@+id/oneTimer"
+            android:id="@+id/one_minute_timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="17dp"
             android:layout_marginEnd="15dp"
-            android:text="1:00"
-            app:layout_constraintEnd_toStartOf="@+id/twoTimer"
+            android:text="@string/_1_00"
+            app:layout_constraintEnd_toStartOf="@+id/two_minute_timer"
             app:layout_constraintTop_toBottomOf="@+id/button_start_countdown" />
 
         <Button
-            android:id="@+id/twoTimer"
+            android:id="@+id/two_minute_timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="2:00"
+            android:text="@string/_2_00"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_start_countdown" />
 
         <Button
-            android:id="@+id/threeTimer"
+            android:id="@+id/three_minute_timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="17dp"
-            android:text="3:00"
-            app:layout_constraintStart_toEndOf="@+id/twoTimer"
+            android:text="@string/_3_00"
+            app:layout_constraintStart_toEndOf="@+id/two_minute_timer"
             app:layout_constraintTop_toBottomOf="@+id/button_start_countdown" />
 
         <Button
-            android:id="@+id/fiveTimer"
+            android:id="@+id/five_minute_timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
-            android:text="5:00"
-            app:layout_constraintEnd_toStartOf="@+id/tenTimer"
-            app:layout_constraintTop_toBottomOf="@+id/oneTimer" />
+            android:text="@string/_5_00"
+            app:layout_constraintEnd_toStartOf="@+id/ten_minute_timer"
+            app:layout_constraintTop_toBottomOf="@+id/one_minute_timer" />
 
         <Button
-            android:id="@+id/tenTimer"
+            android:id="@+id/ten_minute_timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10:00"
+            android:text="@string/_10_00"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/twoTimer" />
+            app:layout_constraintTop_toBottomOf="@+id/two_minute_timer" />
 
         <Button
-            android:id="@+id/fifteenTime"
+            android:id="@+id/fifteen_minute_timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:text="15:00"
-            app:layout_constraintStart_toEndOf="@+id/tenTimer"
-            app:layout_constraintTop_toBottomOf="@+id/threeTimer" />
+            android:text="@string/_15_00"
+            app:layout_constraintStart_toEndOf="@+id/ten_minute_timer"
+            app:layout_constraintTop_toBottomOf="@+id/three_minute_timer" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -189,14 +189,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline4"
+            android:id="@+id/guideline_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.2" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline5"
+            android:id="@+id/guideline_4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -204,15 +204,15 @@
 
 
         <TextView
-            android:id="@+id/textView_countdown"
+            android:id="@+id/text_view_countdown"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:gravity="center"
-            android:textSize="50dp"
-            app:layout_constraintBottom_toTopOf="@+id/guideline5"
+            android:textSize="50sp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline4" />
+            app:layout_constraintTop_toTopOf="@+id/guideline_3" />
 
         <Button
             android:id="@+id/button_pause_timer"
@@ -220,11 +220,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/PaleBlue"
-            android:text="Pause"
+            android:text="@string/pause"
             app:layout_constraintEnd_toStartOf="@+id/button_cancel_timer"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline5" />
+            app:layout_constraintTop_toTopOf="@+id/guideline_4" />
 
         <Button
             android:id="@+id/button_cancel_timer"
@@ -232,11 +232,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/PaleBlue"
-            android:text="Cancel"
+            android:text="@string/cancel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/button_pause_timer"
-            app:layout_constraintTop_toTopOf="@+id/guideline5" />
+            app:layout_constraintTop_toTopOf="@+id/guideline_4" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

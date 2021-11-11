@@ -5,15 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Objects;
 
@@ -35,7 +31,7 @@ public class ChildEditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_child);
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Edit Child");
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.text_editChild);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setExtras();
@@ -80,7 +76,7 @@ public class ChildEditActivity extends AppCompatActivity {
     }
 
     private void saveAndExit() {
-        EditText childNameEditText = findViewById(R.id.editChildName);
+        EditText childNameEditText = findViewById(R.id.edit_child_name);
         String newName = childNameEditText.getText().toString();
 
         if (newName.isEmpty()) {
@@ -112,11 +108,11 @@ public class ChildEditActivity extends AppCompatActivity {
         childPosition = intent.getIntExtra(EXTRA_CHILD_LOCATION, -1);
 
         if (doEdit) {
-            EditText childNameEditText = findViewById(R.id.editChildName);
+            EditText childNameEditText = findViewById(R.id.edit_child_name);
             String childName = childManager.get(childPosition).getName();
             childNameEditText.setText(childName);
         } else {
-            Objects.requireNonNull(getSupportActionBar()).setTitle("Add Child");
+            Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.text_addChild);
         }
     }
 
