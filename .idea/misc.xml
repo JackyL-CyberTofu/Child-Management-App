@@ -4,10 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_child_config.xml" value="0.17831813576494426" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_child_list.xml" value="0.2713541666666667" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_conflip.xml" value="0.17831813576494426" />
-        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_main.xml" value="0.17831813576494426" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_main.xml" value="0.5" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_taks_list.xml" value="0.2713541666666667" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_task_edit.xml" value="0.2552083333333333" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_task_list.xml" value="0.23007246376811594" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_timeout.xml" value="0.17831813576494426" />
-        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/layout_child_item.xml" value="0.17760416666666667" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/layout_task.xml" value="0.25" />
         <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/drawable-v24/ic_baseline_timer_24.xml" value="0.2984375" />
         <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2552083333333333" />
         <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2552083333333333" />

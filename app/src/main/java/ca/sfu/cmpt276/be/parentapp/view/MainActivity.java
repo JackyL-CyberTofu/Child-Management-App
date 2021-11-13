@@ -1,4 +1,4 @@
-package ca.sfu.cmpt276.be.parentapp;
+package ca.sfu.cmpt276.be.parentapp.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +8,9 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import ca.sfu.cmpt276.be.parentapp.model.DataManager;
+import ca.sfu.cmpt276.be.parentapp.R;
+import ca.sfu.cmpt276.be.parentapp.TaskListActivity;
+import ca.sfu.cmpt276.be.parentapp.controller.DataManager;
 
 /**
  * MainActivity in the starting screen of the app with buttons leading to each feature. It also
@@ -29,6 +31,15 @@ public class MainActivity extends AppCompatActivity {
         loadData();
         setUpChildButton();
         setUpTimeoutButton();
+        setUpTaskButton();
+    }
+
+    private void setUpTaskButton() {
+        Button toTasks = findViewById(R.id.task_list_button);
+        toTasks.setOnClickListener(view -> {
+            Intent tasksActivity = new Intent(getApplicationContext(), TaskListActivity.class);
+            startActivity(tasksActivity);
+        });
     }
 
     private void setUpTimeoutButton() {

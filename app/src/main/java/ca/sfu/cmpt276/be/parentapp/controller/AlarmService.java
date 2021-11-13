@@ -1,4 +1,4 @@
-package ca.sfu.cmpt276.be.parentapp;
+package ca.sfu.cmpt276.be.parentapp.controller;
 
 import android.app.NotificationManager;
 import android.app.Service;
@@ -13,6 +13,8 @@ import android.os.Vibrator;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
+
+import ca.sfu.cmpt276.be.parentapp.R;
 
 /**
  * AlarmService deals with alarm and vibration when time is up.
