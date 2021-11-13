@@ -141,11 +141,11 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
 
         TextView nextChild = findViewById(R.id.coin_next_child);
         if (childNotEmpty()) {
-            if (coinFlipManager.getChildIndex() >= childManager.getAll().size()) {
+            if (coinFlipManager.getChildFlipIndex() >= childManager.getAll().size()) {
                 Toast.makeText(this, "Child Deleted. Order is reset.", Toast.LENGTH_SHORT).show();
-                coinFlipManager.setChildIndex(0);
+                coinFlipManager.setChildFlipIndex(0);
             }
-            nextChild.setText(String.format("%s%s", getString(R.string.next_child), childManager.get(coinFlipManager.getChildIndex()).getName()));
+            nextChild.setText(String.format("%s%s", getString(R.string.next_child), childManager.get(coinFlipManager.getChildFlipIndex()).getName()));
         }
 
     }

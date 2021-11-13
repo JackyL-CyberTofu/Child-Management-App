@@ -1,7 +1,5 @@
 package ca.sfu.cmpt276.be.parentapp.model;
 
-import androidx.annotation.Nullable;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -20,10 +18,11 @@ public class CoinFlipManager {
 
     private DataManager dataManager = DataManager.getInstance();
 
-    int childIndex = DataManager.getInstance().getChildFlipIndex();
-
+    int childFlipIndex = DataManager.getInstance().getChildFlipIndex();
     ArrayList<Coin> coinFlipHistory = DataManager.getInstance().getCoinFlipHistory();
     ChildManager childManager = new ChildManager();
+    ArrayList<Child> coinFlipQueue = DataManager.getInstance().getCoinFlipQueue();
+
     private List<CoinObserver> observers = new ArrayList<>();
 
     public static CoinFlipManager getInstance() {
@@ -70,19 +69,19 @@ public class CoinFlipManager {
         return result;
     }
 
-    @Nullable
     private String getNextChild() {
         String childPick;
         if (childManager.size() == 0) {
             childPick = null;
         } else {
-            childPick = childManager.getName(childIndex);
-            if (childManager.size() <= childIndex + 1) {
-                childIndex = 0;
+            childPick = childManager.getName(childFlipIndex);
+            if (childManager.size() <= childFlipIndex + 1) {
+                childFlipIndex = 0;
             } else {
-                childIndex++;
+                childFlipIndex++;
             }
         }
+        serializeCoinflips();
         return childPick;
     }
 
@@ -95,6 +94,26 @@ public class CoinFlipManager {
         Coin coinGame = new Coin(creationTime, childPicked, userChoice, result);
         coinFlipHistory.add(0, coinGame);
         serializeCoinflips();
+
+    }
+
+    public void moveToEndQueue() {
+        Child first = coinFlipQueue.get(0);
+        coinFlipQueue.remove(first);
+        coinFlipQueue.add(first);
+    }
+
+    public void moveToFrontQueue(Child child) {
+        coinFlipQueue.remove(child);
+        coinFlipQueue.add(0, child );
+    }
+
+    public void removeInQueue(Child child){
+        coinFlipQueue.remove(child);
+    }
+
+    public void addToQueue(Child child){
+        coinFlipQueue.add(child);
     }
 
     public Coin getCoinFlipGame(int index) {
@@ -105,16 +124,14 @@ public class CoinFlipManager {
         return this.coinFlipHistory;
     }
 
-    public int getChildIndex() {
-        return childIndex;
+    public int getChildFlipIndex() {
+        return this.childFlipIndex;
     }
 
-    public void setChildIndex(int childIndex) {
-        this.childIndex = childIndex;
-    }
+    public void setChildFlipIndex(int childFlipIndex) { this.childFlipIndex = childFlipIndex; }
 
     private void serializeCoinflips() {
-        dataManager.setChildFlipIndex(childIndex);
+        dataManager.setChildFlipIndex(childFlipIndex);
         dataManager.serializeCoinflips();
     }
 
