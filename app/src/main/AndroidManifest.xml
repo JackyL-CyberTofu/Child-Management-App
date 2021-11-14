@@ -16,9 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BeParentApp">
         <activity
-            android:name=".FlipQueueActivity"
-            android:exported="false" />
-        <activity
             android:name=".FlipHistoryActivity"
             android:exported="false"
             android:label="History"

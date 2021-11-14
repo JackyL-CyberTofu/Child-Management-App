@@ -40,15 +40,12 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
     ChildManager childManager = new ChildManager();
     Spinner spinner;
     ArrayAdapter<String> adapter;
-    private AppBarConfiguration appBarConfiguration;
-    private ActivityCoinflipBinding binding;
-    private ImageView coin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityCoinflipBinding.inflate(getLayoutInflater());
+        ca.sfu.cmpt276.be.parentapp.databinding.ActivityCoinflipBinding binding = ActivityCoinflipBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
@@ -60,7 +57,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
     }
 
     private void initializeSpinner() {
-        spinner = findViewById(R.id.spinner_childQueue);
+        Spinner spinner = findViewById(R.id.spinner_childQueue);
         ArrayList<String> list = updateSpinnerElements();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -85,7 +82,6 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
     }
 
     private void setupButton() {
-        coin = findViewById(R.id.coin_image);
         findViewById(R.id.flip_coin_button).setVisibility(View.GONE);
         Button headsButton = findViewById(R.id.heads_button);
         headsButton.setOnClickListener(view ->
@@ -98,6 +94,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
     }
 
     private void flipCoin(String userChoice) {
+        ImageView coin = findViewById(R.id.coin_image);
         coin.animate().setDuration(3100).rotationXBy(2160).setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {

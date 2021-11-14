@@ -14,14 +14,11 @@ import java.util.Random;
 
 public class CoinFlipManager {
 
-    private DataManager dataManager = DataManager.getInstance();
-
-    ArrayList<Coin> coinFlipHistory = DataManager.getInstance().getCoinFlipHistory();
-    ChildManager childManager = new ChildManager();
-    ArrayList<Child> coinFlipQueue = DataManager.getInstance().getCoinFlipQueue();
-
-    private List<CoinObserver> observers = new ArrayList<>();
-
+    private final DataManager dataManager = DataManager.getInstance();
+    private final ArrayList<Coin> coinFlipHistory = DataManager.getInstance().getCoinFlipHistory();
+    private final ChildManager childManager = new ChildManager();
+    private final ArrayList<Child> coinFlipQueue = DataManager.getInstance().getCoinFlipQueue();
+    private final List<CoinObserver> observers = new ArrayList<>();
 
     public void registerChangeCallback(CoinObserver obs) {
         observers.add(obs);
