@@ -43,7 +43,8 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
     private ActivityCoinflipBinding binding;
     private ImageView coin;
 
-    ArrayList<String> list;
+
+    ArrayAdapter<String> adp1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,25 +63,41 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
 
     private void updateSpinner() {
 
-        Spinner spinner = getSpinner();
+        getSpinner();
+        Spinner spinner = findViewById(R.id.spinner_childQueue);
         spinner.setOnItemSelectedListener(new PickChildClass());
 
     }
 
-    private Spinner getSpinner() {
+    private void getSpinner() {
         Spinner spinner = findViewById(R.id.spinner_childQueue);
 
-        list = new ArrayList<>();
+        ArrayList<String> list = new ArrayList<>();
         for (int i=0; i<coinFlipManager.getCoinFlipQueue().size();i++){
             list.add(coinFlipManager.getCoinFlipQueue().get(i).getName());
         }
         list.add("None");
 
-        ArrayAdapter<String> adp1 = new ArrayAdapter<>(this,
+        adp1 = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, list);
         adp1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adp1);
-        return spinner;
+        //return spinner;
+    }
+
+    private void updateSpinner2(){
+        Spinner spinner = findViewById(R.id.spinner_childQueue);
+        adp1.clear();
+
+        ArrayList<String> list = new ArrayList<>();
+        for (int i=0; i<coinFlipManager.getCoinFlipQueue().size();i++){
+            list.add(coinFlipManager.getCoinFlipQueue().get(i).getName());
+        }
+        list.add("None");
+
+        adp1.addAll(list);
+        adp1.notifyDataSetChanged();
+
     }
 
     private void setupButton() {
@@ -163,7 +180,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
             tv.setText(coinFlipManager.getCoinFlipGame(0).getResult());
         }
 
-        getSpinner();
+        updateSpinner2();
     }
 
     @Override
@@ -192,11 +209,12 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
             if (i<childManager.size()) {
                 coinFlipManager.moveToFrontQueue(i);
                 userOverride = false;
-                updateDisplayCoinResult();
             }
             else {
                 userOverride = true;
+
             }
+            updateDisplayCoinResult();
         }
 
         @Override
