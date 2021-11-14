@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import ca.sfu.cmpt276.be.parentapp.R;
-import ca.sfu.cmpt276.be.parentapp.databinding.ActivityCoinflipBinding;
 import ca.sfu.cmpt276.be.parentapp.controller.ChildManager;
 import ca.sfu.cmpt276.be.parentapp.controller.CoinFlipManager;
+import ca.sfu.cmpt276.be.parentapp.databinding.ActivityCoinflipBinding;
 
 /**
  * Activity with animations to simulate a real coin flip
@@ -77,7 +77,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
         for (int i = 0; i < coinFlipManager.getCoinFlipQueue().size(); i++) {
             list.add(coinFlipManager.getCoinFlipQueue().get(i).getName());
         }
-        list.add("None");
+        list.add(getString(R.string.string_none));
         return list;
     }
 
@@ -110,6 +110,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
                         break;
                 }
                 userOverride = false;
+                verifyListEmpty();
             }
             @Override
             public void onAnimationStart(Animator animation) {
@@ -175,9 +176,8 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
                 coinFlipManager.moveToFrontQueue(i);
                 userOverride = false;
                 spinner.setSelection(0);
-            } else {
-                userOverride = true;
             }
+            verifyListEmpty();
             updateUIElements();
         }
 
@@ -186,4 +186,11 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
 
         }
     }
+
+    public void verifyListEmpty (){
+        if (childManager.isEmpty()) {
+            userOverride = true;
+        }
+    }
+
 }
