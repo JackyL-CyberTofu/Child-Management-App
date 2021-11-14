@@ -16,7 +16,6 @@ public class CoinFlipManager {
 
     private DataManager dataManager = DataManager.getInstance();
 
-    int childFlipIndex = DataManager.getInstance().getChildFlipIndex();
     ArrayList<Coin> coinFlipHistory = DataManager.getInstance().getCoinFlipHistory();
     ChildManager childManager = new ChildManager();
     ArrayList<Child> coinFlipQueue = DataManager.getInstance().getCoinFlipQueue();
@@ -38,7 +37,7 @@ public class CoinFlipManager {
         }
     }
 
-    public String flipRandomCoin(String userChoice) {
+    public String flipRandomCoin(String userChoice, boolean userOverride) {
 
         Random rand = new Random();
         int randomInt = rand.nextInt(2);
@@ -55,7 +54,12 @@ public class CoinFlipManager {
                 throw new IllegalStateException("Unexpected value: " + randomInt);
         }
 
-        saveCoinFlip(result, userChoice, getNextChild());
+        if (!userOverride) {
+            saveCoinFlip(result, userChoice, coinFlipQueue.get(0).getName());
+        }
+        else {
+            saveCoinFlip(result,userChoice,"None");
+        }
         moveToEndQueue();
         notifyValueHasChanged();
         serializeCoinflips();
@@ -63,20 +67,6 @@ public class CoinFlipManager {
         return result;
     }
 
-    private String getNextChild() {
-        String childPick;
-        if (childManager.size() == 0) {
-            childPick = null;
-        } else {
-            childPick = childManager.getName(childFlipIndex);
-            if (childManager.size() <= childFlipIndex + 1) {
-                childFlipIndex = 0;
-            } else {
-                childFlipIndex++;
-            }
-        }
-        return childPick;
-    }
 
     public void saveCoinFlip(String result, String userChoice, String childPicked) {
 
@@ -121,14 +111,7 @@ public class CoinFlipManager {
         return this.coinFlipHistory;
     }
 
-    public int getChildFlipIndex() {
-        return this.childFlipIndex;
-    }
-
-    public void setChildFlipIndex(int childFlipIndex) { this.childFlipIndex = childFlipIndex; }
-
     private void serializeCoinflips() {
-        dataManager.setChildFlipIndex(childFlipIndex);
         dataManager.serializeCoinflips();
     }
 

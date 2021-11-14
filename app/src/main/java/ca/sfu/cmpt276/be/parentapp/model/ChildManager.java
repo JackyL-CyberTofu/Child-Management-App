@@ -1,5 +1,7 @@
 package ca.sfu.cmpt276.be.parentapp.model;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
@@ -30,15 +32,14 @@ public class ChildManager implements Iterable<Child> {
     }
 
     public void remove(int index) {
+        coinFlipQueue.remove(allChildren.get(index));
         allChildren.remove(index);
-        coinFlipQueue.remove(index);
         saveList();
-
     }
 
     public void edit(int index, String editName) {
+        coinFlipQueue.get(coinFlipQueue.indexOf(allChildren.get(index))).setName(editName);
         allChildren.get(index).setName(editName);
-        coinFlipQueue.get(index).setName(editName);
         saveList();
     }
 

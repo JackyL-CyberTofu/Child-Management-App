@@ -24,7 +24,6 @@ public class DataManager {
 
     public static final String CHILDREN_SAVENAME = "JsonChildren";
     public static final String COINFLIP_SAVENAME = "JsonCoinflip";
-    public static final String CHILD_INDEX_SAVENAME = "JsonChildIndex";
     public static final String COINFLIP_QUEUE_SAVENAME = "JsonCoinFlipQueue";
     private static final String TASK_SAVENAME = "JsonTasks";
     private static DataManager instance;
@@ -32,7 +31,6 @@ public class DataManager {
     private ArrayList<Child> childList = new ArrayList<>();
     private ArrayList<Coin> coinFlipHistory = new ArrayList<>();
     private ArrayList<Task> taskList = new ArrayList<>();
-    private int childFlipIndex = 0;
     private ArrayList<Child> coinFlipQueue = new ArrayList<>();
 
     private SaveManager saveOption;
@@ -80,7 +78,6 @@ public class DataManager {
                 .create();
         String jsonChildren = saveOption.load(CHILDREN_SAVENAME);
         String jsonCoinflip = saveOption.load(COINFLIP_SAVENAME);
-        String jsonChildIndex = saveOption.load(CHILD_INDEX_SAVENAME);
         String jsonCoinFlipQueue = saveOption.load(COINFLIP_QUEUE_SAVENAME);
         String jsonTasks = saveOption.load(TASK_SAVENAME);
         if (!jsonChildren.isEmpty()) {
@@ -89,12 +86,8 @@ public class DataManager {
         if (!jsonCoinflip.isEmpty()) {
             coinFlipHistory = gson.fromJson(jsonCoinflip, new TypeToken<ArrayList<Coin>>(){}.getType());
         }
-        if (!jsonChildIndex.isEmpty()) {
-            this.childFlipIndex = Integer.parseInt(jsonChildIndex);
-        }
         if (!jsonCoinFlipQueue.isEmpty()) {
             this.coinFlipQueue = gson.fromJson(jsonCoinFlipQueue, new TypeToken<ArrayList<Child>>(){}.getType());
-            Log.i("load", this.coinFlipQueue.get(0).getName());
         }
         if (!jsonTasks.isEmpty()) {
             taskList = gson.fromJson(jsonTasks, new TypeToken<ArrayList<Coin>>(){}.getType());
@@ -115,9 +108,7 @@ public class DataManager {
         String gsonCoinflip = gson.toJson(coinFlipHistory);
         String gsonCoinFlipQueue = gson.toJson(this.coinFlipQueue);
         saveOption.save(COINFLIP_SAVENAME, gsonCoinflip);
-        saveOption.save(CHILD_INDEX_SAVENAME, Integer.toString(childFlipIndex));
         saveOption.save(COINFLIP_QUEUE_SAVENAME, gsonCoinFlipQueue);
-        Log.i("save", this.coinFlipQueue.get(0).getName());
     }
 
     public void serializeTasks() {
@@ -135,18 +126,11 @@ public class DataManager {
         return coinFlipHistory;
     }
 
-    public Integer getChildFlipIndex() {
-        return childFlipIndex;
-    }
-
     public ArrayList<Task> getTaskList() {
         return taskList;
     }
 
     public ArrayList<Child> getCoinFlipQueue() { return coinFlipQueue; }
 
-    public void setChildFlipIndex(int set) {
-        childFlipIndex = set;
-    }
 
 }

@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,11 +36,14 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
 
     MediaPlayer player;
     CoinFlipManager coinFlipManager = new CoinFlipManager();
+    boolean userOverride = false;
 
     ChildManager childManager = new ChildManager();
     private AppBarConfiguration appBarConfiguration;
     private ActivityCoinflipBinding binding;
     private ImageView coin;
+
+    ArrayList<String> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,23 +57,30 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         setupButton();
-        setupSpinner();
+        updateSpinner();
     }
 
-    private void setupSpinner() {
+    private void updateSpinner() {
 
+        Spinner spinner = getSpinner();
+        spinner.setOnItemSelectedListener(new PickChildClass());
+
+    }
+
+    private Spinner getSpinner() {
         Spinner spinner = findViewById(R.id.spinner_childQueue);
-        ArrayList<String> list = new ArrayList<>();
+
+        list = new ArrayList<>();
         for (int i=0; i<coinFlipManager.getCoinFlipQueue().size();i++){
             list.add(coinFlipManager.getCoinFlipQueue().get(i).getName());
         }
+        list.add("None");
 
         ArrayAdapter<String> adp1 = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, list);
         adp1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adp1);
-        spinner.setOnItemSelectedListener(new PickChildClass());
-
+        return spinner;
     }
 
     private void setupButton() {
@@ -93,16 +102,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
             flipCoin("Tails")
         );
 
-        TextView nextChild = findViewById(R.id.coin_next_child);
-
-        if (!childNotEmpty()) {
-            headsButton.setVisibility(View.GONE);
-            tailsButton.setVisibility(View.GONE);
-            nextChild.setVisibility(View.GONE);
-        } else {
-            flipButton.setVisibility(View.GONE);
-
-        }
+        flipButton.setVisibility(View.GONE);
 
     }
 
@@ -112,7 +112,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                String result = coinFlipManager.flipRandomCoin(userChoice);
+                String result = coinFlipManager.flipRandomCoin(userChoice,userOverride);
                 switch (result) {
                     case "Heads":
                         coin.setImageResource(R.drawable.coin_heads);
@@ -121,6 +121,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
                         coin.setImageResource(R.drawable.coin_tails);
                         break;
                 }
+                userOverride=false;
             }
 
             @Override
@@ -143,7 +144,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         if (item.getItemId() == R.id.coinHistoryButton) {
-            Intent intent = new Intent(getApplicationContext(), FlipQueueActivity.class);
+            Intent intent = new Intent(getApplicationContext(), FlipHistoryActivity.class);
             startActivity(intent);
         }
 
@@ -162,32 +163,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
             tv.setText(coinFlipManager.getCoinFlipGame(0).getResult());
         }
 
-        TextView nextChild = findViewById(R.id.coin_next_child);
-        if (childNotEmpty()) {
-            if (coinFlipManager.getChildFlipIndex() >= childManager.size()) {
-                Toast.makeText(this, "Child Deleted. Order is reset.", Toast.LENGTH_SHORT).show();
-                coinFlipManager.setChildFlipIndex(0);
-            }
-            nextChild.setText(String.format("%s%s", getString(R.string.next_child), childManager.get(coinFlipManager.getChildFlipIndex()).getName()));
-        }
-
-        Spinner spinner = findViewById(R.id.spinner_childQueue);
-
-        ArrayList<String> list = new ArrayList<>();
-        for (int i=0; i<coinFlipManager.getCoinFlipQueue().size();i++){
-            list.add(coinFlipManager.getCoinFlipQueue().get(i).getName());
-        }
-
-        ArrayAdapter<String> adp1 = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, list);
-        adp1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adp1);
-        spinner.setOnItemSelectedListener(new PickChildClass());
-
-    }
-
-    private boolean childNotEmpty() {
-        return !childManager.isEmpty();
+        getSpinner();
     }
 
     @Override
@@ -206,15 +182,21 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
     @Override
     public void notifyCounterChanged() {
         updateDisplayCoinResult();
+
     }
 
     private class PickChildClass implements android.widget.AdapterView.OnItemSelectedListener {
 
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-            Log.i("move this to front", coinFlipManager.getCoinFlipQueue().get(i).getName());
-            coinFlipManager.moveToFrontQueue(i);
-            Log.i("first in queue", coinFlipManager.getCoinFlipQueue().get(0).getName());
+            if (i<childManager.size()) {
+                coinFlipManager.moveToFrontQueue(i);
+                userOverride = false;
+                updateDisplayCoinResult();
+            }
+            else {
+                userOverride = true;
+            }
         }
 
         @Override
