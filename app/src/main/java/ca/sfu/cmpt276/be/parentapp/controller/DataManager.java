@@ -8,15 +8,12 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import ca.sfu.cmpt276.be.parentapp.model.Child;
 import ca.sfu.cmpt276.be.parentapp.model.Coin;
 import ca.sfu.cmpt276.be.parentapp.model.Task;
-
-import ca.sfu.cmpt276.be.parentapp.view.CoinFlipActivity;
 
 /**
  * DataManager is a singleton that holds onto persistent data in the app such the list of Child and
