@@ -42,7 +42,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
     private AppBarConfiguration appBarConfiguration;
     private ActivityCoinflipBinding binding;
     private ImageView coin;
-
+    Spinner spinner;
 
     ArrayAdapter<String> adp1;
 
@@ -64,13 +64,13 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
     private void updateSpinner() {
 
         getSpinner();
-        Spinner spinner = findViewById(R.id.spinner_childQueue);
+        spinner = findViewById(R.id.spinner_childQueue);
         spinner.setOnItemSelectedListener(new PickChildClass());
 
     }
 
     private void getSpinner() {
-        Spinner spinner = findViewById(R.id.spinner_childQueue);
+        spinner = findViewById(R.id.spinner_childQueue);
 
         ArrayList<String> list = new ArrayList<>();
         for (int i=0; i<coinFlipManager.getCoinFlipQueue().size();i++){
@@ -130,6 +130,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 String result = coinFlipManager.flipRandomCoin(userChoice,userOverride);
+                spinner.setSelection(0);
                 switch (result) {
                     case "Heads":
                         coin.setImageResource(R.drawable.coin_heads);
@@ -209,6 +210,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
             if (i<childManager.size()) {
                 coinFlipManager.moveToFrontQueue(i);
                 userOverride = false;
+                spinner.setSelection(0);
             }
             else {
                 userOverride = true;

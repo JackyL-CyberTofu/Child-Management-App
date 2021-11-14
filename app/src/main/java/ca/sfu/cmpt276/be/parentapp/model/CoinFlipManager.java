@@ -56,11 +56,11 @@ public class CoinFlipManager {
 
         if (!userOverride) {
             saveCoinFlip(result, userChoice, coinFlipQueue.get(0).getName());
+            moveToEndQueue();
         }
         else {
             saveCoinFlip(result,userChoice,"None");
         }
-        moveToEndQueue();
         notifyValueHasChanged();
         serializeCoinflips();
 
@@ -80,9 +80,11 @@ public class CoinFlipManager {
     }
 
     public void moveToEndQueue() {
-        Child first = coinFlipQueue.get(0);
-        coinFlipQueue.remove(first);
-        coinFlipQueue.add(first);
+        if (childManager.size()>0) {
+            Child first = coinFlipQueue.get(0);
+            coinFlipQueue.remove(first);
+            coinFlipQueue.add(first);
+        }
     }
 
     public void moveToFrontQueue(int index) {
