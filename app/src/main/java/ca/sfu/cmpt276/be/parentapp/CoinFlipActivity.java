@@ -36,7 +36,8 @@ Activity with animations to simulate a real coin flip
 public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManager.CoinObserver {
 
     MediaPlayer player;
-    CoinFlipManager coinFlipManager = CoinFlipManager.getInstance();
+    CoinFlipManager coinFlipManager = new CoinFlipManager();
+
     ChildManager childManager = new ChildManager();
     private AppBarConfiguration appBarConfiguration;
     private ActivityCoinflipBinding binding;
@@ -54,10 +55,10 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         setupButton();
-        setepSpinner();
+        setupSpinner();
     }
 
-    private void setepSpinner() {
+    private void setupSpinner() {
 
         Spinner spinner = findViewById(R.id.spinner_childQueue);
         ArrayList<String> list = new ArrayList<>();
@@ -142,7 +143,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         if (item.getItemId() == R.id.coinHistoryButton) {
-            Intent intent = new Intent(getApplicationContext(), FlipHistoryActivity.class);
+            Intent intent = new Intent(getApplicationContext(), FlipQueueActivity.class);
             startActivity(intent);
         }
 
@@ -167,8 +168,21 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
                 Toast.makeText(this, "Child Deleted. Order is reset.", Toast.LENGTH_SHORT).show();
                 coinFlipManager.setChildFlipIndex(0);
             }
-            nextChild.setText(String.format("%s%s", getString(R.string.next_child), childManager.get(coinFlipManager.getChildIndex()).getName()));
+            nextChild.setText(String.format("%s%s", getString(R.string.next_child), childManager.get(coinFlipManager.getChildFlipIndex()).getName()));
         }
+
+        Spinner spinner = findViewById(R.id.spinner_childQueue);
+
+        ArrayList<String> list = new ArrayList<>();
+        for (int i=0; i<coinFlipManager.getCoinFlipQueue().size();i++){
+            list.add(coinFlipManager.getCoinFlipQueue().get(i).getName());
+        }
+
+        ArrayAdapter<String> adp1 = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, list);
+        adp1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adp1);
+        spinner.setOnItemSelectedListener(new PickChildClass());
 
     }
 
@@ -198,8 +212,9 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
 
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-            Log.i("positon", Integer.toString(i));
+            Log.i("move this to front", coinFlipManager.getCoinFlipQueue().get(i).getName());
             coinFlipManager.moveToFrontQueue(i);
+            Log.i("first in queue", coinFlipManager.getCoinFlipQueue().get(0).getName());
         }
 
         @Override

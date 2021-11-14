@@ -1,5 +1,7 @@
 package ca.sfu.cmpt276.be.parentapp.model;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
@@ -8,6 +10,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -18,6 +21,7 @@ import ca.sfu.cmpt276.be.parentapp.CoinFlipActivity;
  * the history of Coinflips. It also serializes this data into JSON.
  */
 public class DataManager {
+
     public static final String CHILDREN_SAVENAME = "JsonChildren";
     public static final String COINFLIP_SAVENAME = "JsonCoinflip";
     public static final String CHILD_INDEX_SAVENAME = "JsonChildIndex";
@@ -89,7 +93,8 @@ public class DataManager {
             this.childFlipIndex = Integer.parseInt(jsonChildIndex);
         }
         if (!jsonCoinFlipQueue.isEmpty()) {
-            this.coinFlipQueue = gson.fromJson(jsonChildren, new TypeToken<ArrayList<Child>>(){}.getType());
+            this.coinFlipQueue = gson.fromJson(jsonCoinFlipQueue, new TypeToken<ArrayList<Child>>(){}.getType());
+            Log.i("load", this.coinFlipQueue.get(0).getName());
         }
         if (!jsonTasks.isEmpty()) {
             taskList = gson.fromJson(jsonTasks, new TypeToken<ArrayList<Coin>>(){}.getType());
@@ -108,11 +113,11 @@ public class DataManager {
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeJSONReader() {})
                 .create();
         String gsonCoinflip = gson.toJson(coinFlipHistory);
-        String gsonCoinFlipQueue = gson.toJson(coinFlipQueue);
+        String gsonCoinFlipQueue = gson.toJson(this.coinFlipQueue);
         saveOption.save(COINFLIP_SAVENAME, gsonCoinflip);
         saveOption.save(CHILD_INDEX_SAVENAME, Integer.toString(childFlipIndex));
-        Log.i("save", String.valueOf(childFlipIndex));
         saveOption.save(COINFLIP_QUEUE_SAVENAME, gsonCoinFlipQueue);
+        Log.i("save", this.coinFlipQueue.get(0).getName());
     }
 
     public void serializeTasks() {
@@ -143,7 +148,5 @@ public class DataManager {
     public void setChildFlipIndex(int set) {
         childFlipIndex = set;
     }
-
-
 
 }

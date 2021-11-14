@@ -11,14 +11,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 
 import ca.sfu.cmpt276.be.parentapp.model.Child;
 import ca.sfu.cmpt276.be.parentapp.model.Coin;
 import ca.sfu.cmpt276.be.parentapp.model.CoinFlipManager;
+import ca.sfu.cmpt276.be.parentapp.model.DataManager;
 
 public class FlipQueueActivity extends AppCompatActivity {
 
-    CoinFlipManager coinFlipManager = CoinFlipManager.getInstance();
+    //CoinFlipManager coinFlipManager = CoinFlipManager.getInstance();
+    ArrayList<Child> coinFlipQueue = DataManager.getInstance().getCoinFlipQueue();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +36,7 @@ public class FlipQueueActivity extends AppCompatActivity {
 
     private class MyListAdapter extends ArrayAdapter<Child> {
         public MyListAdapter() {
-            super(FlipQueueActivity.this, R.layout.item_view, coinFlipManager.getCoinFlipQueue()) ;
+            super(FlipQueueActivity.this, R.layout.item_view, coinFlipQueue) ;
         }
 
         @Override
@@ -43,7 +47,7 @@ public class FlipQueueActivity extends AppCompatActivity {
             }
 
             TextView upper = (TextView) itemView.findViewById(R.id.textView1);
-            upper.setText(coinFlipManager.getCoinFlipQueue().get(position).getName());
+            upper.setText(coinFlipQueue.get(position).getName());
 
             //Fill the view
             return itemView;

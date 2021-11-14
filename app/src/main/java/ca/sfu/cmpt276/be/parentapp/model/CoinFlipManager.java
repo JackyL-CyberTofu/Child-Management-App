@@ -14,8 +14,6 @@ Handles the logic of the coin flip.
 
 public class CoinFlipManager {
 
-    private static CoinFlipManager instance;
-
     private DataManager dataManager = DataManager.getInstance();
 
     int childFlipIndex = DataManager.getInstance().getChildFlipIndex();
@@ -25,12 +23,6 @@ public class CoinFlipManager {
 
     private List<CoinObserver> observers = new ArrayList<>();
 
-    public static CoinFlipManager getInstance() {
-        if (instance == null) {
-            instance = new CoinFlipManager();
-        }
-        return instance;
-    }
 
     public void registerChangeCallback(CoinObserver obs) {
         observers.add(obs);
@@ -66,6 +58,7 @@ public class CoinFlipManager {
         saveCoinFlip(result, userChoice, getNextChild());
         moveToEndQueue();
         notifyValueHasChanged();
+        serializeCoinflips();
 
         return result;
     }
@@ -82,7 +75,6 @@ public class CoinFlipManager {
                 childFlipIndex++;
             }
         }
-        serializeCoinflips();
         return childPick;
     }
 
@@ -94,7 +86,6 @@ public class CoinFlipManager {
 
         Coin coinGame = new Coin(creationTime, childPicked, userChoice, result);
         coinFlipHistory.add(0, coinGame);
-        serializeCoinflips();
 
     }
 
@@ -108,6 +99,8 @@ public class CoinFlipManager {
         Child fromIndex = coinFlipQueue.get(index);
         coinFlipQueue.remove(fromIndex);
         coinFlipQueue.add(0, fromIndex );
+        serializeCoinflips();
+
     }
 
     public void removeInQueue(Child child){
@@ -122,7 +115,7 @@ public class CoinFlipManager {
         return this.coinFlipHistory.get(index);
     }
 
-    public ArrayList<Child> getCoinFlipQueue() { return this.coinFlipQueue; }
+    public ArrayList<Child> getCoinFlipQueue() { return coinFlipQueue; }
 
     public ArrayList<Coin> getCoinList() {
         return this.coinFlipHistory;

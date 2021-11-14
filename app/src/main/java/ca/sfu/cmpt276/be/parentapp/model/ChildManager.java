@@ -10,6 +10,7 @@ import java.util.Iterator;
  * getters. It is also iterable.
  */
 public class ChildManager implements Iterable<Child> {
+
     private final ArrayList<Child> allChildren = DataManager.getInstance().getChildList();
     ArrayList<Child> coinFlipQueue = DataManager.getInstance().getCoinFlipQueue();
 
