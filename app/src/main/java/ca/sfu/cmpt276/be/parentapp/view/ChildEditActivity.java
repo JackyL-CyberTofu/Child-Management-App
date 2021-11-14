@@ -35,7 +35,7 @@ public class ChildEditActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.text_editChild);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        setExtras();
+        getExtras();
     }
 
     @Override
@@ -51,8 +51,8 @@ public class ChildEditActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.child_list, menu);
-        MenuItem deleteOverflow = menu.findItem(R.id.deleteChildOverflow);
+        getMenuInflater().inflate(R.menu.save_delete_appbar, menu);
+        MenuItem deleteOverflow = menu.findItem(R.id.delete_item);
         if (!doEdit) {
             deleteOverflow.setVisible(false);
         }
@@ -61,11 +61,11 @@ public class ChildEditActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.saveChildrenActionButton) {
+        if (item.getItemId() == R.id.save_item) {
             saveAndExit();
         }
 
-        if (item.getItemId() == R.id.deleteChildOverflow) {
+        if (item.getItemId() == R.id.delete_item) {
             deleteAndExit();
         }
         return super.onOptionsItemSelected(item);
@@ -102,7 +102,7 @@ public class ChildEditActivity extends AppCompatActivity {
         finish();
     }
 
-    private void setExtras() {
+    private void getExtras() {
         ChildManager childManager = new ChildManager();
         Intent intent = getIntent();
         doEdit = intent.getBooleanExtra(EXTRA_DO_EDIT, false);

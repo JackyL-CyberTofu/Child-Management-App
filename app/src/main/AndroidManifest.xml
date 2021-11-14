@@ -16,10 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BeParentApp">
         <activity
-            android:name=".TaskEditActivity"
+            android:name=".view.TaskEditActivity"
             android:exported="false" />
         <activity
-            android:name=".TaskListActivity"
+            android:name=".view.TaskListActivity"
             android:exported="false" />
         <activity
             android:name=".view.FlipHistoryActivity"

@@ -9,7 +9,6 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import ca.sfu.cmpt276.be.parentapp.R;
-import ca.sfu.cmpt276.be.parentapp.TaskListActivity;
 import ca.sfu.cmpt276.be.parentapp.controller.DataManager;
 
 /**

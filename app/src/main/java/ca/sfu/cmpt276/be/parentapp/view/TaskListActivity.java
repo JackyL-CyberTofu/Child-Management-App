@@ -1,4 +1,4 @@
-package ca.sfu.cmpt276.be.parentapp;
+package ca.sfu.cmpt276.be.parentapp.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,10 +17,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Objects;
 
+import ca.sfu.cmpt276.be.parentapp.R;
 import ca.sfu.cmpt276.be.parentapp.model.Task;
-import ca.sfu.cmpt276.be.parentapp.model.TaskManager;
-import ca.sfu.cmpt276.be.parentapp.view.ChildEditActivity;
-import ca.sfu.cmpt276.be.parentapp.view.ChildListActivity;
+import ca.sfu.cmpt276.be.parentapp.controller.TaskManager;
 
 public class TaskListActivity extends AppCompatActivity {
     private final TaskManager taskManager = new TaskManager();
@@ -41,14 +40,16 @@ public class TaskListActivity extends AppCompatActivity {
     private void setUpAddButton() {
         FloatingActionButton addTask = findViewById(R.id.add_task_button);
         addTask.setOnClickListener(v -> {
-            Toast.makeText(this, "To be implemented!", Toast.LENGTH_SHORT).show();
+            Intent newTask = TaskEditActivity.makeIntent(TaskListActivity.this);
+            startActivity(newTask);
         });
     }
 
     private void setUpTaskSelection() {
         ListView taskList = findViewById(R.id.task_listview);
         taskList.setOnItemClickListener((parent, viewClicked, position, id) -> {
-            Toast.makeText(this, "To be implemented but you tapped " + id, Toast.LENGTH_SHORT).show();
+            Intent openTask = TaskEditActivity.makeIntent(TaskListActivity.this, position);
+            startActivity(openTask);
         });
     }
 

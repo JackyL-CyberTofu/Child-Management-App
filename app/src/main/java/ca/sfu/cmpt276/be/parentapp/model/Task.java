@@ -31,10 +31,10 @@ public class Task {
     }
 
     public void completeTask() {
-        if (taskChildIndex >= DataManager.getInstance().getChildList().size()) {
-            taskChildIndex = 0;
-        } else {
+        if (taskChildIndex < (DataManager.getInstance().getChildList().size() - 1)) {
             taskChildIndex++;
+        } else {
+            taskChildIndex = 0;
         }
     }
 

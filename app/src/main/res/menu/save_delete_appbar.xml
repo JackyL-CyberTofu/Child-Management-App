@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/saveChildrenActionButton"
+        android:id="@+id/save_item"
         android:icon="@drawable/ic_baseline_save_24_white"
         android:title="@string/save_children_button"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/deleteChildOverflow"
+        android:id="@+id/delete_item"
         android:title="@string/delete_child_label" />
 </menu>
