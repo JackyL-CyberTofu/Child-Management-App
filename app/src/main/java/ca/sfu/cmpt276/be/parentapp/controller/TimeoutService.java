@@ -1,15 +1,11 @@
-package ca.sfu.cmpt276.be.parentapp;
+package ca.sfu.cmpt276.be.parentapp.controller;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.app.TaskStackBuilder;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.IBinder;
@@ -18,8 +14,11 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import ca.sfu.cmpt276.be.parentapp.R;
+import ca.sfu.cmpt276.be.parentapp.controller.AlarmService;
 import ca.sfu.cmpt276.be.parentapp.model.TimeConverter;
-import ca.sfu.cmpt276.be.parentapp.model.TimeoutManager;
+import ca.sfu.cmpt276.be.parentapp.controller.TimeoutManager;
+import ca.sfu.cmpt276.be.parentapp.view.TimeoutActivity;
 
 /**
  * TimeoutService deals with calculating time left in the background.

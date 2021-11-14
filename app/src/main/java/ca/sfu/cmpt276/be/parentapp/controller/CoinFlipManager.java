@@ -1,10 +1,12 @@
-package ca.sfu.cmpt276.be.parentapp.model;
+package ca.sfu.cmpt276.be.parentapp.controller;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import ca.sfu.cmpt276.be.parentapp.model.Coin;
 
 /**
  * Handles the logic of the coin flip.

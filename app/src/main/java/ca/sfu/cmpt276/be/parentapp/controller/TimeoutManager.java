@@ -1,4 +1,4 @@
-package ca.sfu.cmpt276.be.parentapp.model;
+package ca.sfu.cmpt276.be.parentapp.controller;
 
 /**
  * TimeoutManager contains a data to deal with countdown timer feature.

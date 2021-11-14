@@ -1,4 +1,4 @@
-package ca.sfu.cmpt276.be.parentapp.model;
+package ca.sfu.cmpt276.be.parentapp.controller;
 
 import android.util.Log;
 
@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import ca.sfu.cmpt276.be.parentapp.model.Child;
 
 /**
  * ChildManager gets the Child ArrayList from DataManager and can modify it with setters and

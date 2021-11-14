@@ -16,37 +16,43 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BeParentApp">
         <activity
-            android:name=".FlipHistoryActivity"
+            android:name=".TaskEditActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TaskListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.FlipHistoryActivity"
             android:exported="false"
             android:label="History"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".TimeoutActivity"
+            android:name=".view.TimeoutActivity"
             android:exported="false"
             android:label="@string/timeout"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".view.MainActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ChildListActivity"
+            android:name=".view.ChildListActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".CoinFlipActivity"
+            android:name=".view.CoinFlipActivity"
             android:exported="false"
             android:label="Coin Flip"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.BeParentApp.NoActionBar"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".ChildEditActivity"
+            android:name=".view.ChildEditActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".view.MainActivity"
             android:exported="true"
             android:label="Parent App"
             android:screenOrientation="portrait"
@@ -58,8 +64,8 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".TimeoutService" />
-        <service android:name=".AlarmService" />
+        <service android:name=".controller.TimeoutService" />
+        <service android:name=".controller.AlarmService" />
     </application>
 
 </manifest>

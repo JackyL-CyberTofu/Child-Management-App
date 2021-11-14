@@ -1,4 +1,4 @@
-package ca.sfu.cmpt276.be.parentapp;
+package ca.sfu.cmpt276.be.parentapp.view;
 
 /*
  * TimeoutActivity represents a feature of countdown timer in the app.
@@ -15,7 +15,6 @@ import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -28,8 +27,11 @@ import android.widget.TextView;
 
 import java.util.Objects;
 
+import ca.sfu.cmpt276.be.parentapp.controller.AlarmService;
+import ca.sfu.cmpt276.be.parentapp.R;
+import ca.sfu.cmpt276.be.parentapp.controller.TimeoutService;
 import ca.sfu.cmpt276.be.parentapp.model.TimeConverter;
-import ca.sfu.cmpt276.be.parentapp.model.TimeoutManager;
+import ca.sfu.cmpt276.be.parentapp.controller.TimeoutManager;
 
 public class TimeoutActivity extends AppCompatActivity {
     private ConstraintLayout setting;

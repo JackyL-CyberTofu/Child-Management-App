@@ -16,9 +16,11 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import ca.sfu.cmpt276.be.parentapp.R;
 import ca.sfu.cmpt276.be.parentapp.model.Child;
 import ca.sfu.cmpt276.be.parentapp.model.ChildManager;
 import ca.sfu.cmpt276.be.parentapp.model.Coin;
+import ca.sfu.cmpt276.be.parentapp.controller.CoinFlipManager;
 import ca.sfu.cmpt276.be.parentapp.model.CoinFlipManager;
 import ca.sfu.cmpt276.be.parentapp.model.DataManager;
 

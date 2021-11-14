@@ -1,5 +1,10 @@
 package ca.sfu.cmpt276.be.parentapp.model;
 
+import android.provider.ContactsContract;
+
+import java.util.ArrayList;
+
+import ca.sfu.cmpt276.be.parentapp.controller.DataManager;
 
 public class Task {
     private String name;
@@ -18,6 +23,10 @@ public class Task {
     }
 
     public Child getTaskedChild() {
+        ArrayList<Child> childList = DataManager.getInstance().getChildList();
+        if (childList.isEmpty()) {
+            return new Child("No Children Found (You should fix this layer)");
+        }
         return DataManager.getInstance().getChildList().get(taskChildIndex);
     }
 
@@ -28,5 +37,6 @@ public class Task {
             taskChildIndex++;
         }
     }
+
 
 }

@@ -1,4 +1,4 @@
-package ca.sfu.cmpt276.be.parentapp;
+package ca.sfu.cmpt276.be.parentapp.view;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -22,9 +22,10 @@ import androidx.navigation.ui.AppBarConfiguration;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import ca.sfu.cmpt276.be.parentapp.R;
 import ca.sfu.cmpt276.be.parentapp.databinding.ActivityCoinflipBinding;
-import ca.sfu.cmpt276.be.parentapp.model.ChildManager;
-import ca.sfu.cmpt276.be.parentapp.model.CoinFlipManager;
+import ca.sfu.cmpt276.be.parentapp.controller.ChildManager;
+import ca.sfu.cmpt276.be.parentapp.controller.CoinFlipManager;
 
 /**
  * Activity with animations to simulate a real coin flip
