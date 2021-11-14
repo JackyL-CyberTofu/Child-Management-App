@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Random;
 
 /**
-Handles the logic of the coin flip.
- Flips random side, stores the history of the coin flip, and
- remembers the last child that picked
+ * Handles the logic of the coin flip.
+ * Flips random side, stores the history of the coin flip, and
+ * remembers the last child that picked
  */
 
 public class CoinFlipManager {
@@ -54,12 +54,11 @@ public class CoinFlipManager {
                 throw new IllegalStateException("Unexpected value: " + randomInt);
         }
 
-        if (!userOverride) {
+        if (userOverride) {
+            saveCoinFlip(result, userChoice, "None");
+        } else {
             saveCoinFlip(result, userChoice, coinFlipQueue.get(0).getName());
             moveToEndQueue();
-        }
-        else {
-            saveCoinFlip(result,userChoice,"None");
         }
         notifyValueHasChanged();
         serializeCoinflips();
@@ -71,16 +70,13 @@ public class CoinFlipManager {
     public void saveCoinFlip(String result, String userChoice, String childPicked) {
 
         LocalDateTime creationTime = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String time = creationTime.format(formatter);
-
         Coin coinGame = new Coin(creationTime, childPicked, userChoice, result);
         coinFlipHistory.add(0, coinGame);
 
     }
 
     public void moveToEndQueue() {
-        if (childManager.size()>0) {
+        if (childManager.size() > 0) {
             Child first = coinFlipQueue.get(0);
             coinFlipQueue.remove(first);
             coinFlipQueue.add(first);
@@ -90,24 +86,18 @@ public class CoinFlipManager {
     public void moveToFrontQueue(int index) {
         Child fromIndex = coinFlipQueue.get(index);
         coinFlipQueue.remove(fromIndex);
-        coinFlipQueue.add(0, fromIndex );
+        coinFlipQueue.add(0, fromIndex);
         serializeCoinflips();
 
-    }
-
-    public void removeInQueue(Child child){
-        coinFlipQueue.remove(child);
-    }
-
-    public void addToQueue(Child child){
-        coinFlipQueue.add(child);
     }
 
     public Coin getCoinFlipGame(int index) {
         return this.coinFlipHistory.get(index);
     }
 
-    public ArrayList<Child> getCoinFlipQueue() { return coinFlipQueue; }
+    public ArrayList<Child> getCoinFlipQueue() {
+        return coinFlipQueue;
+    }
 
     public ArrayList<Coin> getCoinList() {
         return this.coinFlipHistory;
