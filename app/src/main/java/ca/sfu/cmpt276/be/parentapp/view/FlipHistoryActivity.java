@@ -13,9 +13,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import ca.sfu.cmpt276.be.parentapp.R;
+import ca.sfu.cmpt276.be.parentapp.controller.DataManager;
+import ca.sfu.cmpt276.be.parentapp.model.Child;
+import ca.sfu.cmpt276.be.parentapp.controller.ChildManager;
 import ca.sfu.cmpt276.be.parentapp.model.Coin;
 import ca.sfu.cmpt276.be.parentapp.controller.CoinFlipManager;
 
@@ -26,7 +30,10 @@ Diplays a list of previous coin flip results
 
 public class FlipHistoryActivity extends AppCompatActivity {
 
-    CoinFlipManager coinFlipManager = CoinFlipManager.getInstance();
+    ArrayList<Coin> coinFlipHistory = DataManager.getInstance().getCoinFlipHistory();
+    ChildManager childManager = new ChildManager();
+    CoinFlipManager coinFlipManager = new CoinFlipManager();
+    ArrayList<Child> coinFlipQueue = DataManager.getInstance().getCoinFlipQueue();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +57,7 @@ public class FlipHistoryActivity extends AppCompatActivity {
 
     private class MyListAdapter extends ArrayAdapter<Coin> {
         public MyListAdapter() {
-            super(FlipHistoryActivity.this, R.layout.item_view, coinFlipManager.getCoinList());
+            super(FlipHistoryActivity.this, R.layout.item_view, coinFlipHistory);
         }
 
         @Override

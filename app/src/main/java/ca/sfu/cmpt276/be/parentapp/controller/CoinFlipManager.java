@@ -1,39 +1,26 @@
 package ca.sfu.cmpt276.be.parentapp.controller;
 
-import androidx.annotation.Nullable;
-
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import ca.sfu.cmpt276.be.parentapp.model.Child;
 import ca.sfu.cmpt276.be.parentapp.model.Coin;
 
 /**
-Handles the logic of the coin flip.
- Flips random side, stores the history of the coin flip, and
- remembers the last child that picked
+ * Handles the logic of the coin flip.
+ * Flips random side, stores the history of the coin flip, and
+ * remembers the last child that picked
  */
 
 public class CoinFlipManager {
 
-    private static CoinFlipManager instance;
-
-    private DataManager dataManager = DataManager.getInstance();
-
-    int childIndex = DataManager.getInstance().getChildFlipIndex();
-
-    ArrayList<Coin> coinFlipHistory = DataManager.getInstance().getCoinFlipHistory();
-    ChildManager childManager = new ChildManager();
-    private List<CoinObserver> observers = new ArrayList<>();
-
-    public static CoinFlipManager getInstance() {
-        if (instance == null) {
-            instance = new CoinFlipManager();
-        }
-        return instance;
-    }
+    private final DataManager dataManager = DataManager.getInstance();
+    private final ArrayList<Coin> coinFlipHistory = DataManager.getInstance().getCoinFlipHistory();
+    private final ChildManager childManager = new ChildManager();
+    private final ArrayList<Child> coinFlipQueue = DataManager.getInstance().getCoinFlipQueue();
+    private final List<CoinObserver> observers = new ArrayList<>();
 
     public void registerChangeCallback(CoinObserver obs) {
         observers.add(obs);
@@ -49,7 +36,7 @@ public class CoinFlipManager {
         }
     }
 
-    public String flipRandomCoin(String userChoice) {
+    public String flipRandomCoin(String userChoice, boolean userOverride) {
 
         Random rand = new Random();
         int randomInt = rand.nextInt(2);
@@ -66,57 +53,56 @@ public class CoinFlipManager {
                 throw new IllegalStateException("Unexpected value: " + randomInt);
         }
 
-        saveCoinFlip(result, userChoice, getNextChild());
+        if (userOverride) {
+            saveCoinFlip(result, userChoice, "None");
+        } else {
+            saveCoinFlip(result, userChoice, coinFlipQueue.get(0).getName());
+            moveToEndQueue();
+        }
         notifyValueHasChanged();
+        serializeCoinflips();
 
         return result;
     }
 
-    @Nullable
-    private String getNextChild() {
-        String childPick;
-        if (childManager.size() == 0) {
-            childPick = null;
-        } else {
-            childPick = childManager.getName(childIndex);
-            if (childManager.size() <= childIndex + 1) {
-                childIndex = 0;
-            } else {
-                childIndex++;
-            }
-        }
-        return childPick;
-    }
 
     public void saveCoinFlip(String result, String userChoice, String childPicked) {
 
         LocalDateTime creationTime = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String time = creationTime.format(formatter);
-
         Coin coinGame = new Coin(creationTime, childPicked, userChoice, result);
         coinFlipHistory.add(0, coinGame);
+
+    }
+
+    public void moveToEndQueue() {
+        if (childManager.size() > 0) {
+            Child first = coinFlipQueue.get(0);
+            coinFlipQueue.remove(first);
+            coinFlipQueue.add(first);
+        }
+    }
+
+    public void moveToFrontQueue(int index) {
+        Child fromIndex = coinFlipQueue.get(index);
+        coinFlipQueue.remove(fromIndex);
+        coinFlipQueue.add(0, fromIndex);
         serializeCoinflips();
+
     }
 
     public Coin getCoinFlipGame(int index) {
         return this.coinFlipHistory.get(index);
     }
 
+    public ArrayList<Child> getCoinFlipQueue() {
+        return coinFlipQueue;
+    }
+
     public ArrayList<Coin> getCoinList() {
         return this.coinFlipHistory;
     }
 
-    public int getChildIndex() {
-        return childIndex;
-    }
-
-    public void setChildIndex(int childIndex) {
-        this.childIndex = childIndex;
-    }
-
     private void serializeCoinflips() {
-        dataManager.setChildFlipIndex(childIndex);
         dataManager.serializeCoinflips();
     }
 

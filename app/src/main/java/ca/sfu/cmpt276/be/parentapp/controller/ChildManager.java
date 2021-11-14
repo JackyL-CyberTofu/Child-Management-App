@@ -12,7 +12,9 @@ import ca.sfu.cmpt276.be.parentapp.model.Child;
  * getters. It is also iterable.
  */
 public class ChildManager implements Iterable<Child> {
+
     private final ArrayList<Child> allChildren = DataManager.getInstance().getChildList();
+    ArrayList<Child> coinFlipQueue = DataManager.getInstance().getCoinFlipQueue();
 
 
     public Child get(int index) {
@@ -25,18 +27,29 @@ public class ChildManager implements Iterable<Child> {
 
     public void add(Child addThis) {
         allChildren.add(addThis);
+        coinFlipQueue.add(addThis);
         saveList();
     }
 
     public void remove(int index) {
+        coinFlipQueue.remove(getQueueIndex(index));
         allChildren.remove(index);
         saveList();
-
     }
 
     public void edit(int index, String editName) {
+        coinFlipQueue.get(getQueueIndex(index)).setName(editName);
         allChildren.get(index).setName(editName);
         saveList();
+    }
+
+    public int getQueueIndex(int index){
+        for (int i=0; i<size(); i++){
+            if (allChildren.get(index).getName().equals(coinFlipQueue.get(i).getName())){
+                return i;
+            }
+        }
+        return -1;
     }
 
     public  ArrayList<Child> getAll() {
@@ -48,7 +61,10 @@ public class ChildManager implements Iterable<Child> {
     }
 
     public void saveList() {
+
         DataManager.getInstance().serializeChildren();
+        DataManager.getInstance().serializeCoinflips();
+
     }
 
     public boolean isEmpty() {
