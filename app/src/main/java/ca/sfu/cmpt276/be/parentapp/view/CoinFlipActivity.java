@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.ui.AppBarConfiguration;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -58,7 +57,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
     }
 
     private void initializeSpinner() {
-        Spinner spinner = findViewById(R.id.spinner_childQueue);
+        spinner = findViewById(R.id.spinner_childQueue);
         ArrayList<String> list = updateSpinnerElements();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

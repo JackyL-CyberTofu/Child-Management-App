@@ -16,7 +16,7 @@ import ca.sfu.cmpt276.be.parentapp.model.Child;
 import ca.sfu.cmpt276.be.parentapp.model.Coin;
 import ca.sfu.cmpt276.be.parentapp.model.Task;
 
-import ca.sfu.cmpt276.be.parentapp.CoinFlipActivity;
+import ca.sfu.cmpt276.be.parentapp.view.CoinFlipActivity;
 
 /**
  * DataManager is a singleton that holds onto persistent data in the app such the list of Child and
@@ -74,33 +74,31 @@ public class DataManager {
     }
     public void deserializeData() {
         Gson gson = new GsonBuilder()
-                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeJSONReader() {})
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeJSONReader() {
+                })
                 .create();
-
         String jsonChildren = saveOption.load(CHILDREN_SAVENAME);
-        String jsonCoinflip = saveOption.load(COINFLIP_SAVENAME);
-        String jsonCoinFlipQueue = saveOption.load(COINFLIP_QUEUE_SAVENAME);
-        String jsonTasks = saveOption.load(TASK_SAVENAME);
         if (!jsonChildren.isEmpty()) {
-            childList = gson.fromJson(jsonChildren, new TypeToken<ArrayList<Child>>(){}.getType());
+            childList = gson.fromJson(jsonChildren, new TypeToken<ArrayList<Child>>() {
+            }.getType());
         }
-
         String jsonCoinflip = saveOption.load(COINFLIP_SAVENAME);
         if (!jsonCoinflip.isEmpty()) {
-            coinFlipHistory = gson.fromJson(jsonCoinflip, new TypeToken<ArrayList<Coin>>(){}.getType());
+            coinFlipHistory = gson.fromJson(jsonCoinflip, new TypeToken<ArrayList<Coin>>() {
+            }.getType());
         }
+        String jsonCoinFlipQueue = saveOption.load(COINFLIP_QUEUE_SAVENAME);
         if (!jsonCoinFlipQueue.isEmpty()) {
-            this.coinFlipQueue = gson.fromJson(jsonCoinFlipQueue, new TypeToken<ArrayList<Child>>(){}.getType());
-        String jsonChildIndex = saveOption.load(CHILD_INDEX_SAVENAME);
-        if (!jsonChildIndex.isEmpty()) {
-            childFlipIndex = Integer.parseInt(jsonChildIndex);
-        }
-
-        String jsonTasks = saveOption.load(TASK_SAVENAME);
-        if (!jsonTasks.isEmpty()) {
-            taskList = gson.fromJson(jsonTasks, new TypeToken<ArrayList<Task>>(){}.getType());
+            this.coinFlipQueue = gson.fromJson(jsonCoinFlipQueue, new TypeToken<ArrayList<Child>>() {
+            }.getType());
+            String jsonTasks = saveOption.load(TASK_SAVENAME);
+            if (!jsonTasks.isEmpty()) {
+                taskList = gson.fromJson(jsonTasks, new TypeToken<ArrayList<Task>>() {
+                }.getType());
+            }
         }
     }
+
     public void serializeChildren() {
         Gson gson = new GsonBuilder()
                 .create();
@@ -131,10 +129,6 @@ public class DataManager {
 
     public ArrayList<Coin> getCoinFlipHistory() {
         return coinFlipHistory;
-    }
-
-    public Integer getChildFlipIndex() {
-        return childFlipIndex;
     }
 
     public ArrayList<Task> getTaskList() {
