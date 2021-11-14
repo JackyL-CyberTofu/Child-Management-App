@@ -142,7 +142,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         if (item.getItemId() == R.id.coinHistoryButton) {
-            Intent intent = new Intent(getApplicationContext(), FlipQueueActivity.class);
+            Intent intent = new Intent(getApplicationContext(), FlipHistoryActivity.class);
             startActivity(intent);
         }
 
@@ -163,11 +163,11 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
 
         TextView nextChild = findViewById(R.id.coin_next_child);
         if (childNotEmpty()) {
-            if (coinFlipManager.getChildFlipIndex() >= childManager.getAll().size()) {
+            if (coinFlipManager.getChildFlipIndex() >= childManager.size()) {
                 Toast.makeText(this, "Child Deleted. Order is reset.", Toast.LENGTH_SHORT).show();
                 coinFlipManager.setChildFlipIndex(0);
             }
-            nextChild.setText(String.format("%s%s", getString(R.string.next_child), childManager.get(coinFlipManager.getChildFlipIndex()).getName()));
+            nextChild.setText(String.format("%s%s", getString(R.string.next_child), childManager.get(coinFlipManager.getChildIndex()).getName()));
         }
 
     }
