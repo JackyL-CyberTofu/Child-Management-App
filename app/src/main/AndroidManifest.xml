@@ -2,8 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="ca.sfu.cmpt276.be.parentapp">
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
@@ -11,53 +12,57 @@
         android:icon="@mipmap/ic_parent_app"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_parent_app_round"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/Theme.BeParentApp"
-        android:screenOrientation="portrait">
+        android:theme="@style/Theme.BeParentApp">
+        <activity
+            android:name=".FlipQueueActivity"
+            android:exported="false" />
         <activity
             android:name=".FlipHistoryActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
             android:label="History"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".TimeoutActivity"
             android:exported="false"
             android:label="@string/timeout"
-            android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ChildListActivity"
-            android:screenOrientation="portrait"
             android:exported="false"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".CoinFlipActivity"
             android:exported="false"
-            android:theme="@style/Theme.BeParentApp.NoActionBar"
-            android:screenOrientation="portrait"
             android:label="Coin Flip"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.BeParentApp.NoActionBar"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ChildEditActivity"
-            android:screenOrientation="portrait"
             android:exported="false"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
             android:label="Parent App"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service android:name=".TimeoutService" />
         <service android:name=".AlarmService" />
-
     </application>
 
 </manifest>

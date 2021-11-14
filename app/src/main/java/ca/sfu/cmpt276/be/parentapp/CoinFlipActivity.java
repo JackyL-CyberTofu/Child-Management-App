@@ -5,11 +5,15 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.ui.AppBarConfiguration;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import ca.sfu.cmpt276.be.parentapp.databinding.ActivityCoinflipBinding;
@@ -49,6 +54,23 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         setupButton();
+        setepSpinner();
+    }
+
+    private void setepSpinner() {
+
+        Spinner spinner = findViewById(R.id.spinner_childQueue);
+        ArrayList<String> list = new ArrayList<>();
+        for (int i=0; i<coinFlipManager.getCoinFlipQueue().size();i++){
+            list.add(coinFlipManager.getCoinFlipQueue().get(i).getName());
+        }
+
+        ArrayAdapter<String> adp1 = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, list);
+        adp1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adp1);
+        spinner.setOnItemSelectedListener(new PickChildClass());
+
     }
 
     private void setupButton() {
@@ -120,7 +142,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         if (item.getItemId() == R.id.coinHistoryButton) {
-            Intent intent = new Intent(getApplicationContext(), FlipHistoryActivity.class);
+            Intent intent = new Intent(getApplicationContext(), FlipQueueActivity.class);
             startActivity(intent);
         }
 
@@ -170,5 +192,19 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
     @Override
     public void notifyCounterChanged() {
         updateDisplayCoinResult();
+    }
+
+    private class PickChildClass implements android.widget.AdapterView.OnItemSelectedListener {
+
+        @Override
+        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            Log.i("positon", Integer.toString(i));
+            coinFlipManager.moveToFrontQueue(i);
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> adapterView) {
+
+        }
     }
 }

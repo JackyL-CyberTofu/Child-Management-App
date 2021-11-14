@@ -84,10 +84,10 @@ public class DataManager {
             coinFlipHistory = gson.fromJson(jsonCoinflip, new TypeToken<ArrayList<Coin>>(){}.getType());
         }
         if (!jsonChildIndex.isEmpty()) {
-            childFlipIndex = Integer.parseInt(jsonChildIndex);
+            this.childFlipIndex = Integer.parseInt(jsonChildIndex);
         }
         if (!jsonCoinFlipQueue.isEmpty()) {
-            coinFlipQueue = gson.fromJson(jsonChildren, new TypeToken<ArrayList<Child>>(){}.getType());
+            this.coinFlipQueue = gson.fromJson(jsonChildren, new TypeToken<ArrayList<Child>>(){}.getType());
         }
     }
 

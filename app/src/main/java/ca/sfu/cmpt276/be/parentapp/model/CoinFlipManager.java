@@ -64,6 +64,7 @@ public class CoinFlipManager {
         }
 
         saveCoinFlip(result, userChoice, getNextChild());
+        moveToEndQueue();
         notifyValueHasChanged();
 
         return result;
@@ -103,9 +104,10 @@ public class CoinFlipManager {
         coinFlipQueue.add(first);
     }
 
-    public void moveToFrontQueue(Child child) {
-        coinFlipQueue.remove(child);
-        coinFlipQueue.add(0, child );
+    public void moveToFrontQueue(int index) {
+        Child fromIndex = coinFlipQueue.get(index);
+        coinFlipQueue.remove(fromIndex);
+        coinFlipQueue.add(0, fromIndex );
     }
 
     public void removeInQueue(Child child){
@@ -119,6 +121,8 @@ public class CoinFlipManager {
     public Coin getCoinFlipGame(int index) {
         return this.coinFlipHistory.get(index);
     }
+
+    public ArrayList<Child> getCoinFlipQueue() { return this.coinFlipQueue; }
 
     public ArrayList<Coin> getCoinList() {
         return this.coinFlipHistory;

@@ -11,6 +11,7 @@ import java.util.Iterator;
  */
 public class ChildManager implements Iterable<Child> {
     private final ArrayList<Child> allChildren = DataManager.getInstance().getChildList();
+    ArrayList<Child> coinFlipQueue = DataManager.getInstance().getCoinFlipQueue();
 
 
     public Child get(int index) {
@@ -23,17 +24,20 @@ public class ChildManager implements Iterable<Child> {
 
     public void add(Child addThis) {
         allChildren.add(addThis);
+        coinFlipQueue.add(addThis);
         saveList();
     }
 
     public void remove(int index) {
         allChildren.remove(index);
+        coinFlipQueue.remove(index);
         saveList();
 
     }
 
     public void edit(int index, String editName) {
         allChildren.get(index).setName(editName);
+        coinFlipQueue.get(index).setName(editName);
         saveList();
     }
 
@@ -46,7 +50,10 @@ public class ChildManager implements Iterable<Child> {
     }
 
     public void saveList() {
+
         DataManager.getInstance().serializeChildren();
+        DataManager.getInstance().serializeCoinflips();
+
     }
 
     public boolean isEmpty() {
