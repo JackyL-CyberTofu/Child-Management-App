@@ -1,4 +1,4 @@
-package ca.sfu.cmpt276.be.parentapp.model;
+package ca.sfu.cmpt276.be.parentapp.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -10,6 +10,10 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+
+import ca.sfu.cmpt276.be.parentapp.model.Child;
+import ca.sfu.cmpt276.be.parentapp.model.Coin;
+import ca.sfu.cmpt276.be.parentapp.model.Task;
 
 /**
  * DataManager is a singleton that holds onto persistent data in the app such the list of Child and
@@ -69,21 +73,24 @@ public class DataManager {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeJSONReader() {})
                 .create();
+
         String jsonChildren = saveOption.load(CHILDREN_SAVENAME);
-        String jsonCoinflip = saveOption.load(COINFLIP_SAVENAME);
-        String jsonChildIndex = saveOption.load(CHILD_INDEX_SAVENAME);
-        String jsonTasks = saveOption.load(TASK_SAVENAME);
         if (!jsonChildren.isEmpty()) {
             childList = gson.fromJson(jsonChildren, new TypeToken<ArrayList<Child>>(){}.getType());
         }
+
+        String jsonCoinflip = saveOption.load(COINFLIP_SAVENAME);
         if (!jsonCoinflip.isEmpty()) {
             coinFlipHistory = gson.fromJson(jsonCoinflip, new TypeToken<ArrayList<Coin>>(){}.getType());
         }
+        String jsonChildIndex = saveOption.load(CHILD_INDEX_SAVENAME);
         if (!jsonChildIndex.isEmpty()) {
             childFlipIndex = Integer.parseInt(jsonChildIndex);
         }
+
+        String jsonTasks = saveOption.load(TASK_SAVENAME);
         if (!jsonTasks.isEmpty()) {
-            taskList = gson.fromJson(jsonTasks, new TypeToken<ArrayList<Coin>>(){}.getType());
+            taskList = gson.fromJson(jsonTasks, new TypeToken<ArrayList<Task>>(){}.getType());
         }
     }
     public void serializeChildren() {

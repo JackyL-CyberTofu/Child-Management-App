@@ -1,4 +1,4 @@
-package ca.sfu.cmpt276.be.parentapp;
+package ca.sfu.cmpt276.be.parentapp.view;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,8 +15,9 @@ import android.widget.TextView;
 import java.text.MessageFormat;
 import java.util.Objects;
 
+import ca.sfu.cmpt276.be.parentapp.R;
 import ca.sfu.cmpt276.be.parentapp.model.Coin;
-import ca.sfu.cmpt276.be.parentapp.model.CoinFlipManager;
+import ca.sfu.cmpt276.be.parentapp.controller.CoinFlipManager;
 
 /**
 Diplays a list of previous coin flip results

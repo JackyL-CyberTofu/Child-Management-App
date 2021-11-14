@@ -43,4 +43,6 @@
     <string name="text_configureChildren">Configure Children</string>
     <string name="text_editChild">Edit Child</string>
     <string name="text_addChild">Add Child</string>
+    <string name="tasks_button_label">Tasks</string>
+    <string name="child_portrait_content_description">Portrait of tasked child</string>
 </resources>

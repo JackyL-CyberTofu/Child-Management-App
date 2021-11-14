@@ -1,4 +1,4 @@
-package ca.sfu.cmpt276.be.parentapp;
+package ca.sfu.cmpt276.be.parentapp.view;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,8 +17,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Objects;
 
+import ca.sfu.cmpt276.be.parentapp.R;
 import ca.sfu.cmpt276.be.parentapp.model.Child;
-import ca.sfu.cmpt276.be.parentapp.model.ChildManager;
+import ca.sfu.cmpt276.be.parentapp.controller.ChildManager;
 
 /**
  * ChildListActivity shows all the Children stored in the app.
@@ -47,7 +48,7 @@ public class ChildListActivity extends AppCompatActivity {
     }
 
     private void setUpAddButton() {
-        FloatingActionButton addButton = findViewById(R.id.add_button);
+        FloatingActionButton addButton = findViewById(R.id.add_task_button);
         addButton.setOnClickListener(v -> {
             Intent launchEmptyEdit = ChildEditActivity.makeIntent(ChildListActivity.this);
             startActivity(launchEmptyEdit);

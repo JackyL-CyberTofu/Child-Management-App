@@ -1,4 +1,4 @@
-package ca.sfu.cmpt276.be.parentapp;
+package ca.sfu.cmpt276.be.parentapp.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,8 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Objects;
 
+import ca.sfu.cmpt276.be.parentapp.R;
 import ca.sfu.cmpt276.be.parentapp.model.Child;
-import ca.sfu.cmpt276.be.parentapp.model.ChildManager;
+import ca.sfu.cmpt276.be.parentapp.controller.ChildManager;
 
 /**
  * ChildEditActivity manages the creation and edit of a single child in the app.
