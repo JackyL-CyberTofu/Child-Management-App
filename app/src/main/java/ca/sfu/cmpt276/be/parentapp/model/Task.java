@@ -1,7 +1,5 @@
 package ca.sfu.cmpt276.be.parentapp.model;
 
-import android.provider.ContactsContract;
-
 import java.util.ArrayList;
 
 import ca.sfu.cmpt276.be.parentapp.controller.DataManager;

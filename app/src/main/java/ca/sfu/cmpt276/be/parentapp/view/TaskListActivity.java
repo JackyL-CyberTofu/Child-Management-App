@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -73,10 +72,12 @@ public class TaskListActivity extends AppCompatActivity {
                 taskView = getLayoutInflater().inflate(R.layout.layout_task, parent, false);
             }
 
+            if (taskManager.isChildren()) {
+                TextView childView = taskView.findViewById(R.id.tasked_child_textview);
+                childView.setText(currentTask.getTaskedChild().getName());
+            }
             TextView nameView = taskView.findViewById(R.id.task_name_textview);
             nameView.setText(currentTask.getName());
-            TextView childView = taskView.findViewById(R.id.tasked_child_textview);
-            childView.setText(currentTask.getTaskedChild().getName());
             return taskView;
         }
     }

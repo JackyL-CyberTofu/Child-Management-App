@@ -43,7 +43,7 @@ public class TaskEditActivity extends AppCompatActivity {
             setUpButton();
             setTaskChild();
         } else {
-            findViewById(R.id.group_tasked_child_info).setVisibility(View.GONE);
+            findViewById(R.id.group_existing_task_info).setVisibility(View.GONE);
         }
     }
 
@@ -55,14 +55,20 @@ public class TaskEditActivity extends AppCompatActivity {
     private void setUpButton() {
         Button completeButton = findViewById(R.id.button_complete_task);
         completeButton.setOnClickListener(v -> {
-            taskManager.completeTask(taskNumber);
+            if (taskManager.isChildren()) {
+                taskManager.completeTask(taskNumber);
+            }
             finish();
         });
     }
 
     private void setTaskChild() {
-        TextView taskedChild = findViewById(R.id.text_view_tasked_child);
-        taskedChild.setText(taskManager.getTaskedChild(taskNumber));
+        if (taskManager.isChildren()) {
+            TextView taskedChild = findViewById(R.id.text_view_tasked_child);
+            taskedChild.setText(taskManager.getTaskedChild(taskNumber));
+        } else {
+            findViewById(R.id.group_tasked_child_info).setVisibility(View.GONE);
+        }
     }
 
     private void setUpAppBar() {

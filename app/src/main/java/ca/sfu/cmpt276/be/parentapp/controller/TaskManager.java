@@ -52,6 +52,10 @@ public class TaskManager {
         return taskList.isEmpty();
     }
 
+    public boolean isChildren() {
+        return DataManager.getInstance().getChildList().isEmpty();
+    }
+
     public void save() {
         DataManager.getInstance().serializeTasks();
     }
