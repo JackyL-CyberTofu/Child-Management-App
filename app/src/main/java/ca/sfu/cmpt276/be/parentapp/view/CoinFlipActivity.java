@@ -235,7 +235,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
             ImageView image = itemView.findViewById(R.id.image_child_spinner);
 
             text.setText(list.get(position).getName());
-            image.setImageResource(R.drawable.rounded_rectangle);
+            image.setImageResource(R.drawable.sample_avatar);
 
             return itemView;
         }

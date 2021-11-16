@@ -3,6 +3,7 @@ package ca.sfu.cmpt276.be.parentapp.view;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,26 +57,18 @@ public class FlipHistoryActivity extends AppCompatActivity {
 
     private class MyListAdapter extends ArrayAdapter<Coin> {
         public MyListAdapter() {
-            super(FlipHistoryActivity.this, R.layout.layout_coinflip, coinFlipHistory);
+            super(FlipHistoryActivity.this, R.layout.layout_coinflip_modified, coinFlipHistory);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View itemView = convertView;
             if (itemView == null) {
-                itemView = getLayoutInflater().inflate(R.layout.layout_coinflip, parent, false);
+                itemView = getLayoutInflater().inflate(R.layout.layout_coinflip_modified, parent, false);
             }
 
             ImageView imageView = (ImageView) itemView.findViewById(R.id.winner_display);
-            if (coinFlipManager.getCoinFlipGame(position).getPickerWon()==1){
-                imageView.setImageResource(R.drawable.ic_baseline_check_circle_outline_24);
-            }
-            else {
-                imageView.setImageResource(R.drawable.ic_baseline_highlight_off_24);
-            }
-            if (coinFlipManager.getCoinFlipGame(position).getPicker()==null){
-                imageView.setImageResource(R.drawable.ic_baseline_help_outline_24);
-            }
+            imageView.setImageResource(R.drawable.sample_avatar);
 
             String result = coinFlipManager.getCoinFlipGame(position).getResult();
             String time = coinFlipManager.getCoinFlipGame(position).getDate();
@@ -91,6 +84,16 @@ public class FlipHistoryActivity extends AppCompatActivity {
                 under.setText(MessageFormat.format("{0}{1}", getString(R.string.text_pickedBy), coinFlipManager.getCoinFlipGame(position).getPicker()));
             }
 
+            ImageView imageView2 = (ImageView) itemView.findViewById(R.id.textView3);
+            if (coinFlipManager.getCoinFlipGame(position).getPickerWon()==1){
+                imageView2.setImageResource(R.drawable.ic_baseline_check_circle_outline_24);
+            }
+            else {
+                imageView2.setImageResource(R.drawable.ic_baseline_highlight_off_24);
+            }
+            if (coinFlipManager.getCoinFlipGame(position).getPicker()==null){
+                imageView2.setImageResource(R.drawable.ic_baseline_help_outline_24);
+            }
             //Fill the view
             return itemView;
         }
