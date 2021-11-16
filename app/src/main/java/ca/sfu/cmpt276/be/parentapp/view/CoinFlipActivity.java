@@ -2,12 +2,15 @@ package ca.sfu.cmpt276.be.parentapp.view;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,12 +22,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import ca.sfu.cmpt276.be.parentapp.R;
 import ca.sfu.cmpt276.be.parentapp.controller.ChildManager;
 import ca.sfu.cmpt276.be.parentapp.controller.CoinFlipManager;
+import ca.sfu.cmpt276.be.parentapp.controller.DataManager;
 import ca.sfu.cmpt276.be.parentapp.databinding.ActivityCoinflipBinding;
+import ca.sfu.cmpt276.be.parentapp.model.Child;
 
 /**
  * Activity with animations to simulate a real coin flip
@@ -39,7 +45,9 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
 
     ChildManager childManager = new ChildManager();
     Spinner spinner;
-    ArrayAdapter<String> adapter;
+    ArrayAdapter<Child> adapter;
+    ArrayList<Child> list;
+    ArrayList<Child> coinFlipQueue = DataManager.getInstance().getCoinFlipQueue();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,45 +65,45 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
     }
 
     private void initializeSpinner() {
+        list = getSpinnerElements();
         spinner = findViewById(R.id.spinner_childQueue);
-        ArrayList<String> list = updateSpinnerElements();
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter = new SpinnerAdapter(getApplicationContext(), list);
+        adapter.setDropDownViewResource(R.layout.layout_queue);
         spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new PickChildClass());
+        spinner.setOnItemSelectedListener(new SpinnerListener());
     }
 
     private void updateSpinner() {
-        ArrayList<String> list = updateSpinnerElements();
+        list = getSpinnerElements();
         adapter.clear();
         adapter.addAll(list);
         adapter.notifyDataSetChanged();
     }
 
-    private ArrayList<String> updateSpinnerElements() {
-        ArrayList<String> list = new ArrayList<>();
-        for (int i = 0; i < coinFlipManager.getCoinFlipQueue().size(); i++) {
-            list.add(coinFlipManager.getCoinFlipQueue().get(i).getName());
-        }
-        list.add(getString(R.string.string_none));
+    private ArrayList<Child> getSpinnerElements() {
+        ArrayList<Child> list = new ArrayList<>(coinFlipQueue);
+        list.add(new Child("None"));
         return list;
     }
 
     private void setupButton() {
         findViewById(R.id.flip_coin_button).setVisibility(View.GONE);
-        Button headsButton = findViewById(R.id.heads_button);
-        headsButton.setOnClickListener(view ->
+        Button button_flipHeads = findViewById(R.id.heads_button);
+        button_flipHeads.setOnClickListener(view ->
                 flipCoin("Heads")
         );
-        Button tailsButton = findViewById(R.id.tails_button);
-        tailsButton.setOnClickListener(view ->
+        Button button_flipTails = findViewById(R.id.tails_button);
+        button_flipTails.setOnClickListener(view ->
                 flipCoin("Tails")
         );
     }
 
     private void flipCoin(String userChoice) {
-        ImageView coin = findViewById(R.id.coin_image);
-        coin.animate().setDuration(3100).rotationXBy(2160).setListener(new AnimatorListenerAdapter() {
+        ImageView image_coin = findViewById(R.id.coin_image);
+        Button tailsButton = findViewById(R.id.tails_button);
+        Button headsButton = findViewById(R.id.heads_button);
+
+        image_coin.animate().setDuration(3100).rotationXBy(2160).setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
@@ -103,21 +111,29 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
                 spinner.setSelection(0);
                 switch (result) {
                     case "Heads":
-                        coin.setImageResource(R.drawable.coin_heads);
+                        image_coin.setImageResource(R.drawable.coin_heads);
                         break;
                     case "Tails":
-                        coin.setImageResource(R.drawable.coin_tails);
+                        image_coin.setImageResource(R.drawable.coin_tails);
                         break;
                 }
                 userOverride = false;
+                setButtons(true, headsButton, tailsButton);
                 verifyListEmpty();
             }
+
             @Override
             public void onAnimationStart(Animator animation) {
                 super.onAnimationStart(animation);
-                coin.setImageResource(R.drawable.coin_blur);
+                image_coin.setImageResource(R.drawable.coin_blur);
                 player = MediaPlayer.create(CoinFlipActivity.this, R.raw.coin_sound);
                 player.start();
+                setButtons(false, headsButton, tailsButton);
+            }
+
+            private void setButtons(boolean b, Button button_heads, Button button_tails) {
+                button_heads.setClickable(b);
+                button_tails.setClickable(b);
             }
         });
     }
@@ -142,9 +158,9 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
     }
 
     private void updateUIElements() {
-        TextView tv = findViewById(R.id.flip_result);
+        TextView text_result = findViewById(R.id.flip_result);
         if (coinFlipManager.getCoinList().size() > 0) {
-            tv.setText(coinFlipManager.getCoinFlipGame(0).getResult());
+            text_result.setText(coinFlipManager.getCoinFlipGame(0).getResult());
         }
         updateSpinner();
     }
@@ -168,7 +184,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
 
     }
 
-    private class PickChildClass implements android.widget.AdapterView.OnItemSelectedListener {
+    private class SpinnerListener implements android.widget.AdapterView.OnItemSelectedListener {
 
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -176,6 +192,9 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
                 coinFlipManager.moveToFrontQueue(i);
                 userOverride = false;
                 spinner.setSelection(0);
+            }
+            else {
+                userOverride = true;
             }
             verifyListEmpty();
             updateUIElements();
@@ -193,4 +212,33 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
         }
     }
 
+    class SpinnerAdapter extends ArrayAdapter<Child> {
+
+        public SpinnerAdapter(Context context, List<Child> childQueue) {
+            super(context, R.layout.layout_queue, childQueue);
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
+            return getCustomView(position, parent);
+        }
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return getCustomView(position, parent);
+        }
+
+        public View getCustomView(int position, ViewGroup parent) {
+            LayoutInflater inflater = getLayoutInflater();
+            View itemView = inflater.inflate(R.layout.layout_queue, parent, false);
+
+            TextView text = itemView.findViewById(R.id.text_child_spinner);
+            ImageView image = itemView.findViewById(R.id.image_child_spinner);
+
+            text.setText(list.get(position).getName());
+            image.setImageResource(R.drawable.sample_avatar);
+
+            return itemView;
+        }
+
+    }
 }
