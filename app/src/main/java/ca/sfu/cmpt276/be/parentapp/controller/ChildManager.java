@@ -16,6 +16,11 @@ public class ChildManager implements Iterable<Child> {
     private final ArrayList<Child> allChildren = DataManager.getInstance().getChildList();
     ArrayList<Child> coinFlipQueue = DataManager.getInstance().getCoinFlipQueue();
 
+    @NonNull
+    @Override
+    public Iterator<Child> iterator() {
+        return allChildren.iterator();
+    }
 
     public Child get(int index) {
         return allChildren.get(index);
@@ -61,19 +66,11 @@ public class ChildManager implements Iterable<Child> {
     }
 
     public void saveList() {
-
         DataManager.getInstance().serializeChildren();
         DataManager.getInstance().serializeCoinflips();
-
     }
 
     public boolean isEmpty() {
         return allChildren.isEmpty();
-    }
-
-    @NonNull
-    @Override
-    public Iterator<Child> iterator() {
-        return allChildren.iterator();
     }
 }

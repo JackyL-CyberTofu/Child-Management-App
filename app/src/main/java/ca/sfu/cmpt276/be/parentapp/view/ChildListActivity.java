@@ -39,6 +39,22 @@ public class ChildListActivity extends AppCompatActivity {
         setUpListViewClick();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showChildren();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+
+    public static Intent makeIntent(Context context) {
+        return new Intent(context, ChildListActivity.class);
+    }
+
     private void setUpListViewClick() {
         ListView childList = findViewById(R.id.childList);
         childList.setOnItemClickListener((parent, viewClicked, position, id) -> {
@@ -54,7 +70,6 @@ public class ChildListActivity extends AppCompatActivity {
             startActivity(launchEmptyEdit);
         });
     }
-
     private void showChildren() {
         ArrayAdapter<Child> childAdapter = new ChildListAdapter();
         ListView childList = findViewById(R.id.childList);
@@ -62,10 +77,10 @@ public class ChildListActivity extends AppCompatActivity {
     }
 
     private class ChildListAdapter extends ArrayAdapter<Child> {
+
         public ChildListAdapter() {
             super(ChildListActivity.this, R.layout.layout_child_item, childManager.getAll());
         }
-
         @NonNull
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -79,21 +94,6 @@ public class ChildListActivity extends AppCompatActivity {
             nameView.setText(currentChild.getName());
             return itemView;
         }
-    }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        finish();
-        return true;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        showChildren();
-    }
-
-    public static Intent makeIntent(Context context) {
-        return new Intent(context, ChildListActivity.class);
     }
 }

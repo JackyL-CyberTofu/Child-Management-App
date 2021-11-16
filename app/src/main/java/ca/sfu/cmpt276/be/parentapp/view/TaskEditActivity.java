@@ -47,6 +47,47 @@ public class TaskEditActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.save_delete_appbar, menu);
+        MenuItem deleteOverflow = menu.findItem(R.id.delete_item);
+        if (!isExistingTask) {
+            deleteOverflow.setVisible(false);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.save_item) {
+            saveAndExit();
+        }
+
+        if (item.getItemId() == R.id.delete_item) {
+            deleteAndExit();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public static Intent makeIntent(Context context) {
+        return new Intent(context, TaskEditActivity.class);
+    }
+
+    public static Intent makeIntent(Context context, int taskNum) {
+        Intent taskEditIntent = new Intent(context, TaskEditActivity.class);
+
+        taskEditIntent.putExtra(EXTRA_TASK_NUMBER, taskNum);
+        taskEditIntent.putExtra(EXTRA_IS_NEW_TASK, true);
+
+        return taskEditIntent;
+    }
+
     private void setUpTaskName() {
         EditText taskName = findViewById(R.id.edit_text_task_name);
         taskName.setText(taskManager.getName(taskNumber));
@@ -87,34 +128,6 @@ public class TaskEditActivity extends AppCompatActivity {
         taskNumber = intent.getIntExtra(EXTRA_TASK_NUMBER, 0);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.save_delete_appbar, menu);
-        MenuItem deleteOverflow = menu.findItem(R.id.delete_item);
-        if (!isExistingTask) {
-            deleteOverflow.setVisible(false);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        finish();
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.save_item) {
-            saveAndExit();
-        }
-
-        if (item.getItemId() == R.id.delete_item) {
-            deleteAndExit();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     private void saveAndExit() {
         EditText taskName = findViewById(R.id.edit_text_task_name);
         String newName = taskName.getText().toString();
@@ -138,18 +151,5 @@ public class TaskEditActivity extends AppCompatActivity {
     private void deleteAndExit() {
         taskManager.remove(taskNumber);
         finish();
-    }
-
-    public static Intent makeIntent(Context context) {
-        return new Intent(context, TaskEditActivity.class);
-    }
-
-    public static Intent makeIntent(Context context, int taskNum) {
-        Intent taskEditIntent = new Intent(context, TaskEditActivity.class);
-
-        taskEditIntent.putExtra(EXTRA_TASK_NUMBER, taskNum);
-        taskEditIntent.putExtra(EXTRA_IS_NEW_TASK, true);
-
-        return taskEditIntent;
     }
 }

@@ -36,6 +36,18 @@ public class TaskListActivity extends AppCompatActivity {
         setUpTaskSelection();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showTasks();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+
     private void setUpAddButton() {
         FloatingActionButton addTask = findViewById(R.id.add_task_button);
         addTask.setOnClickListener(v -> {
@@ -80,17 +92,5 @@ public class TaskListActivity extends AppCompatActivity {
             nameView.setText(currentTask.getName());
             return taskView;
         }
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        finish();
-        return true;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        showTasks();
     }
 }

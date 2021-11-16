@@ -45,11 +45,6 @@ public class ChildEditActivity extends AppCompatActivity {
     }
 
     @Override
-    public void finish() {
-        super.finish();
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.save_delete_appbar, menu);
         MenuItem deleteOverflow = menu.findItem(R.id.delete_item);
@@ -71,9 +66,27 @@ public class ChildEditActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+    }
+
     private void deleteChild() {
         ChildManager childManager = new ChildManager();
         childManager.remove(childPosition);
+    }
+
+    public static Intent makeIntent(Context context) {
+        return new Intent(context, ChildEditActivity.class);
+    }
+
+    public static Intent makeIntent(Context context, int childPosition) {
+        Intent editChildIntent = new Intent(context, ChildEditActivity.class);
+
+        editChildIntent.putExtra(EXTRA_CHILD_LOCATION, childPosition);
+        editChildIntent.putExtra(EXTRA_DO_EDIT, true);
+
+        return editChildIntent;
     }
 
     private void saveAndExit() {
@@ -117,17 +130,4 @@ public class ChildEditActivity extends AppCompatActivity {
         }
     }
 
-
-    public static Intent makeIntent(Context context) {
-        return new Intent(context, ChildEditActivity.class);
-    }
-
-    public static Intent makeIntent(Context context, int childPosition) {
-        Intent editChildIntent = new Intent(context, ChildEditActivity.class);
-
-        editChildIntent.putExtra(EXTRA_CHILD_LOCATION, childPosition);
-        editChildIntent.putExtra(EXTRA_DO_EDIT, true);
-
-        return editChildIntent;
-    }
 }

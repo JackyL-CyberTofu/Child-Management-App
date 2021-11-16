@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import ca.sfu.cmpt276.be.parentapp.controller.DataManager;
 
 public class Task {
+
     private String name;
     private int taskChildIndex = 0;
 
