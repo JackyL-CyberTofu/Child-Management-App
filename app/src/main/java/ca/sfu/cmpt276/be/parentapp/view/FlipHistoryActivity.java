@@ -3,7 +3,6 @@ package ca.sfu.cmpt276.be.parentapp.view;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +18,6 @@ import java.util.Objects;
 
 import ca.sfu.cmpt276.be.parentapp.R;
 import ca.sfu.cmpt276.be.parentapp.controller.DataManager;
-import ca.sfu.cmpt276.be.parentapp.model.Child;
 import ca.sfu.cmpt276.be.parentapp.controller.ChildManager;
 import ca.sfu.cmpt276.be.parentapp.model.Coin;
 import ca.sfu.cmpt276.be.parentapp.controller.CoinFlipManager;
@@ -67,32 +65,32 @@ public class FlipHistoryActivity extends AppCompatActivity {
                 itemView = getLayoutInflater().inflate(R.layout.layout_coinflip_modified, parent, false);
             }
 
-            ImageView imageView = (ImageView) itemView.findViewById(R.id.winner_display);
-            imageView.setImageResource(R.drawable.sample_avatar);
+            ImageView image_child = (ImageView) itemView.findViewById(R.id.image_layout_child);
+            image_child.setImageResource(R.drawable.sample_avatar);
 
-            String result = coinFlipManager.getCoinFlipGame(position).getResult();
-            String time = coinFlipManager.getCoinFlipGame(position).getDate();
+            String string_result = coinFlipManager.getCoinFlipGame(position).getResult();
+            String string_time = coinFlipManager.getCoinFlipGame(position).getDate();
 
-            TextView upper = (TextView) itemView.findViewById(R.id.textView1);
-            upper.setText(MessageFormat.format("{0}{1}{2}", result, getString(R.string.AT), time));
+            TextView text_upper = (TextView) itemView.findViewById(R.id.text_upper);
+            text_upper.setText(MessageFormat.format("{0}{1}{2}", string_result, getString(R.string.AT), string_time));
 
-            TextView under = (TextView) itemView.findViewById(R.id.textView2);
+            TextView text_lower = (TextView) itemView.findViewById(R.id.text_lower);
             if (coinFlipManager.getCoinFlipGame(position).getPicker()==null){
-                under.setText(R.string.text_noChildrenSelected);
+                text_lower.setText(R.string.text_noChildrenSelected);
             }
             else {
-                under.setText(MessageFormat.format("{0}{1}", getString(R.string.text_pickedBy), coinFlipManager.getCoinFlipGame(position).getPicker()));
+                text_lower.setText(MessageFormat.format("{0}{1}", getString(R.string.text_pickedBy), coinFlipManager.getCoinFlipGame(position).getPicker()));
             }
 
-            ImageView imageView2 = (ImageView) itemView.findViewById(R.id.textView3);
+            ImageView image_result = (ImageView) itemView.findViewById(R.id.image_result);
             if (coinFlipManager.getCoinFlipGame(position).getPickerWon()==1){
-                imageView2.setImageResource(R.drawable.ic_baseline_check_circle_outline_24);
+                image_result.setImageResource(R.drawable.ic_baseline_check_circle_outline_24);
             }
             else {
-                imageView2.setImageResource(R.drawable.ic_baseline_highlight_off_24);
+                image_result.setImageResource(R.drawable.ic_baseline_highlight_off_24);
             }
             if (coinFlipManager.getCoinFlipGame(position).getPicker()==null){
-                imageView2.setImageResource(R.drawable.ic_baseline_help_outline_24);
+                image_result.setImageResource(R.drawable.ic_baseline_help_outline_24);
             }
             //Fill the view
             return itemView;

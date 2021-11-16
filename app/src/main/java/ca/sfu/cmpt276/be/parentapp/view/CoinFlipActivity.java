@@ -88,22 +88,22 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
 
     private void setupButton() {
         findViewById(R.id.flip_coin_button).setVisibility(View.GONE);
-        Button headsButton = findViewById(R.id.heads_button);
-        headsButton.setOnClickListener(view ->
+        Button button_flipHeads = findViewById(R.id.heads_button);
+        button_flipHeads.setOnClickListener(view ->
                 flipCoin("Heads")
         );
-        Button tailsButton = findViewById(R.id.tails_button);
-        tailsButton.setOnClickListener(view ->
+        Button button_flipTails = findViewById(R.id.tails_button);
+        button_flipTails.setOnClickListener(view ->
                 flipCoin("Tails")
         );
     }
 
     private void flipCoin(String userChoice) {
-        ImageView coin = findViewById(R.id.coin_image);
+        ImageView image_coin = findViewById(R.id.coin_image);
         Button tailsButton = findViewById(R.id.tails_button);
         Button headsButton = findViewById(R.id.heads_button);
 
-        coin.animate().setDuration(3100).rotationXBy(2160).setListener(new AnimatorListenerAdapter() {
+        image_coin.animate().setDuration(3100).rotationXBy(2160).setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
@@ -111,10 +111,10 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
                 spinner.setSelection(0);
                 switch (result) {
                     case "Heads":
-                        coin.setImageResource(R.drawable.coin_heads);
+                        image_coin.setImageResource(R.drawable.coin_heads);
                         break;
                     case "Tails":
-                        coin.setImageResource(R.drawable.coin_tails);
+                        image_coin.setImageResource(R.drawable.coin_tails);
                         break;
                 }
                 userOverride = false;
@@ -125,15 +125,15 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
             @Override
             public void onAnimationStart(Animator animation) {
                 super.onAnimationStart(animation);
-                coin.setImageResource(R.drawable.coin_blur);
+                image_coin.setImageResource(R.drawable.coin_blur);
                 player = MediaPlayer.create(CoinFlipActivity.this, R.raw.coin_sound);
                 player.start();
                 setButtons(false, headsButton, tailsButton);
             }
 
-            private void setButtons(boolean b, Button headsButton, Button tailsButton) {
-                headsButton.setClickable(b);
-                tailsButton.setClickable(b);
+            private void setButtons(boolean b, Button button_heads, Button button_tails) {
+                button_heads.setClickable(b);
+                button_tails.setClickable(b);
             }
         });
     }
@@ -158,9 +158,9 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
     }
 
     private void updateUIElements() {
-        TextView tv = findViewById(R.id.flip_result);
+        TextView text_result = findViewById(R.id.flip_result);
         if (coinFlipManager.getCoinList().size() > 0) {
-            tv.setText(coinFlipManager.getCoinFlipGame(0).getResult());
+            text_result.setText(coinFlipManager.getCoinFlipGame(0).getResult());
         }
         updateSpinner();
     }

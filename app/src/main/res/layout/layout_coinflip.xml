@@ -7,7 +7,7 @@
     >
 
     <ImageView
-        android:id="@+id/winner_display"
+        android:id="@+id/image_layout_child"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_weight="66.6"
@@ -23,14 +23,14 @@
         <TextView
             android:layout_height="40dp"
             android:layout_width="match_parent"
-            android:id="@+id/textView1"
+            android:id="@+id/text_upper"
             android:gravity="center_vertical"
             android:textSize="17sp"/>
 
         <TextView
             android:layout_height="40dp"
             android:layout_width="match_parent"
-            android:id="@+id/textView2"
+            android:id="@+id/text_lower"
             android:gravity="center_vertical"
             android:textSize="17sp"/>
 </LinearLayout>
