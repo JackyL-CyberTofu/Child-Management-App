@@ -33,7 +33,6 @@ public class FlipHistoryActivity extends AppCompatActivity {
     ArrayList<Coin> coinFlipHistory = DataManager.getInstance().getCoinFlipHistory();
     ChildManager childManager = new ChildManager();
     CoinFlipManager coinFlipManager = new CoinFlipManager();
-    ArrayList<Child> coinFlipQueue = DataManager.getInstance().getCoinFlipQueue();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +56,14 @@ public class FlipHistoryActivity extends AppCompatActivity {
 
     private class MyListAdapter extends ArrayAdapter<Coin> {
         public MyListAdapter() {
-            super(FlipHistoryActivity.this, R.layout.item_view, coinFlipHistory);
+            super(FlipHistoryActivity.this, R.layout.layout_coinflip, coinFlipHistory);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View itemView = convertView;
             if (itemView == null) {
-                itemView = getLayoutInflater().inflate(R.layout.item_view, parent, false);
+                itemView = getLayoutInflater().inflate(R.layout.layout_coinflip, parent, false);
             }
 
             ImageView imageView = (ImageView) itemView.findViewById(R.id.winner_display);
