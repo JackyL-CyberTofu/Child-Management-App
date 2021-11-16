@@ -47,7 +47,7 @@ public class ChildEditActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.save_delete_appbar, menu);
-        MenuItem deleteOverflow = menu.findItem(R.id.delete_item);
+        MenuItem deleteOverflow = menu.findItem(R.id.item_delete);
         if (!doEdit) {
             deleteOverflow.setVisible(false);
         }
@@ -56,11 +56,11 @@ public class ChildEditActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.save_item) {
+        if (item.getItemId() == R.id.item_save) {
             saveAndExit();
         }
 
-        if (item.getItemId() == R.id.delete_item) {
+        if (item.getItemId() == R.id.item_delete) {
             deleteAndExit();
         }
         return super.onOptionsItemSelected(item);
@@ -90,7 +90,7 @@ public class ChildEditActivity extends AppCompatActivity {
     }
 
     private void saveAndExit() {
-        EditText childNameEditText = findViewById(R.id.edit_child_name);
+        EditText childNameEditText = findViewById(R.id.field_child_name);
         String newName = childNameEditText.getText().toString();
 
         if (newName.isEmpty()) {
@@ -122,7 +122,7 @@ public class ChildEditActivity extends AppCompatActivity {
         childPosition = intent.getIntExtra(EXTRA_CHILD_LOCATION, -1);
 
         if (doEdit) {
-            EditText childNameEditText = findViewById(R.id.edit_child_name);
+            EditText childNameEditText = findViewById(R.id.field_child_name);
             String childName = childManager.get(childPosition).getName();
             childNameEditText.setText(childName);
         } else {

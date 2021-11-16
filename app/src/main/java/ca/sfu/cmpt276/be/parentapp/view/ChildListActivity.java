@@ -56,7 +56,7 @@ public class ChildListActivity extends AppCompatActivity {
     }
 
     private void setUpListViewClick() {
-        ListView childList = findViewById(R.id.childList);
+        ListView childList = findViewById(R.id.list_children);
         childList.setOnItemClickListener((parent, viewClicked, position, id) -> {
             Intent editChild = ChildEditActivity.makeIntent(ChildListActivity.this, position);
             startActivity(editChild);
@@ -64,7 +64,7 @@ public class ChildListActivity extends AppCompatActivity {
     }
 
     private void setUpAddButton() {
-        FloatingActionButton addButton = findViewById(R.id.add_task_button);
+        FloatingActionButton addButton = findViewById(R.id.button_add_child);
         addButton.setOnClickListener(v -> {
             Intent launchEmptyEdit = ChildEditActivity.makeIntent(ChildListActivity.this);
             startActivity(launchEmptyEdit);
@@ -72,7 +72,7 @@ public class ChildListActivity extends AppCompatActivity {
     }
     private void showChildren() {
         ArrayAdapter<Child> childAdapter = new ChildListAdapter();
-        ListView childList = findViewById(R.id.childList);
+        ListView childList = findViewById(R.id.list_children);
         childList.setAdapter(childAdapter);
     }
 

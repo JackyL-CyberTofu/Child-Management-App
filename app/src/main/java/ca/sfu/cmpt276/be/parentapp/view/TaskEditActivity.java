@@ -50,7 +50,7 @@ public class TaskEditActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.save_delete_appbar, menu);
-        MenuItem deleteOverflow = menu.findItem(R.id.delete_item);
+        MenuItem deleteOverflow = menu.findItem(R.id.item_delete);
         if (!isExistingTask) {
             deleteOverflow.setVisible(false);
         }
@@ -65,11 +65,11 @@ public class TaskEditActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.save_item) {
+        if (item.getItemId() == R.id.item_save) {
             saveAndExit();
         }
 
-        if (item.getItemId() == R.id.delete_item) {
+        if (item.getItemId() == R.id.item_delete) {
             deleteAndExit();
         }
         return super.onOptionsItemSelected(item);
@@ -89,7 +89,7 @@ public class TaskEditActivity extends AppCompatActivity {
     }
 
     private void setUpTaskName() {
-        EditText taskName = findViewById(R.id.edit_text_task_name);
+        EditText taskName = findViewById(R.id.field_task_name);
         taskName.setText(taskManager.getName(taskNumber));
     }
 
@@ -105,7 +105,7 @@ public class TaskEditActivity extends AppCompatActivity {
 
     private void setTaskChild() {
         if (taskManager.isChildren()) {
-            TextView taskedChild = findViewById(R.id.text_view_tasked_child);
+            TextView taskedChild = findViewById(R.id.text_tasked_child);
             taskedChild.setText(taskManager.getTaskedChild(taskNumber));
         } else {
             findViewById(R.id.group_tasked_child_info).setVisibility(View.GONE);
@@ -129,7 +129,7 @@ public class TaskEditActivity extends AppCompatActivity {
     }
 
     private void saveAndExit() {
-        EditText taskName = findViewById(R.id.edit_text_task_name);
+        EditText taskName = findViewById(R.id.field_task_name);
         String newName = taskName.getText().toString();
 
         if (newName.isEmpty()) {

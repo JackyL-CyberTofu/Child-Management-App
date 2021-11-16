@@ -7,7 +7,7 @@
     tools:context=".view.TaskEditActivity">
 
     <EditText
-        android:id="@+id/edit_text_task_name"
+        android:id="@+id/field_task_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -22,16 +22,16 @@
         android:autofillHints="Name of task goes here" />
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/layout_tasked_child"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_view_child_indicator">
+        app:layout_constraintTop_toBottomOf="@+id/text_tasked_child_label">
 
         <ImageView
-            android:id="@+id/image_view_next_child"
+            android:id="@+id/image_tasked_child"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
@@ -39,7 +39,7 @@
             android:contentDescription="@string/child_icon_description" />
 
         <TextView
-            android:id="@+id/text_view_tasked_child"
+            android:id="@+id/text_tasked_child"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -47,15 +47,15 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/text_view_child_indicator"
+        android:id="@+id/text_tasked_child_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/child_in_charge_label"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintBottom_toTopOf="@+id/layout_tasked_child"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_task_name" />
+        app:layout_constraintTop_toBottomOf="@+id/field_task_name" />
 
     <Button
         android:id="@+id/button_complete_task"
@@ -66,20 +66,20 @@
         android:drawableLeft="@drawable/ic_baseline_check_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/layout_tasked_child"
         tools:ignore="RtlHardcoded" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/group_existing_task_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="linearLayout2,text_view_child_indicator,button_complete_task" />
+        app:constraint_referenced_ids="layout_tasked_child,text_tasked_child_label,button_complete_task" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/group_tasked_child_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="linearLayout2,text_view_child_indicator"
+        app:constraint_referenced_ids="layout_tasked_child,text_tasked_child_label"
         tools:layout_editor_absoluteX="87dp"
         tools:layout_editor_absoluteY="326dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

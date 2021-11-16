@@ -49,7 +49,7 @@ public class TaskListActivity extends AppCompatActivity {
     }
 
     private void setUpAddButton() {
-        FloatingActionButton addTask = findViewById(R.id.add_task_button);
+        FloatingActionButton addTask = findViewById(R.id.button_add_task);
         addTask.setOnClickListener(v -> {
             Intent newTask = TaskEditActivity.makeIntent(TaskListActivity.this);
             startActivity(newTask);
@@ -57,7 +57,7 @@ public class TaskListActivity extends AppCompatActivity {
     }
 
     private void setUpTaskSelection() {
-        ListView taskList = findViewById(R.id.task_listview);
+        ListView taskList = findViewById(R.id.list_tasks);
         taskList.setOnItemClickListener((parent, viewClicked, position, id) -> {
             Intent openTask = TaskEditActivity.makeIntent(TaskListActivity.this, position);
             startActivity(openTask);
@@ -66,7 +66,7 @@ public class TaskListActivity extends AppCompatActivity {
 
     private void showTasks() {
         ArrayAdapter<Task> taskAdapter = new TaskListAdapter();
-        ListView taskList = findViewById(R.id.task_listview);
+        ListView taskList = findViewById(R.id.list_tasks);
         taskList.setAdapter(taskAdapter);
     }
 
@@ -85,10 +85,10 @@ public class TaskListActivity extends AppCompatActivity {
             }
 
             if (taskManager.isChildren()) {
-                TextView childView = taskView.findViewById(R.id.tasked_child_textview);
+                TextView childView = taskView.findViewById(R.id.text_child_name);
                 childView.setText(currentTask.getTaskedChild().getName());
             }
-            TextView nameView = taskView.findViewById(R.id.task_name_textview);
+            TextView nameView = taskView.findViewById(R.id.text_task_name);
             nameView.setText(currentTask.getName());
             return taskView;
         }
