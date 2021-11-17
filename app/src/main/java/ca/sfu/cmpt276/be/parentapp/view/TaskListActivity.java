@@ -72,7 +72,7 @@ public class TaskListActivity extends AppCompatActivity {
 
     private class TaskListAdapter extends ArrayAdapter<Task> {
         public TaskListAdapter() {
-            super(TaskListActivity.this, R.layout.layout_child_item, taskManager.getAll());
+            super(TaskListActivity.this, R.layout.layout_task, taskManager.getAll());
         }
 
         @NonNull
@@ -85,10 +85,10 @@ public class TaskListActivity extends AppCompatActivity {
             }
 
             if (taskManager.isChildren()) {
-                TextView childView = taskView.findViewById(R.id.text_child_name);
+                TextView childView = taskView.findViewById(R.id.text_layout_tasked_child);
                 childView.setText(currentTask.getTaskedChild().getName());
             }
-            TextView nameView = taskView.findViewById(R.id.text_task_name);
+            TextView nameView = taskView.findViewById(R.id.text_layout_task);
             nameView.setText(currentTask.getName());
             return taskView;
         }

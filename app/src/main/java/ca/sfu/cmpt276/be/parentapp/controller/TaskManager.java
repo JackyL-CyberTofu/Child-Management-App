@@ -53,7 +53,7 @@ public class TaskManager {
     }
 
     public boolean isChildren() {
-        return DataManager.getInstance().getChildList().isEmpty();
+        return !DataManager.getInstance().getChildList().isEmpty();
     }
 
     public void save() {

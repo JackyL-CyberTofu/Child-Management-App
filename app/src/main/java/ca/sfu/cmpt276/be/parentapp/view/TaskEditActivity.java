@@ -89,7 +89,7 @@ public class TaskEditActivity extends AppCompatActivity {
     }
 
     private void setUpTaskName() {
-        EditText taskName = findViewById(R.id.field_task_name);
+        EditText taskName = findViewById(R.id.field_activity_task_name);
         taskName.setText(taskManager.getName(taskNumber));
     }
 
@@ -105,7 +105,7 @@ public class TaskEditActivity extends AppCompatActivity {
 
     private void setTaskChild() {
         if (taskManager.isChildren()) {
-            TextView taskedChild = findViewById(R.id.text_tasked_child);
+            TextView taskedChild = findViewById(R.id.text_activity_tasked_child);
             taskedChild.setText(taskManager.getTaskedChild(taskNumber));
         } else {
             findViewById(R.id.group_tasked_child_info).setVisibility(View.GONE);
@@ -129,7 +129,7 @@ public class TaskEditActivity extends AppCompatActivity {
     }
 
     private void saveAndExit() {
-        EditText taskName = findViewById(R.id.field_task_name);
+        EditText taskName = findViewById(R.id.field_activity_task_name);
         String newName = taskName.getText().toString();
 
         if (newName.isEmpty()) {
