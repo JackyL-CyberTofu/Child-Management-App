@@ -26,6 +26,10 @@ public class Task {
         if (childList.isEmpty()) {
             return new Child("No Children Found (You should fix this layer)");
         }
+
+        if (taskChildIndex >= childList.size()) {
+            taskChildIndex = childList.size() - 1;
+        }
         return DataManager.getInstance().getChildList().get(taskChildIndex);
     }
 
