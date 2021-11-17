@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,11 +7,12 @@
     >
 
     <ImageView
-        android:id="@+id/winner_display"
+        android:id="@+id/image_layout_child"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_weight="66.6"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@tools:sample/avatars"
+        android:contentDescription="@string/string_image"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,14 +23,14 @@
         <TextView
             android:layout_height="40dp"
             android:layout_width="match_parent"
-            android:id="@+id/textView1"
+            android:id="@+id/text_upper"
             android:gravity="center_vertical"
             android:textSize="17sp"/>
 
         <TextView
             android:layout_height="40dp"
             android:layout_width="match_parent"
-            android:id="@+id/textView2"
+            android:id="@+id/text_lower"
             android:gravity="center_vertical"
             android:textSize="17sp"/>
 </LinearLayout>
