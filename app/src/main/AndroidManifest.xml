@@ -16,6 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BeParentApp">
         <activity
+            android:name=".view.HelpActivity"
+            android:label="Help"
+            android:exported="true" />
+        <activity
             android:name=".view.TaskEditActivity"
             android:exported="false" />
         <activity
