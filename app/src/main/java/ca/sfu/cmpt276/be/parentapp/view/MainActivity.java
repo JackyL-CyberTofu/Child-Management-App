@@ -31,6 +31,15 @@ public class MainActivity extends AppCompatActivity {
         setUpChildButton();
         setUpTimeoutButton();
         setUpTaskButton();
+        setUpHelpButton();
+    }
+
+    private void setUpHelpButton() {
+        Button button_help = findViewById(R.id.help_button);
+        button_help.setOnClickListener(view -> {
+            Intent helpActivity = HelpActivity.makeIntent(MainActivity.this);
+            startActivity(helpActivity);
+        });
     }
 
     private void setUpTaskButton() {

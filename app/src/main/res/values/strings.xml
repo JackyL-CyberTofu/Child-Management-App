@@ -51,4 +51,8 @@
     <string name="child_icon_description">Image of child</string>
     <string name="child_in_charge_label">In Charge</string>
     <string name="completion_button_label">Task Completed</string>
+    <string name="help_button_label">Help</string>
+    <string name="help_author_label">Author</string>
+    <string name="help_author_description">Developed by Team Beryllium.\n(Joshua Li, Randy Letran, Jacky Lim and Injun Lee)</string>
+    <string name="help_reference_label">Reference</string>
 </resources>
