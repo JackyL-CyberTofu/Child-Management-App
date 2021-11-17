@@ -14,7 +14,7 @@
     <string name="history">History</string>
     <string name="previous_winners">Previous Winners</string>
     <string name="next_child">"Next child: "</string>
-    <string name="save_children_button">saveChildrenButton</string>
+    <string name="save_children_button">Save</string>
     <string name="delete_child_label">Delete</string>
     <string name="flip_tail_label">Flip Tails</string>
     <string name="flip_heads_label">Flip Heads</string>
@@ -47,4 +47,8 @@
     <string name="child_portrait_content_description">Portrait of tasked child</string>
     <string name="string_none">None</string>
     <string name="string_image">image</string>
+    <string name="task_name_hint">Enter name of task</string>
+    <string name="child_icon_description">Image of child</string>
+    <string name="child_in_charge_label">In Charge</string>
+    <string name="completion_button_label">Task Completed</string>
 </resources>

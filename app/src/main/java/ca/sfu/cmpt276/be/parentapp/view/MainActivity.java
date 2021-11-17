@@ -9,7 +9,6 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import ca.sfu.cmpt276.be.parentapp.R;
-import ca.sfu.cmpt276.be.parentapp.TaskListActivity;
 import ca.sfu.cmpt276.be.parentapp.controller.DataManager;
 
 /**
@@ -18,7 +17,7 @@ import ca.sfu.cmpt276.be.parentapp.controller.DataManager;
  * Shared Preferences.
  */
 public class MainActivity extends AppCompatActivity {
-    public static final String SP_SAVE_NAME = "SaveData";
+    public static final String PREF_SAVE_NAME = "SaveData";
     SharedPreferences saveSP;
 
 
@@ -70,13 +69,13 @@ public class MainActivity extends AppCompatActivity {
         dataManager.setSaveOption(new DataManager.SaveManager() {
             @Override
             public String load(String saveName) {
-                saveSP = getApplicationContext().getSharedPreferences(SP_SAVE_NAME, Context.MODE_PRIVATE);
+                saveSP = getApplicationContext().getSharedPreferences(PREF_SAVE_NAME, Context.MODE_PRIVATE);
                 return saveSP.getString(saveName, "");
             }
 
             @Override
             public void save(String saveName, String saveJson) {
-                saveSP = getApplicationContext().getSharedPreferences(SP_SAVE_NAME, Context.MODE_PRIVATE);
+                saveSP = getApplicationContext().getSharedPreferences(PREF_SAVE_NAME, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = saveSP.edit();
                 editor.putString(saveName, saveJson);
                 editor.apply();

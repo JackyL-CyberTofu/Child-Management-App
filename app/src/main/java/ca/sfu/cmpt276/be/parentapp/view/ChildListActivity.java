@@ -39,8 +39,24 @@ public class ChildListActivity extends AppCompatActivity {
         setUpListViewClick();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showChildren();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+
+    public static Intent makeIntent(Context context) {
+        return new Intent(context, ChildListActivity.class);
+    }
+
     private void setUpListViewClick() {
-        ListView childList = findViewById(R.id.childList);
+        ListView childList = findViewById(R.id.list_children);
         childList.setOnItemClickListener((parent, viewClicked, position, id) -> {
             Intent editChild = ChildEditActivity.makeIntent(ChildListActivity.this, position);
             startActivity(editChild);
@@ -48,24 +64,23 @@ public class ChildListActivity extends AppCompatActivity {
     }
 
     private void setUpAddButton() {
-        FloatingActionButton addButton = findViewById(R.id.add_task_button);
+        FloatingActionButton addButton = findViewById(R.id.button_add_child);
         addButton.setOnClickListener(v -> {
             Intent launchEmptyEdit = ChildEditActivity.makeIntent(ChildListActivity.this);
             startActivity(launchEmptyEdit);
         });
     }
-
     private void showChildren() {
         ArrayAdapter<Child> childAdapter = new ChildListAdapter();
-        ListView childList = findViewById(R.id.childList);
+        ListView childList = findViewById(R.id.list_children);
         childList.setAdapter(childAdapter);
     }
 
     private class ChildListAdapter extends ArrayAdapter<Child> {
+
         public ChildListAdapter() {
             super(ChildListActivity.this, R.layout.layout_child_item, childManager.getAll());
         }
-
         @NonNull
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -79,21 +94,6 @@ public class ChildListActivity extends AppCompatActivity {
             nameView.setText(currentChild.getName());
             return itemView;
         }
-    }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        finish();
-        return true;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        showChildren();
-    }
-
-    public static Intent makeIntent(Context context) {
-        return new Intent(context, ChildListActivity.class);
     }
 }

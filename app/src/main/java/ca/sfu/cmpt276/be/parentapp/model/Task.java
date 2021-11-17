@@ -1,12 +1,11 @@
 package ca.sfu.cmpt276.be.parentapp.model;
 
-import android.provider.ContactsContract;
-
 import java.util.ArrayList;
 
 import ca.sfu.cmpt276.be.parentapp.controller.DataManager;
 
 public class Task {
+
     private String name;
     private int taskChildIndex = 0;
 
@@ -27,14 +26,18 @@ public class Task {
         if (childList.isEmpty()) {
             return new Child("No Children Found (You should fix this layer)");
         }
+
+        if (taskChildIndex >= childList.size()) {
+            taskChildIndex = childList.size() - 1;
+        }
         return DataManager.getInstance().getChildList().get(taskChildIndex);
     }
 
     public void completeTask() {
-        if (taskChildIndex >= DataManager.getInstance().getChildList().size()) {
-            taskChildIndex = 0;
-        } else {
+        if (taskChildIndex < (DataManager.getInstance().getChildList().size() - 1)) {
             taskChildIndex++;
+        } else {
+            taskChildIndex = 0;
         }
     }
 
