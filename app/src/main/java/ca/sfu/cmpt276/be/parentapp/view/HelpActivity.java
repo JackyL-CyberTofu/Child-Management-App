@@ -14,10 +14,6 @@ import ca.sfu.cmpt276.be.parentapp.R;
 
 public class HelpActivity extends AppCompatActivity {
 
-    public static Intent makeIntent(Context context) {
-        return new Intent(context, HelpActivity.class);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,5 +29,9 @@ public class HelpActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public static Intent makeIntent(Context context) {
+        return new Intent(context, HelpActivity.class);
     }
 }

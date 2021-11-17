@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpHelpButton() {
-        Button button_help = findViewById(R.id.help_button);
+        Button button_help = findViewById(R.id.button_help);
         button_help.setOnClickListener(view -> {
             Intent helpActivity = HelpActivity.makeIntent(MainActivity.this);
             startActivity(helpActivity);
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpTaskButton() {
-        Button toTasks = findViewById(R.id.task_list_button);
+        Button toTasks = findViewById(R.id.button_task_list);
         toTasks.setOnClickListener(view -> {
             Intent tasksActivity = new Intent(getApplicationContext(), TaskListActivity.class);
             startActivity(tasksActivity);
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpTimeoutButton() {
-        Button button_timeout = findViewById(R.id.timeout_button);
+        Button button_timeout = findViewById(R.id.button_timeout);
         button_timeout.setOnClickListener(view -> {
             Intent timeoutActivity = TimeoutActivity.makeIntent(MainActivity.this);
             startActivity(timeoutActivity);
@@ -59,13 +59,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpChildButton() {
-        Button toChildren = findViewById(R.id.children_button);
+        Button toChildren = findViewById(R.id.button_children);
         toChildren.setOnClickListener(v -> {
             Intent childActivity = ChildListActivity.makeIntent(MainActivity.this);
             startActivity(childActivity);
         });
 
-        Button button2 = findViewById(R.id.coin_flip_button);
+        Button button2 = findViewById(R.id.button_coin_flip);
 
         button2.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), CoinFlipActivity.class);

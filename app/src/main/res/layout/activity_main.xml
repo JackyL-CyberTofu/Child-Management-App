@@ -21,60 +21,60 @@
         app:layout_constraintVertical_bias="0.151">
 
         <Button
-            android:id="@+id/coin_flip_button"
+            android:id="@+id/button_coin_flip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/PaleBlue"
             android:text="@string/coinflip"
             app:icon="@drawable/ic_baseline_coin_24"
-            app:layout_constraintBottom_toTopOf="@+id/task_list_button"
-            app:layout_constraintEnd_toEndOf="@+id/timeout_button"
+            app:layout_constraintBottom_toTopOf="@+id/button_task_list"
+            app:layout_constraintEnd_toEndOf="@+id/button_timeout"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/timeout_button"
-            app:layout_constraintTop_toBottomOf="@+id/timeout_button" />
+            app:layout_constraintStart_toStartOf="@+id/button_timeout"
+            app:layout_constraintTop_toBottomOf="@+id/button_timeout" />
 
         <Button
-            android:id="@+id/children_button"
+            android:id="@+id/button_children"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/PaleBlue"
             android:text="@string/children"
             app:icon="@drawable/ic_baseline_people_24"
-            app:layout_constraintBottom_toTopOf="@+id/timeout_button"
+            app:layout_constraintBottom_toTopOf="@+id/button_timeout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/timeout_button"
+            android:id="@+id/button_timeout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/PaleBlue"
             android:text="@string/timeout"
             app:icon="@drawable/ic_baseline_access_time_24"
-            app:layout_constraintBottom_toTopOf="@+id/coin_flip_button"
-            app:layout_constraintEnd_toEndOf="@+id/children_button"
+            app:layout_constraintBottom_toTopOf="@+id/button_coin_flip"
+            app:layout_constraintEnd_toEndOf="@+id/button_children"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/children_button"
-            app:layout_constraintTop_toBottomOf="@+id/children_button" />
+            app:layout_constraintStart_toStartOf="@+id/button_children"
+            app:layout_constraintTop_toBottomOf="@+id/button_children" />
 
         <Button
-            android:id="@+id/task_list_button"
+            android:id="@+id/button_task_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tasks_button_label"
-            app:layout_constraintBottom_toTopOf="@+id/help_button"
+            app:layout_constraintBottom_toTopOf="@+id/button_help"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/coin_flip_button" />
+            app:layout_constraintTop_toBottomOf="@+id/button_coin_flip" />
 
         <Button
-            android:id="@+id/help_button"
+            android:id="@+id/button_help"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/help_button_label"
@@ -82,7 +82,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/task_list_button" />
+            app:layout_constraintTop_toBottomOf="@+id/button_task_list" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
