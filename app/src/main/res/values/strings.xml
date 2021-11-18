@@ -56,4 +56,5 @@
     <string name="help_author_description">Developed by Team Beryllium.\n(Joshua Li, Randy Letran, Jacky Lim and Injun Lee)</string>
     <string name="help_reference_label">Reference</string>
     <string name="help_reference_description">https://freetone.org/ringtones/melodies-alarms</string>
+    <string name="choose_image">Choose Image</string>
 </resources>
