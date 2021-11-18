@@ -2,6 +2,7 @@ package ca.sfu.cmpt276.be.parentapp.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,9 +11,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.color.MaterialColors;
+import com.google.android.material.transition.platform.MaterialArcMotion;
+import com.google.android.material.transition.platform.MaterialContainerTransform;
+import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback;
 
 import java.util.Objects;
 
@@ -32,6 +36,7 @@ public class ChildEditActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setupAnimation();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_child);
 
@@ -39,11 +44,29 @@ public class ChildEditActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         getExtras();
+
     }
+
+    private void setupAnimation() {
+        findViewById(android.R.id.content).setTransitionName("shared_container");
+        setEnterSharedElementCallback(new MaterialContainerTransformSharedElementCallback());
+        MaterialContainerTransform transform = new MaterialContainerTransform();
+        transform.addTarget(android.R.id.content);
+        transform.setAllContainerColors(MaterialColors.getColor(findViewById(android.R.id.content), R.attr.colorSurface));
+        transform.setFitMode(MaterialContainerTransform.FIT_MODE_AUTO);
+        transform.setDuration(666);
+        transform.setPathMotion(new MaterialArcMotion());
+        transform.setInterpolator(new FastOutSlowInInterpolator());
+        MaterialColors.getColor(findViewById(android.R.id.content), R.attr.colorSurface);
+        transform.setScrimColor(Color.TRANSPARENT);
+        getWindow().setSharedElementEnterTransition(transform);
+
+    }
+
 
     @Override
     public boolean onSupportNavigateUp() {
-        finish();
+        onBackPressed();
         return true;
     }
 

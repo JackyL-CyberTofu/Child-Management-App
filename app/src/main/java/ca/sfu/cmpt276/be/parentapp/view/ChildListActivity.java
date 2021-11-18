@@ -4,36 +4,34 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.OverScroller;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback;
 
 import java.util.Objects;
 
 import ca.sfu.cmpt276.be.parentapp.R;
 import ca.sfu.cmpt276.be.parentapp.model.Child;
 import ca.sfu.cmpt276.be.parentapp.controller.ChildManager;
-import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 /**
  * ChildListActivity shows all the Children stored in the app.
  */
 public class ChildListActivity extends AppCompatActivity {
     private static ChildManager childManager = new ChildManager();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setupAnimation();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_child_list);
         Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.text_configureChildren);
@@ -68,7 +66,16 @@ public class ChildListActivity extends AppCompatActivity {
             },0);
             return true;
         });
+
+
     }
+
+    private void setupAnimation() {
+        setEnterSharedElementCallback(new MaterialContainerTransformSharedElementCallback());
+        getWindow().setSharedElementsUseOverlay(false);
+    }
+
+
 
     @Override
     protected void onResume() {
@@ -97,8 +104,9 @@ public class ChildListActivity extends AppCompatActivity {
     private void setUpAddButton() {
         FloatingActionButton addButton = findViewById(R.id.button_add_child);
         addButton.setOnClickListener(v -> {
-            Intent launchEmptyEdit = ChildEditActivity.makeIntent(ChildListActivity.this);
-            startActivity(launchEmptyEdit);
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(ChildListActivity.this, addButton, "shared_container");
+            Intent intent = ChildEditActivity.makeIntent(ChildListActivity.this);
+            startActivity(intent,options.toBundle());
         });
     }
     private void showChildren() {

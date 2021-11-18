@@ -12,6 +12,8 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="floatingActionButtonStyle">@style/FloatingActionButtonStyle</item>
     </style>
 
     <style name="Theme.BeParentApp.NoActionBar">
@@ -22,4 +24,12 @@
     <style name="Theme.BeParentApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.BeParentApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="FloatingActionButtonStyle" parent="Widget.Design.FloatingActionButton">
+        <item name="shapeAppearanceOverlay">@style/Square_Fab</item>
+    </style>
+
+    <style name="Square_Fab" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerSize">30%</item>
+    </style>
 </resources>
