@@ -21,6 +21,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -62,6 +65,32 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
 
         setupButton();
         initializeSpinner();
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.item_coinflip);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            bottomNavigationView.postDelayed(() -> {
+                int id = item.getItemId();
+                if (id == R.id.item_home){
+                    finish();
+                    overridePendingTransition(0, 0);
+                } else if (id == R.id.item_timeout){
+                    startActivity(new Intent(getApplicationContext(), TimeoutActivity.class));
+                    overridePendingTransition(0, 0);
+                    finish();
+                } else if (id == R.id.item_child){
+                    startActivity(new Intent(getApplicationContext(), ChildListActivity.class));
+                    overridePendingTransition(0, 0);
+                    finish();
+                } else if (id == R.id.item_tasks){
+                    startActivity(new Intent(getApplicationContext(), TaskListActivity.class));
+                    overridePendingTransition(0, 0);
+                    finish();
+                }
+            },0);
+            return true;
+        });
+
     }
 
     private void initializeSpinner() {
