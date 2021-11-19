@@ -156,7 +156,7 @@ public class ChildEditActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
-    public void getGalleryExtraction() {
+    private void getGalleryExtraction() {
         imageOfChild = findViewById(R.id.image_child_portrait);
         changeImage = findViewById(R.id.button_add_image);
         changeImage.setOnClickListener(this);
