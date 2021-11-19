@@ -13,17 +13,28 @@
         <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2552083333333333" />
         <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_child_config.xml" value="0.2390625" />
         <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_child_list.xml" value="0.2390625" />
+        <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_coin_flip_history.xml" value="0.259963768115942" />
+        <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_coinflip.xml" value="0.259963768115942" />
         <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_conflip.xml" value="0.2390625" />
         <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_edit_child.xml" value="0.2390625" />
+        <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_flip_queue.xml" value="0.259963768115942" />
+        <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_help.xml" value="0.264" />
         <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_history.xml" value="0.2390625" />
         <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_main.xml" value="0.2390625" />
+        <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_task_edit.xml" value="0.259963768115942" />
+        <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_task_list.xml" value="0.259963768115942" />
         <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_timeout.xml" value="0.2390625" />
         <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/layout_child_item.xml" value="0.2390625" />
+        <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/layout_coinflip.xml" value="0.259963768115942" />
+        <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/layout_coinflip_modified.xml" value="0.259963768115942" />
+        <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/layout_queue.xml" value="0.259963768115942" />
+        <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/layout_task.xml" value="0.259963768115942" />
+        <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/menu/coinflip.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/menu/save_delete_appbar.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2552083333333333" />
         <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2552083333333333" />
         <entry key="..\:/Users/Joshu/Documents/Joshua's Stuff/University/Fall2021/CMPT276/project/app/src/main/res/layout/activity_edit_child.xml" value="0.2864583333333333" />
         <entry key="..\:/Users/Joshu/Documents/Joshua's Stuff/University/Fall2021/CMPT276/project/app/src/main/res/layout/activity_main.xml" value="0.335" />
-        <entry key="..\:/Users/user/StudioProjects/ParentApp/app/src/main/res/layout/activity_edit_child.xml" value="0.1598731884057971" />
         <entry key="app/src/main/res/drawable/button.xml" value="0.4005208333333333" />
         <entry key="app/src/main/res/layout/activity_child_list.xml" value="0.1411629686304514" />
         <entry key="app/src/main/res/layout/activity_coin_flip_history.xml" value="0.1411629686304514" />
@@ -36,7 +47,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
