@@ -2,12 +2,21 @@ package ca.sfu.cmpt276.be.parentapp.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,7 +29,7 @@ import ca.sfu.cmpt276.be.parentapp.controller.ChildManager;
 /**
  * ChildEditActivity manages the creation and edit of a single child in the app.
  */
-public class ChildEditActivity extends AppCompatActivity {
+public class ChildEditActivity extends AppCompatActivity{
     private static final String EXTRA_CHILD_LOCATION = "childLocation";
     private static final String EXTRA_DO_EDIT = "doEdit";
 
@@ -35,6 +44,7 @@ public class ChildEditActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.text_editChild);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        getGalleryExtraction();
         getExtras();
     }
 
@@ -128,6 +138,28 @@ public class ChildEditActivity extends AppCompatActivity {
         } else {
             Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.text_addChild);
         }
+    }
+
+    private void getGalleryExtraction() {
+        ImageView imageOfChild = findViewById(R.id.image_child_portrait);
+        Button changeImage = findViewById(R.id.button_add_image);
+        ActivityResultLauncher<String> getContent;
+
+        getContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
+                new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri result) {
+                imageOfChild.setImageURI(result);
+            }
+        });
+
+        changeImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getContent.launch("image/*");
+            }
+        });
+
     }
 
 }
