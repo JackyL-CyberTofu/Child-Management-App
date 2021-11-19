@@ -80,23 +80,6 @@ public class ChildEditActivity extends AppCompatActivity implements View.OnClick
         super.finish();
     }
 
-    @Override
-    public void onClick(View view) {
-        if(view.getId() == R.id.button_add_image){
-            Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null){
-            Uri selectedImage = data.getData();
-            imageOfChild.setImageURI(selectedImage);
-        }
-    }
-
     private void deleteChild() {
         ChildManager childManager = new ChildManager();
         childManager.remove(childPosition);
@@ -156,9 +139,26 @@ public class ChildEditActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
-    private void getGalleryExtraction() {
-        imageOfChild = findViewById(R.id.image_child_portrait);
-        changeImage = findViewById(R.id.button_add_image);
+    public void getGalleryExtraction() {
+        imageOfChild = (ImageView)findViewById(R.id.image_x);
+        changeImage = (Button)findViewById(R.id.button_x);
         changeImage.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(view.getId() == R.id.button_x){
+            Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null){
+            Uri selectedImage = data.getData();
+            imageOfChild.setImageURI(selectedImage);
+        }
     }
 }
