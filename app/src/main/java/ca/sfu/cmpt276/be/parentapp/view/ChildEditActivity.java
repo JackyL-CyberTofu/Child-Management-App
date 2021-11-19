@@ -13,6 +13,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,13 +29,10 @@ import ca.sfu.cmpt276.be.parentapp.controller.ChildManager;
 /**
  * ChildEditActivity manages the creation and edit of a single child in the app.
  */
-public class ChildEditActivity extends AppCompatActivity implements View.OnClickListener {
+public class ChildEditActivity extends AppCompatActivity{
     private static final String EXTRA_CHILD_LOCATION = "childLocation";
     private static final String EXTRA_DO_EDIT = "doEdit";
-    private static final int RESULT_LOAD_IMAGE = 1;
 
-    private Button changeImage;
-    private ImageView imageOfChild;
     private boolean doEdit;
     private int childPosition;
 
@@ -73,23 +74,6 @@ public class ChildEditActivity extends AppCompatActivity implements View.OnClick
             deleteAndExit();
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onClick(View view) {
-        if(view.getId() == R.id.button_add_image){
-            Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null){
-            Uri selectedImage = data.getData();
-            imageOfChild.setImageURI(selectedImage);
-        }
     }
 
     @Override
@@ -157,10 +141,25 @@ public class ChildEditActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void getGalleryExtraction() {
-        imageOfChild = findViewById(R.id.image_child_portrait);
-        changeImage = findViewById(R.id.button_add_image);
-        changeImage.setOnClickListener(this);
-    }
+        ImageView imageOfChild = findViewById(R.id.image_child_portrait);
+        Button changeImage = findViewById(R.id.button_add_image);
+        ActivityResultLauncher<String> getContent;
 
+        getContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
+                new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri result) {
+                imageOfChild.setImageURI(result);
+            }
+        });
+
+        changeImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getContent.launch("image/*");
+            }
+        });
+
+    }
 
 }
