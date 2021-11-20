@@ -52,9 +52,8 @@ public class ChildEditActivity extends AppCompatActivity{
     private void setUpPortrait() {
         ImageView childPortrait = findViewById(R.id.image_child_portrait);
         ImageManager imageManager = new ImageManager();
-        if (doEdit) {
-            childPortrait.setImageBitmap(imageManager.getPortrait(ChildEditActivity.this, currentChild.getName()));
-        }
+        childPortrait.setImageBitmap(imageManager.getPortrait(ChildEditActivity.this, currentChild.getName()));
+
     }
 
     @Override
@@ -88,7 +87,10 @@ public class ChildEditActivity extends AppCompatActivity{
 
     private void deleteExistingChild() {
         ChildManager childManager = new ChildManager();
+        ImageManager imageManager = new ImageManager();
+
         childManager.remove(childPosition);
+        imageManager.deletePortrait(ChildEditActivity.this, currentChild.getName());
     }
 
     public static Intent makeIntent(Context context) {
@@ -163,7 +165,7 @@ public class ChildEditActivity extends AppCompatActivity{
             @Override
             public void onActivityResult(Uri result) {
                 ImageManager imageManager = new ImageManager();
-                imageManager.savePortraitBitmap(ChildEditActivity.this, result, currentChild.getName());
+                imageManager.savePortrait(ChildEditActivity.this, result, currentChild.getName());
                 imageOfChild.setImageBitmap(imageManager.loadPortraitBitmap(ChildEditActivity.this, currentChild.getName()));
             }
         });

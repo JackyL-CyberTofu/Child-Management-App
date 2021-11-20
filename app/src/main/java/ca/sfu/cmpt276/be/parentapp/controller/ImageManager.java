@@ -20,15 +20,6 @@ public class ImageManager {
     private static final String TAG = "ImageManager";
     public static final String PORTRAIT_FOLDER = "Portraits";
 
-    private File getPhotoFilePath(Context context) {
-        File filepath = new File(context.getExternalFilesDir(
-                Environment.DIRECTORY_PICTURES), PORTRAIT_FOLDER);
-        if (!filepath.mkdirs()) {
-            Log.e(TAG, "Photo directory could not be created");
-        }
-        return filepath;
-    }
-
     public Bitmap getPortrait(Context context, String childName) {
         if (doesPortraitExist(context, childName)) {
             return loadPortraitBitmap(context, childName);
@@ -37,18 +28,17 @@ public class ImageManager {
         }
     }
 
-    public boolean doesPortraitExist(Context context, String imageName) {
-        File filepath = getPhotoFilePath(context);
-        File checkFile = new File(filepath, "/" + imageName + ".jpg");
-        return checkFile.exists();
+    public void deletePortrait(Context context, String imageName) {
+        if (doesPortraitExist(context, imageName)) {
+            File filepath = getPhotoFilePath(context);
+            File deleteFile = new File(filepath, "/" + imageName + ".jpg");
+            if (!deleteFile.delete()) {
+                Log.e(TAG, "Unable to delete file");
+            }
+        }
     }
 
-    public Bitmap loadPortraitBitmap(Context context, String imageName) {
-        File filepath = getPhotoFilePath(context);
-        return BitmapFactory.decodeFile(filepath + "/" + imageName + ".jpg");
-    }
-
-    public void savePortraitBitmap(Context context, Uri result, String imageName) {
+    public void savePortrait(Context context, Uri result, String imageName) {
         try {
             Bitmap childImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(), result);
 
@@ -68,5 +58,21 @@ public class ImageManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public Bitmap loadPortraitBitmap(Context context, String imageName) {
+        File filepath = getPhotoFilePath(context);
+        return BitmapFactory.decodeFile(filepath + "/" + imageName + ".jpg");
+    }
+
+    private File getPhotoFilePath(Context context) {
+        return new File(context.getExternalFilesDir(
+                Environment.DIRECTORY_PICTURES), PORTRAIT_FOLDER);
+    }
+
+    private boolean doesPortraitExist(Context context, String imageName) {
+        File filepath = getPhotoFilePath(context);
+        File checkFile = new File(filepath, "/" + imageName + ".jpg");
+        return checkFile.exists();
     }
 }
