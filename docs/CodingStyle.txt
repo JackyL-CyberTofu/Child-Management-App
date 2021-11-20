@@ -1,2 +1,0 @@
-Coding Style Guide for the project can be read here:
-https://docs.google.com/document/d/1tzJnML7jdbIW8iqBQX6sLQeYlzV1cW8ocpi-GMGbzu0/edit?usp=sharing
