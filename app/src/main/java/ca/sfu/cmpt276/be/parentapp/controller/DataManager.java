@@ -57,19 +57,19 @@ public class DataManager {
             childList = gson.fromJson(jsonChildren, new TypeToken<ArrayList<Child>>() {
             }.getType());
         }
+        String jsonCoinFlipQueue = saveOption.load(COINFLIP_QUEUE_SAVENAME);
+        if (!jsonCoinFlipQueue.isEmpty()) {
+            this.coinFlipQueue = gson.fromJson(jsonCoinFlipQueue, new TypeToken<ArrayList<Child>>() {}.getType());
+        }
         String jsonCoinflip = saveOption.load(COINFLIP_SAVENAME);
         if (!jsonCoinflip.isEmpty()) {
             coinFlipHistory = gson.fromJson(jsonCoinflip, new TypeToken<ArrayList<Coin>>() {
             }.getType());
         }
-        String jsonCoinFlipQueue = saveOption.load(COINFLIP_QUEUE_SAVENAME);
-        if (!jsonCoinFlipQueue.isEmpty()) {
-            this.coinFlipQueue = gson.fromJson(jsonCoinFlipQueue, new TypeToken<ArrayList<Child>>() {}.getType());
-            String jsonTasks = saveOption.load(TASK_SAVENAME);
-            if (!jsonTasks.isEmpty()) {
-                taskList = gson.fromJson(jsonTasks, new TypeToken<ArrayList<Task>>() {
-                }.getType());
-            }
+        String jsonTasks = saveOption.load(TASK_SAVENAME);
+        if (!jsonTasks.isEmpty()) {
+            taskList = gson.fromJson(jsonTasks, new TypeToken<ArrayList<Task>>() {
+            }.getType());
         }
     }
 
