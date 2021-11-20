@@ -66,6 +66,7 @@ public class DataManager {
             coinFlipHistory = gson.fromJson(jsonCoinflip, new TypeToken<ArrayList<Coin>>() {
             }.getType());
         }
+        reassignChildren();
         String jsonTasks = saveOption.load(TASK_SAVENAME);
         if (!jsonTasks.isEmpty()) {
             taskList = gson.fromJson(jsonTasks, new TypeToken<ArrayList<Task>>() {
@@ -109,6 +110,16 @@ public class DataManager {
     }
 
     public ArrayList<Child> getCoinFlipQueue() { return coinFlipQueue; }
+
+    private void reassignChildren() {
+        for (Coin coin : coinFlipHistory) {
+            for (Child child : childList) {
+                if (coin.getPickerId().equals(child.getId())) {
+                    coin.overridePicker(child);
+                }
+            }
+        }
+    }
 
     /**
      * LocalDateTimeJSONReader allows LocalDateTime objects to be saved to JSON.

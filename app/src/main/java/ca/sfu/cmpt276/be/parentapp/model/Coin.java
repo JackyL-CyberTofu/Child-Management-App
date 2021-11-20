@@ -13,7 +13,7 @@ public class Coin {
 
     private final LocalDateTime date;
     private final String pick;
-    private final Child picker;
+    private Child picker;
     private final String result;
     private final int pickerWon;
 
@@ -38,10 +38,18 @@ public class Coin {
 
     public String getPicker() { return picker.getName(); }
 
+    public String getPickerId() {
+        return picker.getId();
+    }
+
     public String getPick() { return pick; }
 
     public String getResult() { return result; }
 
     public int getPickerWon() { return pickerWon; }
+
+    public void overridePicker(Child newPicker) {
+        this.picker = newPicker;
+    }
 
 }
