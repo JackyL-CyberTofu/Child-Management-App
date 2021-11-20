@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import ca.sfu.cmpt276.be.parentapp.R;
 import ca.sfu.cmpt276.be.parentapp.model.Child;
 
 public class ImageManager {
@@ -26,6 +27,14 @@ public class ImageManager {
             Log.e(TAG, "Photo directory could not be created");
         }
         return filepath;
+    }
+
+    public Bitmap getPortrait(Context context, String childName) {
+        if (doesPortraitExist(context, childName)) {
+            return loadPortraitBitmap(context, childName);
+        } else {
+            return BitmapFactory.decodeResource(context.getResources(), R.drawable.sample_avatar);
+        }
     }
 
     public boolean doesPortraitExist(Context context, String imageName) {

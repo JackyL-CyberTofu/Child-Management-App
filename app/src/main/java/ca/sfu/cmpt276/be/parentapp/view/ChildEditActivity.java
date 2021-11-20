@@ -1,15 +1,9 @@
 package ca.sfu.cmpt276.be.parentapp.view;
 
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,14 +18,11 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Objects;
 
 import ca.sfu.cmpt276.be.parentapp.R;
 import ca.sfu.cmpt276.be.parentapp.controller.ChildManager;
+import ca.sfu.cmpt276.be.parentapp.controller.ImageManager;
 import ca.sfu.cmpt276.be.parentapp.model.Child;
 
 /**
@@ -43,6 +34,7 @@ public class ChildEditActivity extends AppCompatActivity{
 
     private boolean doEdit;
     private int childPosition;
+    private Child currentChild;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +46,15 @@ public class ChildEditActivity extends AppCompatActivity{
 
         getGalleryExtraction();
         getExtras();
-        loadFile();
+        setUpPortrait();
+    }
+
+    private void setUpPortrait() {
+        ImageView childPortrait = findViewById(R.id.image_child_portrait);
+        ImageManager imageManager = new ImageManager();
+        if (doEdit) {
+            childPortrait.setImageBitmap(imageManager.getPortrait(ChildEditActivity.this, currentChild.getName()));
+        }
     }
 
     @Override
@@ -85,12 +85,8 @@ public class ChildEditActivity extends AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void finish() {
-        super.finish();
-    }
 
-    private void deleteChild() {
+    private void deleteExistingChild() {
         ChildManager childManager = new ChildManager();
         childManager.remove(childPosition);
     }
@@ -125,12 +121,16 @@ public class ChildEditActivity extends AppCompatActivity{
         if (doEdit) {
             childManager.edit(childPosition, newName);
         } else {
-            childManager.add(new Child(newName));
+            currentChild.setName(newName);
+            childManager.add(currentChild);
         }
     }
 
     private void deleteAndExit() {
-        deleteChild();
+        if (currentChild.getName() == "null") {
+            //TODO: delete image picked for the child
+        }
+        deleteExistingChild();
         finish();
     }
 
@@ -144,8 +144,11 @@ public class ChildEditActivity extends AppCompatActivity{
             EditText childNameEditText = findViewById(R.id.field_child_name);
             String childName = childManager.get(childPosition).getName();
             childNameEditText.setText(childName);
+            currentChild = childManager.get(childPosition);
         } else {
             Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.text_addChild);
+            //todo: change to actually null when ids are implemented
+            currentChild = new Child("null");
         }
     }
 
@@ -156,10 +159,12 @@ public class ChildEditActivity extends AppCompatActivity{
 
         getContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
                 new ActivityResultCallback<Uri>() {
+            //TODO: fix bug where leaving activity crashes the program.
             @Override
             public void onActivityResult(Uri result) {
-                imageOfChild.setImageURI(result);
-                saveAsFile(result);
+                ImageManager imageManager = new ImageManager();
+                imageManager.savePortraitBitmap(ChildEditActivity.this, result, currentChild.getName());
+                imageOfChild.setImageBitmap(imageManager.loadPortraitBitmap(ChildEditActivity.this, currentChild.getName()));
             }
         });
 
@@ -172,47 +177,6 @@ public class ChildEditActivity extends AppCompatActivity{
 
     }
 
-    private void loadFile() {
-        ImageView imageOfChild = findViewById(R.id.image_child_portrait);
-        ContextWrapper cw = new ContextWrapper(getApplicationContext());
-        File filepath = cw.getDir("Portraits", Context.MODE_PRIVATE);
 
-
-        Bitmap bitmap = BitmapFactory.decodeFile(filepath + "/0.jpg");
-        if (bitmap == null) {
-            Log.e("IMAGE", "Could not open image");
-        }
-        imageOfChild.setImageBitmap(bitmap);
-    }
-
-    private void saveAsFile(Uri result) {
-        ChildManager childManager = new ChildManager();
-        Bitmap childImage;
-        try {
-            childImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), result);
-
-            ContextWrapper cw = new ContextWrapper(getApplicationContext());
-            File filepath = cw.getDir("Portraits", Context.MODE_PRIVATE);
-
-            //TODO: replace this when UUID when that part is merged
-            //TODO: fix for new child
-            File file = new File(filepath, "0.jpg");
-            //file.createNewFile();
-            try {
-                FileOutputStream fos = new FileOutputStream(file);
-                childImage.compress(Bitmap.CompressFormat.JPEG, 90, fos);
-                fos.flush();
-                fos.close();
-                Log.e("IMAGE", "Image saved to" + file);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
 }
