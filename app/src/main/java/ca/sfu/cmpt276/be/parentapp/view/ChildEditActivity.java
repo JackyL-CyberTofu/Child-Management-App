@@ -1,10 +1,15 @@
 package ca.sfu.cmpt276.be.parentapp.view;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,16 +20,19 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Objects;
 
 import ca.sfu.cmpt276.be.parentapp.R;
-import ca.sfu.cmpt276.be.parentapp.model.Child;
 import ca.sfu.cmpt276.be.parentapp.controller.ChildManager;
+import ca.sfu.cmpt276.be.parentapp.model.Child;
 
 /**
  * ChildEditActivity manages the creation and edit of a single child in the app.
@@ -46,6 +54,7 @@ public class ChildEditActivity extends AppCompatActivity{
 
         getGalleryExtraction();
         getExtras();
+        loadFile();
     }
 
     @Override
@@ -150,6 +159,7 @@ public class ChildEditActivity extends AppCompatActivity{
             @Override
             public void onActivityResult(Uri result) {
                 imageOfChild.setImageURI(result);
+                saveAsFile(result);
             }
         });
 
@@ -160,6 +170,49 @@ public class ChildEditActivity extends AppCompatActivity{
             }
         });
 
+    }
+
+    private void loadFile() {
+        ImageView imageOfChild = findViewById(R.id.image_child_portrait);
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        File filepath = cw.getDir("Portraits", Context.MODE_PRIVATE);
+
+
+        Bitmap bitmap = BitmapFactory.decodeFile(filepath + "/0.jpg");
+        if (bitmap == null) {
+            Log.e("IMAGE", "Could not open image");
+        }
+        imageOfChild.setImageBitmap(bitmap);
+    }
+
+    private void saveAsFile(Uri result) {
+        ChildManager childManager = new ChildManager();
+        Bitmap childImage;
+        try {
+            childImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), result);
+
+            ContextWrapper cw = new ContextWrapper(getApplicationContext());
+            File filepath = cw.getDir("Portraits", Context.MODE_PRIVATE);
+
+            //TODO: replace this when UUID when that part is merged
+            //TODO: fix for new child
+            File file = new File(filepath, "0.jpg");
+            //file.createNewFile();
+            try {
+                FileOutputStream fos = new FileOutputStream(file);
+                childImage.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+                fos.flush();
+                fos.close();
+                Log.e("IMAGE", "Image saved to" + file);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
