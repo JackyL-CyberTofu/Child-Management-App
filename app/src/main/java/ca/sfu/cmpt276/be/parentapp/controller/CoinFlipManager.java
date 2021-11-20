@@ -54,9 +54,9 @@ public class CoinFlipManager {
         }
 
         if (userOverride) {
-            saveCoinFlip(result, userChoice, "None");
+            saveCoinFlip(result, userChoice, new Child("None"));
         } else {
-            saveCoinFlip(result, userChoice, coinFlipQueue.get(0).getName());
+            saveCoinFlip(result, userChoice, coinFlipQueue.get(0));
             moveToEndQueue();
         }
         notifyValueHasChanged();
@@ -66,7 +66,7 @@ public class CoinFlipManager {
     }
 
 
-    public void saveCoinFlip(String result, String userChoice, String childPicked) {
+    public void saveCoinFlip(String result, String userChoice, Child childPicked) {
 
         LocalDateTime creationTime = LocalDateTime.now();
         Coin coinGame = new Coin(creationTime, childPicked, userChoice, result);
