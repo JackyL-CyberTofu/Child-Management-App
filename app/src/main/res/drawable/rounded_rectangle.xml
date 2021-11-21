@@ -5,7 +5,7 @@
     >
 
     <solid
-        android:color="@color/LightGrey"> </solid
+        android:color="#f2f2f2"> </solid
         >
 
     <size android:height="10dp"

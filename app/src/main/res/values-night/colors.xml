@@ -11,4 +11,6 @@
     <color name="LightGrey">#FFE0E0E0</color>
     <color name="title_color">@color/cardview_dark_background</color>
     <color name="cardview_color">@color/cardview_dark_background</color>
+    <color name="color_spinner">@color/cardview_dark_background</color>
+
 </resources>

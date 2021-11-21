@@ -5,7 +5,7 @@
     >
 
     <solid
-        android:color="@color/LightGrey"> </solid
+        android:color="@color/cardview_dark_background"> </solid
         >
 
     <size android:height="10dp"

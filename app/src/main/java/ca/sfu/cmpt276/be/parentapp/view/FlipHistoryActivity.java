@@ -40,6 +40,8 @@ public class FlipHistoryActivity extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
+
+
         ArrayAdapter<Coin> adapter = new MyListAdapter();
         ListView list = (ListView) findViewById(R.id.game_list);
         list.setAdapter(adapter);
