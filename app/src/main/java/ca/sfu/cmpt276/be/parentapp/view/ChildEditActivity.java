@@ -52,7 +52,7 @@ public class ChildEditActivity extends AppCompatActivity{
     private void setUpPortrait() {
         ImageView childPortrait = findViewById(R.id.image_child_portrait);
         ImageManager imageManager = new ImageManager();
-        childPortrait.setImageBitmap(imageManager.getPortrait(ChildEditActivity.this, currentChild.getName()));
+        childPortrait.setImageBitmap(imageManager.getPortrait(ChildEditActivity.this, currentChild.getId()));
 
     }
 
@@ -84,14 +84,6 @@ public class ChildEditActivity extends AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
 
-
-    private void deleteExistingChild() {
-        ChildManager childManager = new ChildManager();
-        ImageManager imageManager = new ImageManager();
-
-        childManager.remove(childPosition);
-        imageManager.deletePortrait(ChildEditActivity.this, currentChild.getName());
-    }
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, ChildEditActivity.class);
@@ -129,11 +121,17 @@ public class ChildEditActivity extends AppCompatActivity{
     }
 
     private void deleteAndExit() {
-        if (currentChild.getName() == "null") {
-            //TODO: delete image picked for the child
+        ImageManager imageManager = new ImageManager();
+        if (doEdit) {
+            deleteExistingChild();
         }
-        deleteExistingChild();
+        imageManager.deletePortrait(ChildEditActivity.this, currentChild.getId());
         finish();
+    }
+
+    private void deleteExistingChild() {
+        ChildManager childManager = new ChildManager();
+        childManager.remove(childPosition);
     }
 
     private void getExtras() {
@@ -149,8 +147,7 @@ public class ChildEditActivity extends AppCompatActivity{
             currentChild = childManager.get(childPosition);
         } else {
             Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.text_addChild);
-            //todo: change to actually null when ids are implemented
-            currentChild = new Child("null");
+            currentChild = new Child(null);
         }
     }
 
@@ -165,8 +162,9 @@ public class ChildEditActivity extends AppCompatActivity{
             @Override
             public void onActivityResult(Uri result) {
                 ImageManager imageManager = new ImageManager();
-                imageManager.savePortrait(ChildEditActivity.this, result, currentChild.getName());
-                imageOfChild.setImageBitmap(imageManager.loadPortraitBitmap(ChildEditActivity.this, currentChild.getName()));
+
+                imageManager.savePortrait(ChildEditActivity.this, result, currentChild.getId());
+                imageOfChild.setImageBitmap(imageManager.loadPortraitBitmap(ChildEditActivity.this, currentChild.getId()));
             }
         });
 
@@ -178,7 +176,4 @@ public class ChildEditActivity extends AppCompatActivity{
         });
 
     }
-
-
-
 }
