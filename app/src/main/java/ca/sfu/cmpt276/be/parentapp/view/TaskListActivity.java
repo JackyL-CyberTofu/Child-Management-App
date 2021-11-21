@@ -89,12 +89,14 @@ public class TaskListActivity extends AppCompatActivity {
             if (taskManager.isChildren()) {
                 TextView childView = taskView.findViewById(R.id.text_layout_tasked_child);
                 childView.setText(currentTask.getTaskedChild().getName());
+
+                ImageManager imageManager = new ImageManager();
+                ImageView childPortrait = taskView.findViewById(R.id.image_layout_child_portrait);
+                childPortrait.setImageBitmap(imageManager.getPortrait(TaskListActivity.this, currentTask.getTaskedChild().getId()));
             }
-            ImageManager imageManager = new ImageManager();
             TextView nameView = taskView.findViewById(R.id.text_layout_task);
             nameView.setText(currentTask.getName());
-            ImageView childPortrait = taskView.findViewById(R.id.image_layout_child_portrait);
-            childPortrait.setImageBitmap(imageManager.getPortrait(TaskListActivity.this, position));
+
             return taskView;
         }
     }
