@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import com.google.android.material.transition.platform.MaterialContainerTransfor
 import java.util.Objects;
 
 import ca.sfu.cmpt276.be.parentapp.R;
+import ca.sfu.cmpt276.be.parentapp.controller.ImageManager;
 import ca.sfu.cmpt276.be.parentapp.model.Child;
 import ca.sfu.cmpt276.be.parentapp.controller.ChildManager;
 
@@ -118,7 +120,7 @@ public class ChildListActivity extends AppCompatActivity {
     private class ChildListAdapter extends ArrayAdapter<Child> {
 
         public ChildListAdapter() {
-            super(ChildListActivity.this, R.layout.layout_child_item, childManager.getAll());
+            super(ChildListActivity.this, R.layout.layout_queue, childManager.getAll());
         }
         @NonNull
         @Override
@@ -126,12 +128,20 @@ public class ChildListActivity extends AppCompatActivity {
             View itemView = convertView;
             Child currentChild = childManager.get(position);
             if (itemView == null) {
-                itemView = getLayoutInflater().inflate(R.layout.layout_child_item, parent, false);
+                itemView = getLayoutInflater().inflate(R.layout.layout_queue, parent, false);
             }
 
-            TextView nameView = itemView.findViewById(R.id.child_name);
+            TextView nameView = itemView.findViewById(R.id.text_child_spinner);
             nameView.setText(currentChild.getName());
+
+            ImageView image = itemView.findViewById(R.id.image_child_spinner);
+            ImageManager imageManager = new ImageManager();
+            image.setImageBitmap(imageManager.getPortrait(ChildListActivity.this, currentChild.getId()));
+
             return itemView;
+
+
+
         }
 
     }

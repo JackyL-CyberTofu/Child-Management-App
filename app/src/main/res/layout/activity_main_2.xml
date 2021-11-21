@@ -48,17 +48,19 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:layout_gravity="center">
+                    android:layout_gravity="center"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/ic_baseline_people_24"/>
+                        android:background="@drawable/ic_baseline_people_24"
+                        android:contentDescription="@string/children"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Children"/>
+                        android:text="@string/children"/>
 
                 </LinearLayout>
 
@@ -79,17 +81,19 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:layout_gravity="center">
+                    android:layout_gravity="center"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/ic_baseline_access_time_24"/>
+                        android:background="@drawable/ic_baseline_access_time_24"
+                        android:contentDescription="@string/timeout"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Timeout"/>
+                        android:text="@string/timeout"/>
 
                 </LinearLayout>
 
@@ -121,17 +125,19 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:background="@drawable/ic_baseline_circle_24" />
+                        android:background="@drawable/ic_baseline_circle_24"
+                        android:contentDescription="@string/coinflip"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Coin Flip" />
+                        android:text="@string/coinflip" />
 
                 </LinearLayout>
 
@@ -155,17 +161,19 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/ic_baseline_view_list_24" />
+                        android:background="@drawable/ic_baseline_view_list_24"
+                        android:contentDescription="@string/tasks_button_label"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tasks" />
+                        android:text="@string/tasks_button_label" />
 
                 </LinearLayout>
 
@@ -194,17 +202,19 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:layout_gravity="center">
+                    android:layout_gravity="center"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/ic_baseline_question_mark_24"/>
+                        android:background="@drawable/ic_baseline_question_mark_24"
+                        android:contentDescription="@string/help_button_label"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Help"/>
+                        android:text="@string/help_button_label"/>
 
                 </LinearLayout>
 
@@ -224,12 +234,14 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:layout_gravity="center">
+                    android:layout_gravity="center"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@null"/>
+                        android:background="@null"
+                        android:contentDescription="@string/string_none"/>
 
                     <TextView
                         android:layout_width="wrap_content"
