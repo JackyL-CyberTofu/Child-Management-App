@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,7 +43,7 @@ public class ChildEditActivity extends AppCompatActivity{
         Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.text_editChild);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        getGalleryExtraction();
+        getImageExtraction();
         getExtras();
     }
 
@@ -140,12 +139,13 @@ public class ChildEditActivity extends AppCompatActivity{
         }
     }
 
-    private void getGalleryExtraction() {
+    private void getImageExtraction() {
         ImageView imageOfChild = findViewById(R.id.image_child_portrait);
-        Button changeImage = findViewById(R.id.button_add_image);
-        ActivityResultLauncher<String> getContent;
+        Button useGallery = findViewById(R.id.button_use_gallery);
+        Button useCamera = findViewById(R.id.button_use_camera);
+        ActivityResultLauncher activityResult;
 
-        getContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
+        activityResult = registerForActivityResult(new ActivityResultContracts.GetContent(),
                 new ActivityResultCallback<Uri>() {
             @Override
             public void onActivityResult(Uri result) {
@@ -153,13 +153,24 @@ public class ChildEditActivity extends AppCompatActivity{
             }
         });
 
-        changeImage.setOnClickListener(new View.OnClickListener() {
+        useGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getContent.launch("image/*");
+                activityResult.launch("image/*");
             }
         });
 
+        useCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    activityResult.launch(intent);
+                } else {
+                    Toast.makeText(ChildEditActivity.this, "Can't use camera!!",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
-
 }

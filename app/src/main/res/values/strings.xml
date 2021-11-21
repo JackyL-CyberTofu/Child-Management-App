@@ -57,4 +57,5 @@
     <string name="help_reference_label">Reference</string>
     <string name="help_reference_description">https://freetone.org/ringtones/melodies-alarms</string>
     <string name="choose_image">Choose Image</string>
+    <string name="use_camera">Use camera</string>
 </resources>
