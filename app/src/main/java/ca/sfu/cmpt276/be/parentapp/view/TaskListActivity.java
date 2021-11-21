@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.Objects;
 
 import ca.sfu.cmpt276.be.parentapp.R;
+import ca.sfu.cmpt276.be.parentapp.controller.ImageManager;
 import ca.sfu.cmpt276.be.parentapp.model.Task;
 import ca.sfu.cmpt276.be.parentapp.controller.TaskManager;
 
@@ -88,8 +90,11 @@ public class TaskListActivity extends AppCompatActivity {
                 TextView childView = taskView.findViewById(R.id.text_layout_tasked_child);
                 childView.setText(currentTask.getTaskedChild().getName());
             }
+            ImageManager imageManager = new ImageManager();
             TextView nameView = taskView.findViewById(R.id.text_layout_task);
             nameView.setText(currentTask.getName());
+            ImageView childPortrait = taskView.findViewById(R.id.image_layout_child_portrait);
+            childPortrait.setImageBitmap(imageManager.getPortrait(TaskListActivity.this, position));
             return taskView;
         }
     }

@@ -1,8 +1,5 @@
 package ca.sfu.cmpt276.be.parentapp.view;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,12 +8,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Objects;
 
 import ca.sfu.cmpt276.be.parentapp.R;
+import ca.sfu.cmpt276.be.parentapp.controller.ImageManager;
 import ca.sfu.cmpt276.be.parentapp.controller.TaskManager;
 import ca.sfu.cmpt276.be.parentapp.model.Task;
 
@@ -106,7 +108,12 @@ public class TaskEditActivity extends AppCompatActivity {
     private void setTaskChild() {
         if (taskManager.isChildren()) {
             TextView taskedChild = findViewById(R.id.text_activity_tasked_child);
-            taskedChild.setText(taskManager.getTaskedChild(taskNumber));
+            taskedChild.setText(taskManager.getTaskedChildName(taskNumber));
+
+            ImageManager imageManager = new ImageManager();
+            ImageView childPortrait = findViewById(R.id.image_activity_tasked_child);
+            childPortrait.setImageBitmap(imageManager.getPortrait(TaskEditActivity.this,
+                    taskManager.getTaskedChildId(taskNumber)));
         } else {
             findViewById(R.id.group_tasked_child_info).setVisibility(View.GONE);
         }
