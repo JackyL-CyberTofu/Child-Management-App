@@ -40,7 +40,7 @@ public class ImageManager {
         }
     }
 
-    public void savePortrait(Context context, Uri result, String imageName) {
+    public void savePortrait(Context context, Uri result, String imageName) throws IOException {
         try {
             Bitmap childImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(), result);
 
@@ -53,16 +53,16 @@ public class ImageManager {
                 Log.d(TAG, "Image saved to" + file);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
-                Log.e(TAG, "Something went wrong with loading the file");
-                Log.e(TAG, "Tried to save to" + file);
+                throw new FileNotFoundException("Unable to save file");
             }
 
         } catch (IOException e) {
             e.printStackTrace();
+            throw new IOException("Unable to generate bitmap");
         }
     }
 
-    public Bitmap loadPortraitBitmap(Context context, String imageName) {
+    private Bitmap loadPortraitBitmap(Context context, String imageName) {
         File filepath = getPhotoFilePath(context);
         return BitmapFactory.decodeFile(filepath + "/" + imageName + ".jpg");
     }

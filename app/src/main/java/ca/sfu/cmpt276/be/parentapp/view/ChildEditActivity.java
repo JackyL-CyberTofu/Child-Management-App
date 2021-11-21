@@ -3,11 +3,14 @@ package ca.sfu.cmpt276.be.parentapp.view;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -15,6 +18,9 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+import java.io.IOException;
 import java.util.Objects;
 
 import ca.sfu.cmpt276.be.parentapp.R;
@@ -30,6 +36,7 @@ public class ChildEditActivity extends AppCompatActivity{
     private static final String EXTRA_DO_EDIT = "doEdit";
 
     private boolean doEdit;
+    private boolean doUserEdit = false;
     private int childPosition;
     private Child currentChild;
 
@@ -44,18 +51,17 @@ public class ChildEditActivity extends AppCompatActivity{
         getGalleryExtraction();
         getExtras();
         setUpPortrait();
+        setupTextWatcher();
     }
 
-    private void setUpPortrait() {
-        ImageView childPortrait = findViewById(R.id.image_child_portrait);
-        ImageManager imageManager = new ImageManager();
-        childPortrait.setImageBitmap(imageManager.getPortrait(ChildEditActivity.this, currentChild.getId()));
-
+    @Override
+    public void onBackPressed() {
+        generateBackWarnDialog();
     }
 
     @Override
     public boolean onSupportNavigateUp() {
-        finish();
+        generateBackWarnDialog();
         return true;
     }
 
@@ -76,7 +82,7 @@ public class ChildEditActivity extends AppCompatActivity{
         }
 
         if (item.getItemId() == R.id.item_delete) {
-            deleteAndExit();
+            generateDeleteWarnDialog();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -93,6 +99,12 @@ public class ChildEditActivity extends AppCompatActivity{
         editChildIntent.putExtra(EXTRA_DO_EDIT, true);
 
         return editChildIntent;
+    }
+
+    private void setUpPortrait() {
+        ImageView childPortrait = findViewById(R.id.image_child_portrait);
+        ImageManager imageManager = new ImageManager();
+        childPortrait.setImageBitmap(imageManager.getPortrait(ChildEditActivity.this, currentChild.getId()));
     }
 
     private void saveAndExit() {
@@ -149,20 +161,73 @@ public class ChildEditActivity extends AppCompatActivity{
     }
 
     private void getGalleryExtraction() {
-        ImageView imageOfChild = findViewById(R.id.image_child_portrait);
         Button changeImage = findViewById(R.id.button_add_image);
         ActivityResultLauncher<String> getContent;
 
         getContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
                 result -> {
                     if (result != null) {
-                        ImageManager imageManager = new ImageManager();
-                        imageManager.savePortrait(ChildEditActivity.this, result, currentChild.getId());
-                        imageOfChild.setImageBitmap(imageManager.loadPortraitBitmap(ChildEditActivity.this, currentChild.getId()));
+                        try {
+                            ImageManager imageManager = new ImageManager();
+                            imageManager.savePortrait(ChildEditActivity.this, result, currentChild.getId());
+                            setUpPortrait();
+                            doUserEdit = true;
+                        } catch (IOException e) {
+                            generateWarningDialog();
+                        }
                     }
                 });
 
         changeImage.setOnClickListener(view -> getContent.launch("image/*"));
+    }
 
+    private void setupTextWatcher() {
+        TextView childField = findViewById(R.id.field_child_name);
+        childField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                doUserEdit = true;
+            }
+        });
+    }
+
+    private void generateWarningDialog() {
+        new MaterialAlertDialogBuilder(ChildEditActivity.this)
+                .setTitle("Error")
+                .setMessage("Unable to save image")
+                .setPositiveButton(android.R.string.ok, null)
+                .show();
+    }
+
+    private void generateDeleteWarnDialog() {
+        new MaterialAlertDialogBuilder(ChildEditActivity.this)
+                .setTitle("Deleting Child")
+                .setMessage("Are you sure you want to do this?")
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> deleteAndExit())
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+    }
+
+    private void generateBackWarnDialog() {
+        if (doUserEdit) {
+            new MaterialAlertDialogBuilder(ChildEditActivity.this)
+                    .setTitle("Discard Changes")
+                    .setMessage("Changes will not be saved, are you sure?")
+                    .setPositiveButton(android.R.string.ok, (dialog, which) -> exitWithBack())
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show();
+        } else {
+            exitWithBack();
+        }
+    }
+
+    private void exitWithBack() {
+        super.onBackPressed();
     }
 }
