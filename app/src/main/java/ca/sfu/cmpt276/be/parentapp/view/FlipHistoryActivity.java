@@ -19,6 +19,7 @@ import java.util.Objects;
 import ca.sfu.cmpt276.be.parentapp.R;
 import ca.sfu.cmpt276.be.parentapp.controller.DataManager;
 import ca.sfu.cmpt276.be.parentapp.controller.ChildManager;
+import ca.sfu.cmpt276.be.parentapp.controller.ImageManager;
 import ca.sfu.cmpt276.be.parentapp.model.Coin;
 import ca.sfu.cmpt276.be.parentapp.controller.CoinFlipManager;
 
@@ -68,7 +69,8 @@ public class FlipHistoryActivity extends AppCompatActivity {
             }
 
             ImageView image_child = (ImageView) itemView.findViewById(R.id.image_layout_child);
-            image_child.setImageResource(R.drawable.sample_avatar);
+            ImageManager imageManager = new ImageManager();
+            image_child.setImageBitmap(imageManager.getPortrait(FlipHistoryActivity.this, coinFlipHistory.get(position).getPickerId()));
 
             String string_result = coinFlipManager.getCoinFlipGame(position).getResult();
             String string_time = coinFlipManager.getCoinFlipGame(position).getDate();

@@ -32,6 +32,7 @@ import ca.sfu.cmpt276.be.parentapp.R;
 import ca.sfu.cmpt276.be.parentapp.controller.ChildManager;
 import ca.sfu.cmpt276.be.parentapp.controller.CoinFlipManager;
 import ca.sfu.cmpt276.be.parentapp.controller.DataManager;
+import ca.sfu.cmpt276.be.parentapp.controller.ImageManager;
 import ca.sfu.cmpt276.be.parentapp.databinding.ActivityCoinflipBinding;
 import ca.sfu.cmpt276.be.parentapp.model.Child;
 
@@ -264,7 +265,8 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
             ImageView image = itemView.findViewById(R.id.image_child_spinner);
 
             text.setText(list.get(position).getName());
-            image.setImageResource(R.drawable.sample_avatar);
+            ImageManager imageManager = new ImageManager();
+            image.setImageBitmap(imageManager.getPortrait(CoinFlipActivity.this, list.get(position).getId()));
 
             return itemView;
         }
