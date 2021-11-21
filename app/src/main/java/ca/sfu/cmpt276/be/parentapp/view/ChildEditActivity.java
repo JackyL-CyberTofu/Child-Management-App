@@ -2,17 +2,14 @@ package ca.sfu.cmpt276.be.parentapp.view;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -157,23 +154,15 @@ public class ChildEditActivity extends AppCompatActivity{
         ActivityResultLauncher<String> getContent;
 
         getContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
-                new ActivityResultCallback<Uri>() {
-            //TODO: fix bug where leaving activity crashes the program.
-            @Override
-            public void onActivityResult(Uri result) {
-                ImageManager imageManager = new ImageManager();
+                result -> {
+                    if (result != null) {
+                        ImageManager imageManager = new ImageManager();
+                        imageManager.savePortrait(ChildEditActivity.this, result, currentChild.getId());
+                        imageOfChild.setImageBitmap(imageManager.loadPortraitBitmap(ChildEditActivity.this, currentChild.getId()));
+                    }
+                });
 
-                imageManager.savePortrait(ChildEditActivity.this, result, currentChild.getId());
-                imageOfChild.setImageBitmap(imageManager.loadPortraitBitmap(ChildEditActivity.this, currentChild.getId()));
-            }
-        });
-
-        changeImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getContent.launch("image/*");
-            }
-        });
+        changeImage.setOnClickListener(view -> getContent.launch("image/*"));
 
     }
 }

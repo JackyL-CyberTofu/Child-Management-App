@@ -15,6 +15,9 @@ import java.io.IOException;
 
 import ca.sfu.cmpt276.be.parentapp.R;
 
+/**
+ * ImageManager handles the saving and loading of images for the portraits of children.
+ */
 public class ImageManager {
     private static final String TAG = "ImageManager";
     public static final String PORTRAIT_FOLDER = "Portraits";
@@ -41,8 +44,6 @@ public class ImageManager {
         try {
             Bitmap childImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(), result);
 
-            //TODO: replace this when UUID when that part is merged
-            //TODO: fix for new child
             File file = new File(getPhotoFilePath(context), imageName + ".jpg");
             try {
                 FileOutputStream fos = new FileOutputStream(file);
@@ -76,7 +77,6 @@ public class ImageManager {
             }
 
         return file;
-
     }
 
     private boolean doesPortraitExist(Context context, String imageName) {
