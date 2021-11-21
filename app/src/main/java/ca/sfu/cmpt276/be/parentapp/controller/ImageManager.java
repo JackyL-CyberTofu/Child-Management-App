@@ -14,7 +14,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import ca.sfu.cmpt276.be.parentapp.R;
-import ca.sfu.cmpt276.be.parentapp.model.Child;
 
 public class ImageManager {
     private static final String TAG = "ImageManager";
@@ -50,9 +49,11 @@ public class ImageManager {
                 childImage.compress(Bitmap.CompressFormat.JPEG, 90, fos);
                 fos.flush();
                 fos.close();
-                Log.i(TAG, "Image saved to" + file);
+                Log.d(TAG, "Image saved to" + file);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
+                Log.e(TAG, "Something went wrong with loading the file");
+                Log.e(TAG, "Tried to save to" + file);
             }
 
         } catch (IOException e) {
@@ -66,8 +67,16 @@ public class ImageManager {
     }
 
     private File getPhotoFilePath(Context context) {
-        return new File(context.getExternalFilesDir(
+        File file = new File(context.getExternalFilesDir(
                 Environment.DIRECTORY_PICTURES), PORTRAIT_FOLDER);
+            if (!file.exists()) {
+                if (file.mkdirs()) {
+                    Log.e(TAG, "Directory unable to be made");
+                }
+            }
+
+        return file;
+
     }
 
     private boolean doesPortraitExist(Context context, String imageName) {
