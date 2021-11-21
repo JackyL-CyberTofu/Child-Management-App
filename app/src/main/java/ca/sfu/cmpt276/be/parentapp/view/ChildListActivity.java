@@ -120,7 +120,7 @@ public class ChildListActivity extends AppCompatActivity {
     private class ChildListAdapter extends ArrayAdapter<Child> {
 
         public ChildListAdapter() {
-            super(ChildListActivity.this, R.layout.layout_queue, childManager.getAll());
+            super(ChildListActivity.this, R.layout.layout_standard, childManager.getAll());
         }
         @NonNull
         @Override
@@ -128,13 +128,13 @@ public class ChildListActivity extends AppCompatActivity {
             View itemView = convertView;
             Child currentChild = childManager.get(position);
             if (itemView == null) {
-                itemView = getLayoutInflater().inflate(R.layout.layout_queue, parent, false);
+                itemView = getLayoutInflater().inflate(R.layout.layout_standard, parent, false);
             }
 
-            TextView nameView = itemView.findViewById(R.id.text_child_spinner);
+            TextView nameView = itemView.findViewById(R.id.text_child);
             nameView.setText(currentChild.getName());
 
-            ImageView image = itemView.findViewById(R.id.image_child_spinner);
+            ImageView image = itemView.findViewById(R.id.image_child);
             ImageManager imageManager = new ImageManager();
             image.setImageBitmap(imageManager.getPortrait(ChildListActivity.this, currentChild.getId()));
 

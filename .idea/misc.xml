@@ -59,6 +59,7 @@
         <entry key="app/src/main/res/layout/layout_coinflip.xml" value="0.21739130434782608" />
         <entry key="app/src/main/res/layout/layout_coinflip_modified.xml" value="0.25" />
         <entry key="app/src/main/res/layout/layout_queue.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/layout_standard.xml" value="0.19605967865340473" />
         <entry key="app/src/main/res/layout/layout_task.xml" value="0.41530797101449274" />
         <entry key="app/src/main/res/menu/coinflip.xml" value="0.4222222222222222" />
         <entry key="app/src/main/res/menu/menu_navigation.xml" value="0.4153846153846154" />

@@ -22,7 +22,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,7 +97,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
         list = getSpinnerElements();
         spinner = findViewById(R.id.spinner_childQueue);
         adapter = new SpinnerAdapter(getApplicationContext(), list);
-        adapter.setDropDownViewResource(R.layout.layout_queue);
+        adapter.setDropDownViewResource(R.layout.layout_standard);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new SpinnerListener());
     }
@@ -245,7 +244,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
     class SpinnerAdapter extends ArrayAdapter<Child> {
 
         public SpinnerAdapter(Context context, List<Child> childQueue) {
-            super(context, R.layout.layout_queue, childQueue);
+            super(context, R.layout.layout_standard, childQueue);
         }
 
         @Override
@@ -259,10 +258,10 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
 
         public View getCustomView(int position, ViewGroup parent) {
             LayoutInflater inflater = getLayoutInflater();
-            View itemView = inflater.inflate(R.layout.layout_queue, parent, false);
+            View itemView = inflater.inflate(R.layout.layout_standard, parent, false);
 
-            TextView text = itemView.findViewById(R.id.text_child_spinner);
-            ImageView image = itemView.findViewById(R.id.image_child_spinner);
+            TextView text = itemView.findViewById(R.id.text_child);
+            ImageView image = itemView.findViewById(R.id.image_child);
 
             text.setText(list.get(position).getName());
             ImageManager imageManager = new ImageManager();
