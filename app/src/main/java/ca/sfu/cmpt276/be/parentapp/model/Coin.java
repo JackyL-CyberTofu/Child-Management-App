@@ -12,12 +12,12 @@ Represents one game of a coin flip
 public class Coin {
 
     private final LocalDateTime date;
-    private final String picker;
     private final String pick;
+    private Child picker;
     private final String result;
     private final int pickerWon;
 
-    public Coin(LocalDateTime date, String picker, String pick, String result){
+    public Coin(LocalDateTime date, Child picker, String pick, String result){
         this.date = date;
         this.picker = picker;
         this.pick = pick;
@@ -36,12 +36,20 @@ public class Coin {
         return formatter.format(this.date);
     }
 
-    public String getPicker() { return picker; }
+    public String getPicker() { return picker.getName(); }
+
+    public String getPickerId() {
+        return picker.getId();
+    }
 
     public String getPick() { return pick; }
 
     public String getResult() { return result; }
 
     public int getPickerWon() { return pickerWon; }
+
+    public void overridePicker(Child newPicker) {
+        this.picker = newPicker;
+    }
 
 }
