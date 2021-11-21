@@ -57,7 +57,7 @@
         app:layout_constraintVertical_bias="0.114"></LinearLayout>
 
     <Button
-        android:id="@+id/button_add_image"
+        android:id="@+id/button_use_gallery"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/choose_image"
@@ -73,6 +73,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/linear_layout"
         app:layout_constraintEnd_toEndOf="@+id/linear_layout"
         app:layout_constraintStart_toStartOf="@+id/linear_layout"
-        app:layout_constraintTop_toBottomOf="@+id/button_add_image" />
+        app:layout_constraintTop_toBottomOf="@+id/button_use_gallery" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
