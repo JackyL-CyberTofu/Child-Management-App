@@ -2,6 +2,7 @@ package ca.sfu.cmpt276.be.parentapp.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -36,9 +37,10 @@ public class ChildEditActivity extends AppCompatActivity{
     private static final String EXTRA_DO_EDIT = "doEdit";
 
     private boolean doEdit;
-    private boolean doUserEdit = false;
+    private boolean didUserEdit = false;
     private int childPosition;
     private Child currentChild;
+    private Uri newPhoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +80,7 @@ public class ChildEditActivity extends AppCompatActivity{
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.item_save) {
-            saveAndExit();
+            checkForSaving();
         }
 
         if (item.getItemId() == R.id.item_delete) {
@@ -107,7 +109,7 @@ public class ChildEditActivity extends AppCompatActivity{
         childPortrait.setImageBitmap(imageManager.getPortrait(ChildEditActivity.this, currentChild.getId()));
     }
 
-    private void saveAndExit() {
+    private void checkForSaving() {
         EditText childNameEditText = findViewById(R.id.field_child_name);
         String newName = childNameEditText.getText().toString();
 
@@ -126,6 +128,16 @@ public class ChildEditActivity extends AppCompatActivity{
         } else {
             currentChild.setName(newName);
             childManager.add(currentChild);
+        }
+
+        if (didUserEdit && newPhoto != null) {
+            ImageManager imageManager = new ImageManager();
+            try {
+                imageManager.savePortrait(ChildEditActivity.this, newPhoto, currentChild.getId());
+            } catch (IOException e) {
+                e.printStackTrace();
+                generateWarningDialog();
+            }
         }
     }
 
@@ -167,18 +179,18 @@ public class ChildEditActivity extends AppCompatActivity{
         getContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
                 result -> {
                     if (result != null) {
-                        try {
-                            ImageManager imageManager = new ImageManager();
-                            imageManager.savePortrait(ChildEditActivity.this, result, currentChild.getId());
-                            setUpPortrait();
-                            doUserEdit = true;
-                        } catch (IOException e) {
-                            generateWarningDialog();
-                        }
+                            prepareImage(result);
                     }
                 });
 
         changeImage.setOnClickListener(view -> getContent.launch("image/*"));
+    }
+
+    private void prepareImage(Uri image) {
+        ImageView childPortrait = findViewById(R.id.image_child_portrait);
+        childPortrait.setImageURI(image);
+        newPhoto = image;
+        didUserEdit = true;
     }
 
     private void setupTextWatcher() {
@@ -192,7 +204,7 @@ public class ChildEditActivity extends AppCompatActivity{
 
             @Override
             public void afterTextChanged(Editable s) {
-                doUserEdit = true;
+                didUserEdit = true;
             }
         });
     }
@@ -215,7 +227,7 @@ public class ChildEditActivity extends AppCompatActivity{
     }
 
     private void generateBackWarnDialog() {
-        if (doUserEdit) {
+        if (didUserEdit) {
             new MaterialAlertDialogBuilder(ChildEditActivity.this)
                     .setTitle("Discard Changes")
                     .setMessage("Changes will not be saved, are you sure?")
