@@ -119,6 +119,13 @@ public class DataManager {
                 }
             }
         }
+        for (int i=0;i<coinFlipQueue.size();i++){
+            for (int j=0;j<childList.size();j++){
+                if (coinFlipQueue.get(i).getId().equals(childList.get(j).getId())){
+                    coinFlipQueue.set(i, childList.get(j));
+                }
+            }
+        }
     }
 
     /**
