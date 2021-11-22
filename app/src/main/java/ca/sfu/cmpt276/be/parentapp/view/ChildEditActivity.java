@@ -206,7 +206,7 @@ public class ChildEditActivity extends AppCompatActivity{
         getContent = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult result) {
-                if (result != null) {
+                if (result.getData() != null && result.getData().getExtras() != null) {
                     Bundle extras = result.getData().getExtras();
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
                     prepareImage(imageBitmap);
