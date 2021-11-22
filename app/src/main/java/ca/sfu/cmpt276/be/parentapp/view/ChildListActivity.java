@@ -4,20 +4,25 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback;
 
 import java.util.Objects;
 
 import ca.sfu.cmpt276.be.parentapp.R;
+import ca.sfu.cmpt276.be.parentapp.controller.ImageManager;
 import ca.sfu.cmpt276.be.parentapp.model.Child;
 import ca.sfu.cmpt276.be.parentapp.controller.ChildManager;
 
@@ -26,9 +31,9 @@ import ca.sfu.cmpt276.be.parentapp.controller.ChildManager;
  */
 public class ChildListActivity extends AppCompatActivity {
     private static ChildManager childManager = new ChildManager();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setupAnimation();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_child_list);
         Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.text_configureChildren);
@@ -37,7 +42,44 @@ public class ChildListActivity extends AppCompatActivity {
         showChildren();
         setUpAddButton();
         setUpListViewClick();
+        setUpNavBar();
+
+
     }
+
+    private void setupAnimation() {
+        setEnterSharedElementCallback(new MaterialContainerTransformSharedElementCallback());
+        getWindow().setSharedElementsUseOverlay(false);
+    }
+
+    private void setUpNavBar() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.item_child);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            bottomNavigationView.postDelayed(() -> {
+                int id = item.getItemId();
+                if (id == R.id.item_home){
+                    finish();
+                    overridePendingTransition(0, 0);
+                } else if (id == R.id.item_timeout){
+                    startActivity(new Intent(getApplicationContext(), TimeoutActivity.class));
+                    overridePendingTransition(0, 0);
+                    finish();
+                } else if (id == R.id.item_tasks){
+                    startActivity(new Intent(getApplicationContext(), TaskListActivity.class));
+                    overridePendingTransition(0, 0);
+                    finish();
+                } else if (id == R.id.item_coinflip){
+                    startActivity(new Intent(getApplicationContext(), CoinFlipActivity.class));
+                    overridePendingTransition(0, 0);
+                    finish();
+                }
+
+            },0);
+            return true;
+        });
+    }
+
 
     @Override
     protected void onResume() {
@@ -66,8 +108,9 @@ public class ChildListActivity extends AppCompatActivity {
     private void setUpAddButton() {
         FloatingActionButton addButton = findViewById(R.id.button_add_child);
         addButton.setOnClickListener(v -> {
-            Intent launchEmptyEdit = ChildEditActivity.makeIntent(ChildListActivity.this);
-            startActivity(launchEmptyEdit);
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(ChildListActivity.this, addButton, "shared_container");
+            Intent intent = ChildEditActivity.makeIntent(ChildListActivity.this);
+            startActivity(intent,options.toBundle());
         });
     }
     private void showChildren() {
@@ -79,7 +122,7 @@ public class ChildListActivity extends AppCompatActivity {
     private class ChildListAdapter extends ArrayAdapter<Child> {
 
         public ChildListAdapter() {
-            super(ChildListActivity.this, R.layout.layout_child_item, childManager.getAll());
+            super(ChildListActivity.this, R.layout.layout_standard, childManager.getAll());
         }
         @NonNull
         @Override
@@ -87,12 +130,20 @@ public class ChildListActivity extends AppCompatActivity {
             View itemView = convertView;
             Child currentChild = childManager.get(position);
             if (itemView == null) {
-                itemView = getLayoutInflater().inflate(R.layout.layout_child_item, parent, false);
+                itemView = getLayoutInflater().inflate(R.layout.layout_standard, parent, false);
             }
 
-            TextView nameView = itemView.findViewById(R.id.child_name);
+            TextView nameView = itemView.findViewById(R.id.text_child);
             nameView.setText(currentChild.getName());
+
+            ImageView image = itemView.findViewById(R.id.image_child);
+            ImageManager imageManager = new ImageManager();
+            image.setImageBitmap(imageManager.getPortrait(ChildListActivity.this, currentChild.getId()));
+
             return itemView;
+
+
+
         }
 
     }

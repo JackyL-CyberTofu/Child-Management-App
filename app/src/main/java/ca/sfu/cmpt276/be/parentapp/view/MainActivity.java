@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import ca.sfu.cmpt276.be.parentapp.R;
 import ca.sfu.cmpt276.be.parentapp.controller.DataManager;
@@ -32,10 +34,11 @@ public class MainActivity extends AppCompatActivity {
         setUpTimeoutButton();
         setUpTaskButton();
         setUpHelpButton();
+        setUpNavigation();
     }
 
     private void setUpHelpButton() {
-        Button button_help = findViewById(R.id.button_help);
+        CardView button_help = findViewById(R.id.button_help);
         button_help.setOnClickListener(view -> {
             Intent helpActivity = HelpActivity.makeIntent(MainActivity.this);
             startActivity(helpActivity);
@@ -43,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpTaskButton() {
-        Button toTasks = findViewById(R.id.button_task_list);
+        CardView toTasks = findViewById(R.id.button_task_list);
         toTasks.setOnClickListener(view -> {
             Intent tasksActivity = new Intent(getApplicationContext(), TaskListActivity.class);
             startActivity(tasksActivity);
@@ -51,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpTimeoutButton() {
-        Button button_timeout = findViewById(R.id.button_timeout);
+        CardView button_timeout = findViewById(R.id.button_timeout);
         button_timeout.setOnClickListener(view -> {
             Intent timeoutActivity = TimeoutActivity.makeIntent(MainActivity.this);
             startActivity(timeoutActivity);
@@ -59,13 +62,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpChildButton() {
-        Button toChildren = findViewById(R.id.button_children);
+        CardView toChildren = findViewById(R.id.button_children);
         toChildren.setOnClickListener(v -> {
             Intent childActivity = ChildListActivity.makeIntent(MainActivity.this);
             startActivity(childActivity);
         });
 
-        Button button2 = findViewById(R.id.button_coin_flip);
+        CardView button2 = findViewById(R.id.button_coin_flip);
 
         button2.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), CoinFlipActivity.class);
@@ -92,7 +95,39 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void setUpNavigation() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.item_home);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            bottomNavigationView.postDelayed(() -> {
+                int id = item.getItemId();
+                if (id == R.id.item_tasks){
+                    startActivity(new Intent(getApplicationContext(), TaskListActivity.class));
+                    overridePendingTransition(0, 0);
+                } else if (id == R.id.item_timeout){
+                    startActivity(new Intent(getApplicationContext(), TimeoutActivity.class));
+                    overridePendingTransition(0, 0);
+                } else if (id == R.id.item_child){
+                    startActivity(new Intent(getApplicationContext(), ChildListActivity.class));
+                    overridePendingTransition(0, 0);
+                } else if (id == R.id.item_coinflip){
+                    startActivity(new Intent(getApplicationContext(), CoinFlipActivity.class));
+                    overridePendingTransition(0, 0);
+                }
+            },0);
+            return true;
+        });
+    }
+
     private void loadData() {
         DataManager.getInstance().deserializeData();
+    }
+
+    @Override
+    public void onResume() {
+
+        super.onResume();
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.item_home);
     }
 }

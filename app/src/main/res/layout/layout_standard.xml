@@ -3,8 +3,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/image_child_spinner"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/image_child"
         android:layout_width="40sp"
         android:layout_height="40sp"
         android:layout_marginTop="10dp"
@@ -13,7 +13,7 @@
         android:contentDescription="@string/string_image" />
 
     <TextView
-        android:id="@+id/text_child_spinner"
+        android:id="@+id/text_child"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginStart="31dp"
@@ -22,7 +22,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="15sp"
         android:layout_marginBottom="10dp"
-        android:layout_toEndOf="@+id/image_child_spinner"
+        android:layout_toEndOf="@+id/image_child"
         android:gravity="center_vertical" />
 
 </RelativeLayout>
