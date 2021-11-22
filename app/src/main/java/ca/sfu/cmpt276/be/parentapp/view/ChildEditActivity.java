@@ -10,7 +10,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -203,24 +202,21 @@ public class ChildEditActivity extends AppCompatActivity{
                 if (result != null) {
                     Bundle extras = result.getData().getExtras();
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
-                    prepareImage(getImageUri(getApplicationContext(),imageBitmap));
+                    prepareImage(bitmapToUri(getApplicationContext(),imageBitmap));
                 }
             }
         });
 
-        useCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        useCamera.setOnClickListener(view -> {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 getContent.launch(intent);
-            }
         });
     }
 
-    public Uri getImageUri(Context inContext, Bitmap inImage) {
+    public Uri bitmapToUri(Context context, Bitmap image) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        image.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), image, "Title", null);
         return Uri.parse(path);
     }
 
