@@ -2,18 +2,23 @@ package ca.sfu.cmpt276.be.parentapp.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -21,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -51,6 +57,7 @@ public class ChildEditActivity extends AppCompatActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         getGalleryExtraction();
+        getCameraExtraction();
         getExtras();
         setUpPortrait();
         setupTextWatcher();
@@ -173,7 +180,7 @@ public class ChildEditActivity extends AppCompatActivity{
     }
 
     private void getGalleryExtraction() {
-        Button changeImage = findViewById(R.id.button_add_image);
+        Button useGallery = findViewById(R.id.button_use_gallery);
         ActivityResultLauncher<String> getContent;
 
         getContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
@@ -183,7 +190,38 @@ public class ChildEditActivity extends AppCompatActivity{
                     }
                 });
 
-        changeImage.setOnClickListener(view -> getContent.launch("image/*"));
+        useGallery.setOnClickListener(view -> getContent.launch("image/*"));
+    }
+
+    private void getCameraExtraction(){
+        Button useCamera = findViewById(R.id.button_use_camera);
+        ActivityResultLauncher<Intent> getContent;
+
+        getContent = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if (result != null) {
+                    Bundle extras = result.getData().getExtras();
+                    Bitmap imageBitmap = (Bitmap) extras.get("data");
+                    prepareImage(getImageUri(getApplicationContext(),imageBitmap));
+                }
+            }
+        });
+
+        useCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                getContent.launch(intent);
+            }
+        });
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
 
     private void prepareImage(Uri image) {
