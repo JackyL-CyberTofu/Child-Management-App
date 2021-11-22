@@ -1,66 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/relaxing_water_background"
     tools:context=".view.MainActivity">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:gravity="center_vertical"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/text_welcome">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/title_color"/>
+    <LinearLayout
+        android:id="@+id/text_welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="2dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/title_color" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_welcome"
+        android:layout_height="700dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="65dp"
         android:orientation="vertical"
-        >
+        android:layout_below="@id/text_welcome">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:gravity="center">
+            android:gravity="center"
+            >
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/button_children"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_margin="10dp"
-                app:cardCornerRadius="15dp"
                 app:cardBackgroundColor="@color/cardview_color"
-                android:id="@+id/button_children"
-                >
+                app:cardCornerRadius="15dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:layout_gravity="center"
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/ic_baseline_people_24"
-                        android:contentDescription="@string/children"/>
+                        android:contentDescription="@string/children" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/children"/>
+                        android:text="@string/children" />
 
                 </LinearLayout>
 
@@ -68,32 +70,31 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/button_timeout"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_margin="10dp"
                 app:cardBackgroundColor="@color/cardview_color"
-                app:cardCornerRadius="15dp"
-                android:id="@+id/button_timeout"
-                >
+                app:cardCornerRadius="15dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:layout_gravity="center"
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/ic_baseline_access_time_24"
-                        android:contentDescription="@string/timeout"/>
+                        android:contentDescription="@string/timeout" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/timeout"/>
+                        android:text="@string/timeout" />
 
                 </LinearLayout>
 
@@ -132,7 +133,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:background="@drawable/ic_baseline_circle_24"
-                        android:contentDescription="@string/coinflip"/>
+                        android:contentDescription="@string/coinflip" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -168,7 +169,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/ic_baseline_view_list_24"
-                        android:contentDescription="@string/tasks_button_label"/>
+                        android:contentDescription="@string/tasks_button_label" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -189,32 +190,31 @@
             android:gravity="center">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/button_help"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_margin="10dp"
                 app:cardBackgroundColor="@color/cardview_color"
-                app:cardCornerRadius="15dp"
-                android:id="@+id/button_help"
-                >
+                app:cardCornerRadius="15dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:layout_gravity="center"
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/ic_baseline_question_mark_24"
-                        android:contentDescription="@string/help_button_label"/>
+                        android:contentDescription="@string/help_button_label" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/help_button_label"/>
+                        android:text="@string/help_button_label" />
 
                 </LinearLayout>
 
@@ -232,21 +232,20 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:layout_gravity="center"
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@null"
-                        android:contentDescription="@string/string_none"/>
+                        android:contentDescription="@string/string_none" />
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        />
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
@@ -261,10 +260,10 @@
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/menu_navigation"
-        android:layout_alignParentBottom="true"/>
+        app:menu="@menu/menu_navigation" />
 
 </RelativeLayout>
