@@ -22,6 +22,11 @@ public class ImageManager {
     private static final String TAG = "ImageManager";
     public static final String PORTRAIT_FOLDER = "Portraits";
 
+    public Bitmap getPortrait(Context context, int childPosition) {
+        ChildManager childManager = new ChildManager();
+        return getPortrait(context, childManager.get(childPosition).getId());
+    }
+
     public Bitmap getPortrait(Context context, String childName) {
         if (doesPortraitExist(context, childName)) {
             return loadPortraitBitmap(context, childName);

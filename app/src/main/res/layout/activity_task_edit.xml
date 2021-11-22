@@ -73,7 +73,7 @@
         android:id="@+id/group_existing_task_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="layout_tasked_child,text_tasked_child_label,button_complete_task" />
+        app:constraint_referenced_ids="layout_tasked_child,button_complete_task,text_tasked_child_label" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/group_tasked_child_info"
