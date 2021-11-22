@@ -111,6 +111,15 @@ public class DataManager {
 
     public ArrayList<Child> getCoinFlipQueue() { return coinFlipQueue; }
 
+    public boolean checkIfInHistory(Child child) {
+        for (Coin coin : coinFlipHistory) {
+            if (coin.getPickerId().equals(child.getId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void reassignChildren() {
         for (Coin coin : coinFlipHistory) {
             for (Child child : childList) {

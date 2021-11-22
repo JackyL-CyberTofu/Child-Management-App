@@ -68,11 +68,12 @@ public class ImageManager {
         }
 
         float scale = (float)(SAVE_DIMENSION/shortSide);
-        bitmap.recycle();
-        return Bitmap.createScaledBitmap(bitmap,
+        Bitmap scaleBitmap = Bitmap.createScaledBitmap(bitmap,
                 Math.round(width * scale),
                 Math.round(height * scale),
                 true);
+        bitmap.recycle();
+        return scaleBitmap;
     }
 
     private Bitmap loadPortraitBitmap(Context context, String imageName) {
