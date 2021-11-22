@@ -26,7 +26,6 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.Objects;
 
@@ -125,30 +124,7 @@ public class TimeoutActivity extends AppCompatActivity {
             popUpAlarmTurningOffDialog();
         }
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setSelectedItemId(R.id.item_timeout);
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            bottomNavigationView.postDelayed(() -> {
-                int id = item.getItemId();
-                if (id == R.id.item_home){
-                    finish();
-                    overridePendingTransition(0, 0);
-                } else if (id == R.id.item_tasks){
-                    startActivity(new Intent(getApplicationContext(), TaskListActivity.class));
-                    overridePendingTransition(0, 0);
-                    finish();
-                } else if (id == R.id.item_child){
-                    startActivity(new Intent(getApplicationContext(), ChildListActivity.class));
-                    overridePendingTransition(0, 0);
-                    finish();
-                } else if (id == R.id.item_coinflip){
-                    startActivity(new Intent(getApplicationContext(), CoinFlipActivity.class));
-                    overridePendingTransition(0, 0);
-                    finish();
-                }
-            },0);
-            return true;
-        });
+        setUpNavBar();
     }
 
     private void popUpAlarmTurningOffDialog() {
@@ -336,6 +312,33 @@ public class TimeoutActivity extends AppCompatActivity {
     private void removeNotification() {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
         notificationManager.cancelAll();
+    }
+
+    private void setUpNavBar() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.item_timeout);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            bottomNavigationView.postDelayed(() -> {
+                int id = item.getItemId();
+                if (id == R.id.item_home){
+                    finish();
+                    overridePendingTransition(0, 0);
+                } else if (id == R.id.item_tasks){
+                    startActivity(new Intent(getApplicationContext(), TaskListActivity.class));
+                    overridePendingTransition(0, 0);
+                    finish();
+                } else if (id == R.id.item_child){
+                    startActivity(new Intent(getApplicationContext(), ChildListActivity.class));
+                    overridePendingTransition(0, 0);
+                    finish();
+                } else if (id == R.id.item_coinflip){
+                    startActivity(new Intent(getApplicationContext(), CoinFlipActivity.class));
+                    overridePendingTransition(0, 0);
+                    finish();
+                }
+            },0);
+            return true;
+        });
     }
 
     @Override

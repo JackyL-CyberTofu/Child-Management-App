@@ -72,23 +72,6 @@ public class ChildEditActivity extends AppCompatActivity{
         generateBackWarnDialog();
     }
 
-    private void setupAnimation() {
-        findViewById(android.R.id.content).setTransitionName("shared_container");
-        setEnterSharedElementCallback(new MaterialContainerTransformSharedElementCallback());
-        MaterialContainerTransform transform = new MaterialContainerTransform();
-        transform.addTarget(android.R.id.content);
-        transform.setAllContainerColors(MaterialColors.getColor(findViewById(android.R.id.content), R.attr.colorSurface));
-        transform.setFitMode(MaterialContainerTransform.FIT_MODE_AUTO);
-        transform.setDuration(666);
-        transform.setPathMotion(new MaterialArcMotion());
-        transform.setInterpolator(new FastOutSlowInInterpolator());
-        MaterialColors.getColor(findViewById(android.R.id.content), R.attr.colorSurface);
-        transform.setScrimColor(Color.TRANSPARENT);
-        getWindow().setSharedElementEnterTransition(transform);
-
-    }
-
-
     @Override
     public boolean onSupportNavigateUp() {
         generateBackWarnDialog();
@@ -279,5 +262,21 @@ public class ChildEditActivity extends AppCompatActivity{
 
     private void exitWithBack() {
         super.onBackPressed();
+    }
+
+    private void setupAnimation() {
+        findViewById(android.R.id.content).setTransitionName("shared_container");
+        setEnterSharedElementCallback(new MaterialContainerTransformSharedElementCallback());
+        MaterialContainerTransform transform = new MaterialContainerTransform();
+        transform.addTarget(android.R.id.content);
+        transform.setAllContainerColors(MaterialColors.getColor(findViewById(android.R.id.content), R.attr.colorSurface));
+        transform.setFitMode(MaterialContainerTransform.FIT_MODE_AUTO);
+        transform.setDuration(666);
+        transform.setPathMotion(new MaterialArcMotion());
+        transform.setInterpolator(new FastOutSlowInInterpolator());
+        MaterialColors.getColor(findViewById(android.R.id.content), R.attr.colorSurface);
+        transform.setScrimColor(Color.TRANSPARENT);
+        getWindow().setSharedElementEnterTransition(transform);
+
     }
 }

@@ -58,19 +58,19 @@ public class FlipHistoryActivity extends AppCompatActivity {
 
     private class MyListAdapter extends ArrayAdapter<Coin> {
         public MyListAdapter() {
-            super(FlipHistoryActivity.this, R.layout.layout_coinflip_modified, coinFlipHistory);
+            super(FlipHistoryActivity.this, R.layout.layout_coinflip, coinFlipHistory);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View itemView = convertView;
             if (itemView == null) {
-                itemView = getLayoutInflater().inflate(R.layout.layout_coinflip_modified, parent, false);
+                itemView = getLayoutInflater().inflate(R.layout.layout_coinflip, parent, false);
             }
 
             ImageView image_child = (ImageView) itemView.findViewById(R.id.image_layout_child);
             ImageManager imageManager = new ImageManager();
-            image_child.setImageBitmap(imageManager.getPortrait(FlipHistoryActivity.this, coinFlipHistory.get(position).getPickerId()));
+            image_child.setImageBitmap(imageManager.getPortrait(FlipHistoryActivity.this, coinFlipManager.getCoinFlipID(position)));
 
             String string_result = coinFlipManager.getCoinFlipGame(position).getResult();
             String string_time = coinFlipManager.getCoinFlipGame(position).getDate();

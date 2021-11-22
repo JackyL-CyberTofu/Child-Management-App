@@ -3,18 +3,12 @@ package ca.sfu.cmpt276.be.parentapp.view;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.WindowManager;
-import android.widget.Button;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 
 import ca.sfu.cmpt276.be.parentapp.R;
 import ca.sfu.cmpt276.be.parentapp.controller.DataManager;
@@ -32,10 +26,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-//        getWindow().setStatusBarColor(Color.TRANSPARENT);
-
-        setContentView(R.layout.activity_main_2);
+        setContentView(R.layout.activity_main);
 
         setUpSaving();
         loadData();
@@ -43,28 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setUpTimeoutButton();
         setUpTaskButton();
         setUpHelpButton();
-
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setSelectedItemId(R.id.item_home);
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            bottomNavigationView.postDelayed(() -> {
-                int id = item.getItemId();
-                if (id == R.id.item_tasks){
-                    startActivity(new Intent(getApplicationContext(), TaskListActivity.class));
-                    overridePendingTransition(0, 0);
-                } else if (id == R.id.item_timeout){
-                    startActivity(new Intent(getApplicationContext(), TimeoutActivity.class));
-                    overridePendingTransition(0, 0);
-                } else if (id == R.id.item_child){
-                    startActivity(new Intent(getApplicationContext(), ChildListActivity.class));
-                    overridePendingTransition(0, 0);
-                } else if (id == R.id.item_coinflip){
-                    startActivity(new Intent(getApplicationContext(), CoinFlipActivity.class));
-                    overridePendingTransition(0, 0);
-                }
-            },0);
-            return true;
-        });
+        setUpNavigation();
     }
 
     private void setUpHelpButton() {
@@ -122,6 +92,30 @@ public class MainActivity extends AppCompatActivity {
                 editor.putString(saveName, saveJson);
                 editor.apply();
             }
+        });
+    }
+
+    private void setUpNavigation() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.item_home);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            bottomNavigationView.postDelayed(() -> {
+                int id = item.getItemId();
+                if (id == R.id.item_tasks){
+                    startActivity(new Intent(getApplicationContext(), TaskListActivity.class));
+                    overridePendingTransition(0, 0);
+                } else if (id == R.id.item_timeout){
+                    startActivity(new Intent(getApplicationContext(), TimeoutActivity.class));
+                    overridePendingTransition(0, 0);
+                } else if (id == R.id.item_child){
+                    startActivity(new Intent(getApplicationContext(), ChildListActivity.class));
+                    overridePendingTransition(0, 0);
+                } else if (id == R.id.item_coinflip){
+                    startActivity(new Intent(getApplicationContext(), CoinFlipActivity.class));
+                    overridePendingTransition(0, 0);
+                }
+            },0);
+            return true;
         });
     }
 

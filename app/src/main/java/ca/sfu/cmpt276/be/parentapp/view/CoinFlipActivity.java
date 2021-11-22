@@ -66,30 +66,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
         setupButton();
         initializeSpinner();
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setSelectedItemId(R.id.item_coinflip);
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            bottomNavigationView.postDelayed(() -> {
-                int id = item.getItemId();
-                if (id == R.id.item_home){
-                    finish();
-                    overridePendingTransition(0, 0);
-                } else if (id == R.id.item_timeout){
-                    startActivity(new Intent(getApplicationContext(), TimeoutActivity.class));
-                    overridePendingTransition(0, 0);
-                    finish();
-                } else if (id == R.id.item_child){
-                    startActivity(new Intent(getApplicationContext(), ChildListActivity.class));
-                    overridePendingTransition(0, 0);
-                    finish();
-                } else if (id == R.id.item_tasks){
-                    startActivity(new Intent(getApplicationContext(), TaskListActivity.class));
-                    overridePendingTransition(0, 0);
-                    finish();
-                }
-            },0);
-            return true;
-        });
+        setUpNavBar();
 
     }
 
@@ -192,6 +169,33 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
             text_result.setText(coinFlipManager.getCoinFlipGame(0).getResult());
         }
         updateSpinner();
+    }
+
+    private void setUpNavBar() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.item_coinflip);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            bottomNavigationView.postDelayed(() -> {
+                int id = item.getItemId();
+                if (id == R.id.item_home){
+                    finish();
+                    overridePendingTransition(0, 0);
+                } else if (id == R.id.item_timeout){
+                    startActivity(new Intent(getApplicationContext(), TimeoutActivity.class));
+                    overridePendingTransition(0, 0);
+                    finish();
+                } else if (id == R.id.item_child){
+                    startActivity(new Intent(getApplicationContext(), ChildListActivity.class));
+                    overridePendingTransition(0, 0);
+                    finish();
+                } else if (id == R.id.item_tasks){
+                    startActivity(new Intent(getApplicationContext(), TaskListActivity.class));
+                    overridePendingTransition(0, 0);
+                    finish();
+                }
+            },0);
+            return true;
+        });
     }
 
     @Override

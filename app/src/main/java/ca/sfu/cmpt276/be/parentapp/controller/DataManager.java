@@ -119,12 +119,14 @@ public class DataManager {
                 }
             }
         }
-        for (int i=0;i<coinFlipQueue.size();i++){
-            for (int j=0;j<childList.size();j++){
-                if (coinFlipQueue.get(i).getId().equals(childList.get(j).getId())){
-                    coinFlipQueue.set(i, childList.get(j));
+        int index = 0;
+        for (Child child : coinFlipQueue) {
+            for (Child child2 : childList) {
+                if (child.getId().equals(child2.getId())){
+                    coinFlipQueue.set(index,child2);
                 }
             }
+            index++;
         }
     }
 

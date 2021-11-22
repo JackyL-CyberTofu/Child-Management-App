@@ -42,7 +42,17 @@ public class ChildListActivity extends AppCompatActivity {
         showChildren();
         setUpAddButton();
         setUpListViewClick();
+        setUpNavBar();
 
+
+    }
+
+    private void setupAnimation() {
+        setEnterSharedElementCallback(new MaterialContainerTransformSharedElementCallback());
+        getWindow().setSharedElementsUseOverlay(false);
+    }
+
+    private void setUpNavBar() {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.item_child);
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -68,15 +78,7 @@ public class ChildListActivity extends AppCompatActivity {
             },0);
             return true;
         });
-
-
     }
-
-    private void setupAnimation() {
-        setEnterSharedElementCallback(new MaterialContainerTransformSharedElementCallback());
-        getWindow().setSharedElementsUseOverlay(false);
-    }
-
 
 
     @Override
