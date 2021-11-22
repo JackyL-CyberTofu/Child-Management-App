@@ -2,9 +2,10 @@ package ca.sfu.cmpt276.be.parentapp.view;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -15,21 +16,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
-
-import com.google.android.material.color.MaterialColors;
-import com.google.android.material.transition.platform.MaterialArcMotion;
-import com.google.android.material.transition.platform.MaterialContainerTransform;
-import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -49,11 +45,10 @@ public class ChildEditActivity extends AppCompatActivity{
     private boolean didUserEdit = false;
     private int childPosition;
     private Child currentChild;
-    private Uri newPhoto;
+    private Bitmap newPhoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setupAnimation();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_child);
 
@@ -61,8 +56,8 @@ public class ChildEditActivity extends AppCompatActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         getGalleryExtraction();
+        getCameraExtraction();
         getExtras();
-
         setUpPortrait();
         setupTextWatcher();
     }
@@ -75,7 +70,6 @@ public class ChildEditActivity extends AppCompatActivity{
     @Override
     public boolean onSupportNavigateUp() {
         generateBackWarnDialog();
-        onBackPressed();
         return true;
     }
 
@@ -101,15 +95,6 @@ public class ChildEditActivity extends AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void finish() {
-        super.finish();
-    }
-
-    private void deleteChild() {
-        ChildManager childManager = new ChildManager();
-        childManager.remove(childPosition);
-    }
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, ChildEditActivity.class);
@@ -194,22 +179,50 @@ public class ChildEditActivity extends AppCompatActivity{
     }
 
     private void getGalleryExtraction() {
-        Button changeImage = findViewById(R.id.button_add_image);
+        Button useGallery = findViewById(R.id.button_use_gallery);
         ActivityResultLauncher<String> getContent;
 
         getContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
                 result -> {
                     if (result != null) {
-                            prepareImage(result);
+                        Bitmap imageBitmap = null;
+                        try {
+                            imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), result);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            generateWarningDialog();
+                        }
+                        prepareImage(imageBitmap);
                     }
                 });
 
-        changeImage.setOnClickListener(view -> getContent.launch("image/*"));
+        useGallery.setOnClickListener(view -> getContent.launch("image/*"));
     }
 
-    private void prepareImage(Uri image) {
+    private void getCameraExtraction(){
+        Button useCamera = findViewById(R.id.button_use_camera);
+        ActivityResultLauncher<Intent> getContent;
+
+        getContent = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if (result.getData() != null && result.getData().getExtras() != null) {
+                    Bundle extras = result.getData().getExtras();
+                    Bitmap imageBitmap = (Bitmap) extras.get("data");
+                    prepareImage(imageBitmap);
+                }
+            }
+        });
+
+        useCamera.setOnClickListener(view -> {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                getContent.launch(intent);
+        });
+    }
+
+    private void prepareImage(Bitmap image) {
         ImageView childPortrait = findViewById(R.id.image_child_portrait);
-        childPortrait.setImageURI(image);
+        childPortrait.setImageBitmap(image);
         newPhoto = image;
         didUserEdit = true;
     }
@@ -262,21 +275,5 @@ public class ChildEditActivity extends AppCompatActivity{
 
     private void exitWithBack() {
         super.onBackPressed();
-    }
-
-    private void setupAnimation() {
-        findViewById(android.R.id.content).setTransitionName("shared_container");
-        setEnterSharedElementCallback(new MaterialContainerTransformSharedElementCallback());
-        MaterialContainerTransform transform = new MaterialContainerTransform();
-        transform.addTarget(android.R.id.content);
-        transform.setAllContainerColors(MaterialColors.getColor(findViewById(android.R.id.content), R.attr.colorSurface));
-        transform.setFitMode(MaterialContainerTransform.FIT_MODE_AUTO);
-        transform.setDuration(666);
-        transform.setPathMotion(new MaterialArcMotion());
-        transform.setInterpolator(new FastOutSlowInInterpolator());
-        MaterialColors.getColor(findViewById(android.R.id.content), R.attr.colorSurface);
-        transform.setScrimColor(Color.TRANSPARENT);
-        getWindow().setSharedElementEnterTransition(transform);
-
     }
 }

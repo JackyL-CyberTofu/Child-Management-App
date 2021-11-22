@@ -45,25 +45,18 @@ public class ImageManager {
         }
     }
 
-    public void savePortrait(Context context, Uri result, String imageName) throws IOException {
+    public void savePortrait(Context context, Bitmap result, String imageName) throws IOException {
+        Bitmap childImage = result;
+        File file = new File(getPhotoFilePath(context), imageName + ".jpg");
         try {
-            Bitmap childImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(), result);
-
-            File file = new File(getPhotoFilePath(context), imageName + ".jpg");
-            try {
-                FileOutputStream fos = new FileOutputStream(file);
-                childImage.compress(Bitmap.CompressFormat.JPEG, 90, fos);
-                fos.flush();
-                fos.close();
-                Log.d(TAG, "Image saved to" + file);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                throw new FileNotFoundException("Unable to save file");
-            }
-
-        } catch (IOException e) {
+            FileOutputStream fos = new FileOutputStream(file);
+            childImage.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+            fos.flush();
+            fos.close();
+            Log.d(TAG, "Image saved to" + file);
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
-            throw new IOException("Unable to generate bitmap");
+            throw new FileNotFoundException("Unable to save file");
         }
     }
 

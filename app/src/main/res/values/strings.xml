@@ -64,5 +64,6 @@
         <a href="https://unsplash.com/photos/Uf-_p8zZiT8">\nDark Mode Background</a>
     </string>
     <string name="choose_image">Choose Image</string>
+    <string name="use_camera">Use camera</string>
     <string name="string_queue">Queue:</string>
 </resources>
