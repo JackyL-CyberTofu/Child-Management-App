@@ -45,7 +45,7 @@ public class ChildEditActivity extends AppCompatActivity{
     private boolean didUserEdit = false;
     private int childPosition;
     private Child currentChild;
-    private Uri newPhoto;
+    private Bitmap newPhoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,7 +185,14 @@ public class ChildEditActivity extends AppCompatActivity{
         getContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
                 result -> {
                     if (result != null) {
-                            prepareImage(result);
+                        Bitmap imageBitmap = null;
+                        try {
+                            imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), result);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            generateWarningDialog();
+                        }
+                        prepareImage(imageBitmap);
                     }
                 });
 
@@ -202,7 +209,7 @@ public class ChildEditActivity extends AppCompatActivity{
                 if (result != null) {
                     Bundle extras = result.getData().getExtras();
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
-                    prepareImage(bitmapToUri(getApplicationContext(),imageBitmap));
+                    prepareImage(imageBitmap);
                 }
             }
         });
@@ -213,16 +220,9 @@ public class ChildEditActivity extends AppCompatActivity{
         });
     }
 
-    public Uri bitmapToUri(Context context, Bitmap image) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), image, "Title", null);
-        return Uri.parse(path);
-    }
-
-    private void prepareImage(Uri image) {
+    private void prepareImage(Bitmap image) {
         ImageView childPortrait = findViewById(R.id.image_child_portrait);
-        childPortrait.setImageURI(image);
+        childPortrait.setImageBitmap(image);
         newPhoto = image;
         didUserEdit = true;
     }
