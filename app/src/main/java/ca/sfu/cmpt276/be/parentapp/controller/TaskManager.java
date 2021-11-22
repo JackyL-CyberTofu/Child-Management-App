@@ -2,6 +2,7 @@ package ca.sfu.cmpt276.be.parentapp.controller;
 
 import java.util.ArrayList;
 
+import ca.sfu.cmpt276.be.parentapp.model.Child;
 import ca.sfu.cmpt276.be.parentapp.model.Task;
 
 public class TaskManager {
@@ -31,8 +32,12 @@ public class TaskManager {
         return taskList.get(index).getName();
     }
 
-    public String getTaskedChild(int index) {
+    public String getTaskedChildName(int index) {
         return taskList.get(index).getTaskedChild().getName();
+    }
+
+    public String getTaskedChildId(int index) {
+        return taskList.get(index).getTaskedChild().getId();
     }
 
     public ArrayList<Task> getAll() {

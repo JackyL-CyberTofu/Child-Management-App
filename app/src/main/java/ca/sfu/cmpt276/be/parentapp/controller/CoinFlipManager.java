@@ -106,6 +106,8 @@ public class CoinFlipManager {
         dataManager.serializeCoinflips();
     }
 
+    public String getCoinFlipID(int index) { return this.coinFlipHistory.get(index).getPickerId(); }
+
     public interface CoinObserver {
         void notifyCounterChanged();
     }

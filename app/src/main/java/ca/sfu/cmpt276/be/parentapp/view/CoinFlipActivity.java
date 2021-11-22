@@ -21,6 +21,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -29,6 +31,7 @@ import ca.sfu.cmpt276.be.parentapp.R;
 import ca.sfu.cmpt276.be.parentapp.controller.ChildManager;
 import ca.sfu.cmpt276.be.parentapp.controller.CoinFlipManager;
 import ca.sfu.cmpt276.be.parentapp.controller.DataManager;
+import ca.sfu.cmpt276.be.parentapp.controller.ImageManager;
 import ca.sfu.cmpt276.be.parentapp.databinding.ActivityCoinflipBinding;
 import ca.sfu.cmpt276.be.parentapp.model.Child;
 
@@ -62,13 +65,16 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
 
         setupButton();
         initializeSpinner();
+
+        setUpNavBar();
+
     }
 
     private void initializeSpinner() {
         list = getSpinnerElements();
         spinner = findViewById(R.id.spinner_childQueue);
         adapter = new SpinnerAdapter(getApplicationContext(), list);
-        adapter.setDropDownViewResource(R.layout.layout_queue);
+        adapter.setDropDownViewResource(R.layout.layout_standard);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new SpinnerListener());
     }
@@ -165,6 +171,33 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
         updateSpinner();
     }
 
+    private void setUpNavBar() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.item_coinflip);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            bottomNavigationView.postDelayed(() -> {
+                int id = item.getItemId();
+                if (id == R.id.item_home){
+                    finish();
+                    overridePendingTransition(0, 0);
+                } else if (id == R.id.item_timeout){
+                    startActivity(new Intent(getApplicationContext(), TimeoutActivity.class));
+                    overridePendingTransition(0, 0);
+                    finish();
+                } else if (id == R.id.item_child){
+                    startActivity(new Intent(getApplicationContext(), ChildListActivity.class));
+                    overridePendingTransition(0, 0);
+                    finish();
+                } else if (id == R.id.item_tasks){
+                    startActivity(new Intent(getApplicationContext(), TaskListActivity.class));
+                    overridePendingTransition(0, 0);
+                    finish();
+                }
+            },0);
+            return true;
+        });
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -215,7 +248,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
     class SpinnerAdapter extends ArrayAdapter<Child> {
 
         public SpinnerAdapter(Context context, List<Child> childQueue) {
-            super(context, R.layout.layout_queue, childQueue);
+            super(context, R.layout.layout_standard, childQueue);
         }
 
         @Override
@@ -229,13 +262,14 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
 
         public View getCustomView(int position, ViewGroup parent) {
             LayoutInflater inflater = getLayoutInflater();
-            View itemView = inflater.inflate(R.layout.layout_queue, parent, false);
+            View itemView = inflater.inflate(R.layout.layout_standard, parent, false);
 
-            TextView text = itemView.findViewById(R.id.text_child_spinner);
-            ImageView image = itemView.findViewById(R.id.image_child_spinner);
+            TextView text = itemView.findViewById(R.id.text_child);
+            ImageView image = itemView.findViewById(R.id.image_child);
 
             text.setText(list.get(position).getName());
-            image.setImageResource(R.drawable.sample_avatar);
+            ImageManager imageManager = new ImageManager();
+            image.setImageBitmap(imageManager.getPortrait(CoinFlipActivity.this, list.get(position).getId()));
 
             return itemView;
         }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -12,11 +13,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Objects;
 
 import ca.sfu.cmpt276.be.parentapp.R;
+import ca.sfu.cmpt276.be.parentapp.controller.ImageManager;
 import ca.sfu.cmpt276.be.parentapp.model.Task;
 import ca.sfu.cmpt276.be.parentapp.controller.TaskManager;
 
@@ -34,6 +37,8 @@ public class TaskListActivity extends AppCompatActivity {
         showTasks();
         setUpAddButton();
         setUpTaskSelection();
+
+        setUpNavBar();
     }
 
     @Override
@@ -70,6 +75,33 @@ public class TaskListActivity extends AppCompatActivity {
         taskList.setAdapter(taskAdapter);
     }
 
+    private void setUpNavBar() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.item_tasks);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            bottomNavigationView.postDelayed(() -> {
+                int id = item.getItemId();
+                if (id == R.id.item_home){
+                    finish();
+                    overridePendingTransition(0, 0);
+                } else if (id == R.id.item_timeout){
+                    startActivity(new Intent(getApplicationContext(), TimeoutActivity.class));
+                    overridePendingTransition(0, 0);
+                    finish();
+                } else if (id == R.id.item_child){
+                    startActivity(new Intent(getApplicationContext(), ChildListActivity.class));
+                    overridePendingTransition(0, 0);
+                    finish();
+                } else if (id == R.id.item_coinflip){
+                    startActivity(new Intent(getApplicationContext(), CoinFlipActivity.class));
+                    overridePendingTransition(0, 0);
+                    finish();
+                }
+            },0);
+            return true;
+        });
+    }
+
     private class TaskListAdapter extends ArrayAdapter<Task> {
         public TaskListAdapter() {
             super(TaskListActivity.this, R.layout.layout_task, taskManager.getAll());
@@ -87,9 +119,14 @@ public class TaskListActivity extends AppCompatActivity {
             if (taskManager.isChildren()) {
                 TextView childView = taskView.findViewById(R.id.text_layout_tasked_child);
                 childView.setText(currentTask.getTaskedChild().getName());
+
+                ImageManager imageManager = new ImageManager();
+                ImageView childPortrait = taskView.findViewById(R.id.image_layout_child_portrait);
+                childPortrait.setImageBitmap(imageManager.getPortrait(TaskListActivity.this, currentTask.getTaskedChild().getId()));
             }
             TextView nameView = taskView.findViewById(R.id.text_layout_task);
             nameView.setText(currentTask.getName());
+
             return taskView;
         }
     }
