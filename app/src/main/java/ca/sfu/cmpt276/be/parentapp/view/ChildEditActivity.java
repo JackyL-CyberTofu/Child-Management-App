@@ -2,6 +2,7 @@ package ca.sfu.cmpt276.be.parentapp.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
@@ -14,10 +15,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
+
+import com.google.android.material.color.MaterialColors;
+import com.google.android.material.transition.platform.MaterialArcMotion;
+import com.google.android.material.transition.platform.MaterialContainerTransform;
+import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -44,6 +53,7 @@ public class ChildEditActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setupAnimation();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_child);
 
@@ -52,6 +62,7 @@ public class ChildEditActivity extends AppCompatActivity{
 
         getGalleryExtraction();
         getExtras();
+
         setUpPortrait();
         setupTextWatcher();
     }
@@ -64,6 +75,7 @@ public class ChildEditActivity extends AppCompatActivity{
     @Override
     public boolean onSupportNavigateUp() {
         generateBackWarnDialog();
+        onBackPressed();
         return true;
     }
 
@@ -89,6 +101,15 @@ public class ChildEditActivity extends AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+    }
+
+    private void deleteChild() {
+        ChildManager childManager = new ChildManager();
+        childManager.remove(childPosition);
+    }
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, ChildEditActivity.class);
@@ -241,5 +262,21 @@ public class ChildEditActivity extends AppCompatActivity{
 
     private void exitWithBack() {
         super.onBackPressed();
+    }
+
+    private void setupAnimation() {
+        findViewById(android.R.id.content).setTransitionName("shared_container");
+        setEnterSharedElementCallback(new MaterialContainerTransformSharedElementCallback());
+        MaterialContainerTransform transform = new MaterialContainerTransform();
+        transform.addTarget(android.R.id.content);
+        transform.setAllContainerColors(MaterialColors.getColor(findViewById(android.R.id.content), R.attr.colorSurface));
+        transform.setFitMode(MaterialContainerTransform.FIT_MODE_AUTO);
+        transform.setDuration(666);
+        transform.setPathMotion(new MaterialArcMotion());
+        transform.setInterpolator(new FastOutSlowInInterpolator());
+        MaterialColors.getColor(findViewById(android.R.id.content), R.attr.colorSurface);
+        transform.setScrimColor(Color.TRANSPARENT);
+        getWindow().setSharedElementEnterTransition(transform);
+
     }
 }

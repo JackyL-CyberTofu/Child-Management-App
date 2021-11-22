@@ -119,6 +119,15 @@ public class DataManager {
                 }
             }
         }
+        int index = 0;
+        for (Child child : coinFlipQueue) {
+            for (Child child2 : childList) {
+                if (child.getId().equals(child2.getId())){
+                    coinFlipQueue.set(index,child2);
+                }
+            }
+            index++;
+        }
     }
 
     /**

@@ -37,24 +37,15 @@ public class ChildManager implements Iterable<Child> {
     }
 
     public void remove(int index) {
-        coinFlipQueue.remove(getQueueIndex(index));
+        coinFlipQueue.remove(allChildren.get(index));
         allChildren.remove(index);
         saveList();
     }
 
     public void edit(int index, String editName) {
-        coinFlipQueue.get(getQueueIndex(index)).setName(editName);
+        coinFlipQueue.get(coinFlipQueue.indexOf(allChildren.get(index))).setName(editName);
         allChildren.get(index).setName(editName);
         saveList();
-    }
-
-    public int getQueueIndex(int index){
-        for (int i=0; i<size(); i++){
-            if (allChildren.get(index).getName().equals(coinFlipQueue.get(i).getName())){
-                return i;
-            }
-        }
-        return -1;
     }
 
     public  ArrayList<Child> getAll() {
@@ -73,4 +64,5 @@ public class ChildManager implements Iterable<Child> {
     public boolean isEmpty() {
         return allChildren.isEmpty();
     }
+
 }

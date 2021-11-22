@@ -25,6 +25,8 @@ import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.Objects;
 
 import ca.sfu.cmpt276.be.parentapp.controller.AlarmService;
@@ -121,6 +123,8 @@ public class TimeoutActivity extends AppCompatActivity {
         if (timeoutManager.isAlarmRunning()) {
             popUpAlarmTurningOffDialog();
         }
+
+        setUpNavBar();
     }
 
     private void popUpAlarmTurningOffDialog() {
@@ -308,6 +312,33 @@ public class TimeoutActivity extends AppCompatActivity {
     private void removeNotification() {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
         notificationManager.cancelAll();
+    }
+
+    private void setUpNavBar() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.item_timeout);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            bottomNavigationView.postDelayed(() -> {
+                int id = item.getItemId();
+                if (id == R.id.item_home){
+                    finish();
+                    overridePendingTransition(0, 0);
+                } else if (id == R.id.item_tasks){
+                    startActivity(new Intent(getApplicationContext(), TaskListActivity.class));
+                    overridePendingTransition(0, 0);
+                    finish();
+                } else if (id == R.id.item_child){
+                    startActivity(new Intent(getApplicationContext(), ChildListActivity.class));
+                    overridePendingTransition(0, 0);
+                    finish();
+                } else if (id == R.id.item_coinflip){
+                    startActivity(new Intent(getApplicationContext(), CoinFlipActivity.class));
+                    overridePendingTransition(0, 0);
+                    finish();
+                }
+            },0);
+            return true;
+        });
     }
 
     @Override

@@ -19,6 +19,7 @@ import java.util.Objects;
 import ca.sfu.cmpt276.be.parentapp.R;
 import ca.sfu.cmpt276.be.parentapp.controller.DataManager;
 import ca.sfu.cmpt276.be.parentapp.controller.ChildManager;
+import ca.sfu.cmpt276.be.parentapp.controller.ImageManager;
 import ca.sfu.cmpt276.be.parentapp.model.Coin;
 import ca.sfu.cmpt276.be.parentapp.controller.CoinFlipManager;
 
@@ -40,6 +41,8 @@ public class FlipHistoryActivity extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
+
+
         ArrayAdapter<Coin> adapter = new MyListAdapter();
         ListView list = (ListView) findViewById(R.id.game_list);
         list.setAdapter(adapter);
@@ -55,18 +58,19 @@ public class FlipHistoryActivity extends AppCompatActivity {
 
     private class MyListAdapter extends ArrayAdapter<Coin> {
         public MyListAdapter() {
-            super(FlipHistoryActivity.this, R.layout.layout_coinflip_modified, coinFlipHistory);
+            super(FlipHistoryActivity.this, R.layout.layout_coinflip, coinFlipHistory);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View itemView = convertView;
             if (itemView == null) {
-                itemView = getLayoutInflater().inflate(R.layout.layout_coinflip_modified, parent, false);
+                itemView = getLayoutInflater().inflate(R.layout.layout_coinflip, parent, false);
             }
 
             ImageView image_child = (ImageView) itemView.findViewById(R.id.image_layout_child);
-            image_child.setImageResource(R.drawable.sample_avatar);
+            ImageManager imageManager = new ImageManager();
+            image_child.setImageBitmap(imageManager.getPortrait(FlipHistoryActivity.this, coinFlipManager.getCoinFlipID(position)));
 
             String string_result = coinFlipManager.getCoinFlipGame(position).getResult();
             String string_time = coinFlipManager.getCoinFlipGame(position).getDate();
