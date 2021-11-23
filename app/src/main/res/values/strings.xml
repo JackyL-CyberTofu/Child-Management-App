@@ -56,7 +56,7 @@
     <string name="help_author_description">Developed by Team Beryllium.\n(Joshua Li, Randy Letran, Jacky Lim and Injun Lee)</string>
     <string name="help_reference_label">Reference</string>
     <string name="help_reference_description">
-        <a href="https://freetone.org/ringtones/melodies-alarms">\nAlarm Sound</a>
+        <a href="https://freetone.org/ringtones/melodies-alarms">Alarm Sound</a>
         <a href="https://www.youtube.com/watch?v=k1IToREzXT4&amp;feature=youtu.be">\nCoin Flip Sound</a>
         <a href="https://github.com/lopspower/CircularImageView">\nCircular Imageview Library</a>
         <a href="https://en.wikipedia.org/wiki/Quarter_(Canadian_coin)#/media/File:Quarter_Obverse_2010.png">\nCoin Image</a>
