@@ -23,27 +23,36 @@
 
     <LinearLayout
         android:id="@+id/layout_tasked_child"
-        android:layout_width="350dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal"
+        android:background="@drawable/rounded_rectangle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_tasked_child_label">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image_activity_tasked_child"
-            android:layout_width="0dp"
+            android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="30dp"
             android:layout_weight="1"
-            tools:srcCompat="@tools:sample/avatars"
-            android:contentDescription="@string/child_icon_description" />
+            android:contentDescription="@string/child_icon_description"
+            tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/text_activity_tasked_child"
-            android:layout_width="250dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="30dp"
             android:layout_gravity="center"
-            android:text="" />
+            android:layout_weight="5"
+            android:text=""
+            android:textSize="20sp" />
     </LinearLayout>
 
     <TextView
@@ -52,6 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/child_in_charge_label"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/layout_tasked_child"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -34,45 +34,48 @@
         app:layout_constraintStart_toEndOf="@+id/text_name_label"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/image_child_portrait"
-        android:layout_width="225dp"
-        android:layout_height="270dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="72dp"
         android:layout_marginBottom="220dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/field_child_name"
-        app:layout_constraintVertical_bias="0.696" />
+        app:layout_constraintVertical_bias="0.172" />
 
     <LinearLayout
         android:id="@+id/linear_layout"
-        android:layout_width="151dp"
-        android:layout_height="112dp"
+        android:layout_width="200dp"
+        android:layout_height="107dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/image_child_portrait"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_child_portrait"
-        app:layout_constraintVertical_bias="0.114"></LinearLayout>
-
-    <Button
-        android:id="@+id/button_use_gallery"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/choose_image"
-        app:layout_constraintEnd_toEndOf="@+id/linear_layout"
-        app:layout_constraintStart_toStartOf="@+id/linear_layout"
-        app:layout_constraintTop_toTopOf="@+id/linear_layout" />
+        app:layout_constraintStart_toEndOf="@+id/image_child_portrait"
+        app:layout_constraintTop_toTopOf="@+id/image_child_portrait" />
 
     <Button
         android:id="@+id/button_use_camera"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_baseline_camera_alt_24"
         android:text="@string/use_camera"
         app:layout_constraintBottom_toBottomOf="@+id/linear_layout"
         app:layout_constraintEnd_toEndOf="@+id/linear_layout"
         app:layout_constraintStart_toStartOf="@+id/linear_layout"
-        app:layout_constraintTop_toBottomOf="@+id/button_use_gallery" />
+        app:layout_constraintTop_toBottomOf="@+id/button_use_gallery"
+        tools:ignore="RtlHardcoded" />
+
+    <Button
+        android:id="@+id/button_use_gallery"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_baseline_image_24"
+        android:text="@string/choose_image"
+        app:layout_constraintEnd_toEndOf="@+id/linear_layout"
+        app:layout_constraintStart_toStartOf="@+id/linear_layout"
+        app:layout_constraintTop_toTopOf="@+id/linear_layout"
+        tools:ignore="RtlHardcoded"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

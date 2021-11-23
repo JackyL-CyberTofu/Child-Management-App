@@ -31,6 +31,7 @@ import java.util.Objects;
 
 import ca.sfu.cmpt276.be.parentapp.R;
 import ca.sfu.cmpt276.be.parentapp.controller.ChildManager;
+import ca.sfu.cmpt276.be.parentapp.controller.DataManager;
 import ca.sfu.cmpt276.be.parentapp.controller.ImageManager;
 import ca.sfu.cmpt276.be.parentapp.model.Child;
 
@@ -149,10 +150,15 @@ public class ChildEditActivity extends AppCompatActivity{
 
     private void deleteAndExit() {
         ImageManager imageManager = new ImageManager();
+        DataManager dataManager = DataManager.getInstance();
+
         if (doEdit) {
             deleteExistingChild();
         }
-        imageManager.deletePortrait(ChildEditActivity.this, currentChild.getId());
+
+        if (!(dataManager.checkIfInHistory(currentChild))) {
+            imageManager.deletePortrait(ChildEditActivity.this, currentChild.getId());
+        }
         finish();
     }
 
@@ -203,14 +209,11 @@ public class ChildEditActivity extends AppCompatActivity{
         Button useCamera = findViewById(R.id.button_use_camera);
         ActivityResultLauncher<Intent> getContent;
 
-        getContent = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-                if (result.getData() != null && result.getData().getExtras() != null) {
-                    Bundle extras = result.getData().getExtras();
-                    Bitmap imageBitmap = (Bitmap) extras.get("data");
-                    prepareImage(imageBitmap);
-                }
+        getContent = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getData() != null && result.getData().getExtras() != null) {
+                Bundle extras = result.getData().getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                prepareImage(imageBitmap);
             }
         });
 

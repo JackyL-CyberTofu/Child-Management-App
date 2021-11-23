@@ -21,11 +21,7 @@ import ca.sfu.cmpt276.be.parentapp.R;
 public class ImageManager {
     private static final String TAG = "ImageManager";
     public static final String PORTRAIT_FOLDER = "Portraits";
-
-    public Bitmap getPortrait(Context context, int childPosition) {
-        ChildManager childManager = new ChildManager();
-        return getPortrait(context, childManager.get(childPosition).getId());
-    }
+    public static final double SAVE_DIMENSION = 128.0;
 
     public Bitmap getPortrait(Context context, String childName) {
         if (doesPortraitExist(context, childName)) {
@@ -37,6 +33,7 @@ public class ImageManager {
 
     public void deletePortrait(Context context, String imageName) {
         if (doesPortraitExist(context, imageName)) {
+
             File filepath = getPhotoFilePath(context);
             File deleteFile = new File(filepath, "/" + imageName + ".jpg");
             if (!deleteFile.delete()) {
@@ -46,7 +43,7 @@ public class ImageManager {
     }
 
     public void savePortrait(Context context, Bitmap result, String imageName) throws IOException {
-        Bitmap childImage = result;
+        Bitmap childImage = rescaleBitmap(result);
         File file = new File(getPhotoFilePath(context), imageName + ".jpg");
         try {
             FileOutputStream fos = new FileOutputStream(file);
@@ -58,6 +55,25 @@ public class ImageManager {
             e.printStackTrace();
             throw new FileNotFoundException("Unable to save file");
         }
+    }
+
+    private Bitmap rescaleBitmap(Bitmap bitmap) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+
+        int shortSide = width;
+
+        if (height < width) {
+            shortSide = height;
+        }
+
+        float scale = (float)(SAVE_DIMENSION/shortSide);
+        Bitmap scaleBitmap = Bitmap.createScaledBitmap(bitmap,
+                Math.round(width * scale),
+                Math.round(height * scale),
+                true);
+        bitmap.recycle();
+        return scaleBitmap;
     }
 
     private Bitmap loadPortraitBitmap(Context context, String imageName) {

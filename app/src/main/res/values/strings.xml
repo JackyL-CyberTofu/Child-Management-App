@@ -49,7 +49,7 @@
     <string name="string_image">image</string>
     <string name="task_name_hint">Enter name of task</string>
     <string name="child_icon_description">Image of child</string>
-    <string name="child_in_charge_label">In Charge</string>
+    <string name="child_in_charge_label">Whose Turn</string>
     <string name="completion_button_label">Task Completed</string>
     <string name="help_button_label">Help</string>
     <string name="help_author_label">Author</string>
