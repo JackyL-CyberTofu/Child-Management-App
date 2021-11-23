@@ -25,7 +25,6 @@ public class DataManager {
     public static final String COINFLIP_SAVENAME = "JsonCoinflip";
     public static final String COINFLIP_QUEUE_SAVENAME = "JsonCoinFlipQueue";
     private static final String TASK_SAVENAME = "JsonTasks";
-    private static DataManager instance;
 
     private ArrayList<Child> childList = new ArrayList<>();
     private ArrayList<Coin> coinFlipHistory = new ArrayList<>();
@@ -33,8 +32,7 @@ public class DataManager {
     private ArrayList<Child> coinFlipQueue = new ArrayList<>();
 
     private SaveManager saveOption;
-
-    private DataManager() {}
+    private static DataManager instance;
 
     public static DataManager getInstance() {
         if (instance == null) {
@@ -42,6 +40,8 @@ public class DataManager {
         }
         return instance;
     }
+
+    private DataManager() {}
 
     public void setSaveOption(SaveManager saveInterface) {
         saveOption = saveInterface;

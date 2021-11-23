@@ -67,7 +67,50 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
         initializeSpinner();
 
         setUpNavBar();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        coinFlipManager.registerChangeCallback(this);
+        updateUIElements();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        coinFlipManager.unRegisterChangeCallback(this);
+    }
+
+    @Override
+    public void notifyCounterChanged() {
+        updateUIElements();
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.coinflip, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.coinHistoryButton) {
+            Intent intent = new Intent(getApplicationContext(), FlipHistoryActivity.class);
+            startActivity(intent);
+        }
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void verifyListEmpty () {
+        if (childManager.isEmpty()) {
+            userOverride = true;
+        }
     }
 
     private void initializeSpinner() {
@@ -93,21 +136,21 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
     }
 
     private void setupButton() {
-        findViewById(R.id.flip_coin_button).setVisibility(View.GONE);
-        Button button_flipHeads = findViewById(R.id.heads_button);
+        findViewById(R.id.button_flip_coin).setVisibility(View.GONE);
+        Button button_flipHeads = findViewById(R.id.button_heads);
         button_flipHeads.setOnClickListener(view ->
                 flipCoin("Heads")
         );
-        Button button_flipTails = findViewById(R.id.tails_button);
+        Button button_flipTails = findViewById(R.id.button_tails);
         button_flipTails.setOnClickListener(view ->
                 flipCoin("Tails")
         );
     }
 
     private void flipCoin(String userChoice) {
-        ImageView image_coin = findViewById(R.id.coin_image);
-        Button tailsButton = findViewById(R.id.tails_button);
-        Button headsButton = findViewById(R.id.heads_button);
+        ImageView image_coin = findViewById(R.id.image_coin);
+        Button tailsButton = findViewById(R.id.button_tails);
+        Button headsButton = findViewById(R.id.button_heads);
 
         image_coin.animate().setDuration(3100).rotationXBy(2160).setListener(new AnimatorListenerAdapter() {
             @Override
@@ -144,27 +187,8 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.coinflip, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.coinHistoryButton) {
-            Intent intent = new Intent(getApplicationContext(), FlipHistoryActivity.class);
-            startActivity(intent);
-        }
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     private void updateUIElements() {
-        TextView text_result = findViewById(R.id.flip_result);
+        TextView text_result = findViewById(R.id.text_flip_result);
         if (coinFlipManager.getCoinList().size() > 0) {
             text_result.setText(coinFlipManager.getCoinFlipGame(0).getResult());
         }
@@ -197,27 +221,8 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
             return true;
         });
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        coinFlipManager.registerChangeCallback(this);
-        updateUIElements();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        coinFlipManager.unRegisterChangeCallback(this);
-    }
-
-    @Override
-    public void notifyCounterChanged() {
-        updateUIElements();
-
-    }
-
     private class SpinnerListener implements android.widget.AdapterView.OnItemSelectedListener {
+
 
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -232,17 +237,11 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
             verifyListEmpty();
             updateUIElements();
         }
-
         @Override
         public void onNothingSelected(AdapterView<?> adapterView) {
 
         }
-    }
 
-    public void verifyListEmpty (){
-        if (childManager.isEmpty()) {
-            userOverride = true;
-        }
     }
 
     class SpinnerAdapter extends ArrayAdapter<Child> {
@@ -273,6 +272,5 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
 
             return itemView;
         }
-
     }
 }

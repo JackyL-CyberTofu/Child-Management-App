@@ -55,12 +55,14 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
+                        android:id="@+id/image_child"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/ic_baseline_people_24"
                         android:contentDescription="@string/children" />
 
                     <TextView
+                        android:id="@+id/text_child_nav"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/children" />
@@ -87,12 +89,14 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
+                        android:id="@+id/image_timeout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/ic_baseline_access_time_24"
                         android:contentDescription="@string/timeout" />
 
                     <TextView
+                        android:id="@+id/text_timeout_nav"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/timeout" />
@@ -131,12 +135,14 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
+                        android:id="@+id/image_coinflip"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:background="@drawable/ic_baseline_circle_24"
                         android:contentDescription="@string/coinflip" />
 
                     <TextView
+                        android:id="@+id/text_coinflip_nav"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/coinflip" />
@@ -167,12 +173,14 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
+                        android:id="@+id/image_tasks"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/ic_baseline_view_list_24"
                         android:contentDescription="@string/tasks_button_label" />
 
                     <TextView
+                        android:id="@+id/text_tasks_nav"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/tasks_button_label" />
@@ -207,12 +215,14 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
+                        android:id="@+id/image_help"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/ic_baseline_question_mark_24"
                         android:contentDescription="@string/help_button_label" />
 
                     <TextView
+                        android:id="@+id/text_help_nav"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/help_button_label" />

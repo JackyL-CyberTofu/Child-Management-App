@@ -27,7 +27,7 @@
 
 
     <ImageView
-        android:id="@+id/coin_image"
+        android:id="@+id/image_coin"
         android:layout_width="216dp"
         android:layout_height="183dp"
         android:contentDescription="@string/coin_content_description"
@@ -36,11 +36,11 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/flip_result"
+        app:layout_constraintTop_toBottomOf="@+id/text_flip_result"
         app:layout_constraintVertical_bias="0.056" />
 
     <Button
-        android:id="@+id/tails_button"
+        android:id="@+id/button_tails"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginStart="12dp"
@@ -48,23 +48,23 @@
         android:text="@string/flip_tail_label"
         app:layout_constraintHorizontal_weight="1"
 
-        app:layout_constraintStart_toEndOf="@+id/flip_coin_button"
-        app:layout_constraintTop_toBottomOf="@+id/coin_image" />
+        app:layout_constraintStart_toEndOf="@+id/button_flip_coin"
+        app:layout_constraintTop_toBottomOf="@+id/image_coin" />
 
     <Button
-        android:id="@+id/heads_button"
+        android:id="@+id/button_heads"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginTop="52dp"
         android:layout_marginEnd="12dp"
         android:text="@string/flip_heads_label"
-        app:layout_constraintEnd_toStartOf="@+id/flip_coin_button"
+        app:layout_constraintEnd_toStartOf="@+id/button_flip_coin"
 
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintTop_toBottomOf="@+id/coin_image" />
+        app:layout_constraintTop_toBottomOf="@+id/image_coin" />
 
     <Button
-        android:id="@+id/flip_coin_button"
+        android:id="@+id/button_flip_coin"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginTop="52dp"
@@ -73,11 +73,11 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/coin_image"
+        app:layout_constraintTop_toBottomOf="@+id/image_coin"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/flip_result"
+        android:id="@+id/text_flip_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
@@ -104,10 +104,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tails_button">
+        app:layout_constraintTop_toBottomOf="@+id/button_tails">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/text_queue_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"

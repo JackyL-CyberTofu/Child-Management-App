@@ -3,9 +3,7 @@ package ca.sfu.cmpt276.be.parentapp.controller;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 
 import java.io.File;
@@ -20,8 +18,8 @@ import ca.sfu.cmpt276.be.parentapp.R;
  */
 public class ImageManager {
     private static final String TAG = "ImageManager";
+    private static final double SAVE_DIMENSION = 128.0;
     public static final String PORTRAIT_FOLDER = "Portraits";
-    public static final double SAVE_DIMENSION = 128.0;
 
     public Bitmap getPortrait(Context context, String childName) {
         if (doesPortraitExist(context, childName)) {
@@ -86,7 +84,7 @@ public class ImageManager {
                 Environment.DIRECTORY_PICTURES), PORTRAIT_FOLDER);
             if (!file.exists()) {
                 if (file.mkdirs()) {
-                    Log.e(TAG, "Directory unable to be made");
+                    Log.d(TAG, "Made new directory");
                 }
             }
 

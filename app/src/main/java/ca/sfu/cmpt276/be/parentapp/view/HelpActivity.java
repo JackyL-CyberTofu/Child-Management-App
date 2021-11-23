@@ -14,6 +14,9 @@ import java.util.Objects;
 
 import ca.sfu.cmpt276.be.parentapp.R;
 
+/**
+ * HelpActivity shows developer information and resource sources.
+ */
 public class HelpActivity extends AppCompatActivity {
 
     @Override
@@ -23,11 +26,6 @@ public class HelpActivity extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         setReferenceLinkClickable();
-    }
-
-    private void setReferenceLinkClickable() {
-        TextView textLink = (TextView) findViewById(R.id.text_reference_description);
-        textLink.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     @Override
@@ -41,5 +39,10 @@ public class HelpActivity extends AppCompatActivity {
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, HelpActivity.class);
+    }
+
+    private void setReferenceLinkClickable() {
+        TextView textLink = (TextView) findViewById(R.id.text_reference_description);
+        textLink.setMovementMethod(LinkMovementMethod.getInstance());
     }
 }

@@ -1,8 +1,5 @@
 package ca.sfu.cmpt276.be.parentapp.view;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,26 +9,27 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 
 import ca.sfu.cmpt276.be.parentapp.R;
+import ca.sfu.cmpt276.be.parentapp.controller.CoinFlipManager;
 import ca.sfu.cmpt276.be.parentapp.controller.DataManager;
-import ca.sfu.cmpt276.be.parentapp.controller.ChildManager;
 import ca.sfu.cmpt276.be.parentapp.controller.ImageManager;
 import ca.sfu.cmpt276.be.parentapp.model.Coin;
-import ca.sfu.cmpt276.be.parentapp.controller.CoinFlipManager;
 
 /**
-Diplays a list of previous coin flip results
+Displays a list of previous coin flip results
  Shows if the person that picked won, with the time and child name.
  */
 
 public class FlipHistoryActivity extends AppCompatActivity {
 
     ArrayList<Coin> coinFlipHistory = DataManager.getInstance().getCoinFlipHistory();
-    ChildManager childManager = new ChildManager();
     CoinFlipManager coinFlipManager = new CoinFlipManager();
 
     @Override
@@ -44,7 +42,7 @@ public class FlipHistoryActivity extends AppCompatActivity {
 
 
         ArrayAdapter<Coin> adapter = new MyListAdapter();
-        ListView list = (ListView) findViewById(R.id.game_list);
+        ListView list = (ListView) findViewById(R.id.list_game);
         list.setAdapter(adapter);
     }
 
@@ -75,10 +73,10 @@ public class FlipHistoryActivity extends AppCompatActivity {
             String string_result = coinFlipManager.getCoinFlipGame(position).getResult();
             String string_time = coinFlipManager.getCoinFlipGame(position).getDate();
 
-            TextView text_upper = (TextView) itemView.findViewById(R.id.text_upper);
+            TextView text_upper = (TextView) itemView.findViewById(R.id.text_layout_child_name);
             text_upper.setText(MessageFormat.format("{0}{1}{2}", string_result, getString(R.string.AT), string_time));
 
-            TextView text_lower = (TextView) itemView.findViewById(R.id.text_lower);
+            TextView text_lower = (TextView) itemView.findViewById(R.id.text_detail);
             if (coinFlipManager.getCoinFlipGame(position).getPicker()==null){
                 text_lower.setText(R.string.text_noChildrenSelected);
             }

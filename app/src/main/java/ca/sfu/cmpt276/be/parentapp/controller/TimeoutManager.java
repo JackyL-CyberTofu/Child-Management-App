@@ -10,6 +10,9 @@ public class TimeoutManager {
     private boolean firstState = true;
     private boolean isAlarmRunning = false;
 
+    private long timeChosen = 0;
+    private long tempTime = 0;
+
     public boolean isAlarmRunning() {
         return isAlarmRunning;
     }
@@ -17,9 +20,6 @@ public class TimeoutManager {
     public void setAlarmRunning(boolean alarmRunning) {
         isAlarmRunning = alarmRunning;
     }
-
-    private long timeChosen = 0;
-    private long tempTime = 0;
 
     public long getTimeChosen() {
         return timeChosen;

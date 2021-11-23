@@ -2,9 +2,11 @@ package ca.sfu.cmpt276.be.parentapp.controller;
 
 import java.util.ArrayList;
 
-import ca.sfu.cmpt276.be.parentapp.model.Child;
 import ca.sfu.cmpt276.be.parentapp.model.Task;
 
+/**
+ * TaskManager controls the tasks in the app.
+ */
 public class TaskManager {
 
     private final ArrayList<Task> taskList = DataManager.getInstance().getTaskList();
