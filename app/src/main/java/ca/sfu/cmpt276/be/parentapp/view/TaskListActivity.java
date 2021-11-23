@@ -23,6 +23,9 @@ import ca.sfu.cmpt276.be.parentapp.controller.ImageManager;
 import ca.sfu.cmpt276.be.parentapp.model.Task;
 import ca.sfu.cmpt276.be.parentapp.controller.TaskManager;
 
+/**
+ * TaskListActivity lists all of the tasks.
+ */
 public class TaskListActivity extends AppCompatActivity {
     private final TaskManager taskManager = new TaskManager();
 

@@ -14,7 +14,7 @@ import ca.sfu.cmpt276.be.parentapp.model.Child;
 public class ChildManager implements Iterable<Child> {
 
     private final ArrayList<Child> allChildren = DataManager.getInstance().getChildList();
-    ArrayList<Child> coinFlipQueue = DataManager.getInstance().getCoinFlipQueue();
+    private final ArrayList<Child> coinFlipQueue = DataManager.getInstance().getCoinFlipQueue();
 
     @NonNull
     @Override

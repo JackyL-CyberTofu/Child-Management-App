@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 /**
 Represents one game of a coin flip
- Saves the time of the flip, chold and what they picked
+ Saves the time of the flip, child and what they picked
  as well as the result of the flip.
  */
 

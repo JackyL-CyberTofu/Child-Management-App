@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     public static final String PREF_SAVE_NAME = "SaveData";
     SharedPreferences saveSP;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +34,14 @@ public class MainActivity extends AppCompatActivity {
         setUpTaskButton();
         setUpHelpButton();
         setUpNavigation();
+    }
+
+    @Override
+    public void onResume() {
+
+        super.onResume();
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.item_home);
     }
 
     private void setUpHelpButton() {
@@ -121,13 +128,5 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadData() {
         DataManager.getInstance().deserializeData();
-    }
-
-    @Override
-    public void onResume() {
-
-        super.onResume();
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setSelectedItemId(R.id.item_home);
     }
 }

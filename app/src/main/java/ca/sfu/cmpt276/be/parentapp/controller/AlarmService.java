@@ -26,8 +26,6 @@ public class AlarmService extends Service {
     private MediaPlayer mediaPlayer;
     private Vibrator vibrator;
 
-    // Broadcast Receiver from the intent when count down is finished.
-    // When it is received, AlarmService will be stopped.
     final private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -57,6 +55,14 @@ public class AlarmService extends Service {
     }
 
     @Override
+    public void onDestroy() {
+        mediaPlayer.stop();
+        vibrator.cancel();
+        unregisterReceiver(broadcastReceiver);
+        super.onDestroy();
+    }
+
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("STOP_ALARM");
@@ -80,13 +86,5 @@ public class AlarmService extends Service {
     private void removeNotifications() {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(0);
-    }
-
-    @Override
-    public void onDestroy() {
-        mediaPlayer.stop();
-        vibrator.cancel();
-        unregisterReceiver(broadcastReceiver);
-        super.onDestroy();
     }
 }

@@ -22,6 +22,9 @@ import ca.sfu.cmpt276.be.parentapp.controller.ImageManager;
 import ca.sfu.cmpt276.be.parentapp.controller.TaskManager;
 import ca.sfu.cmpt276.be.parentapp.model.Task;
 
+/**
+ * TaskEditActivity is where tasks are created, edited, and checked off when completed.
+ */
 public class TaskEditActivity extends AppCompatActivity {
     private static final String EXTRA_TASK_NUMBER = "taskNumber";
     private static final String EXTRA_IS_NEW_TASK = "doTaskEdit";
@@ -40,16 +43,12 @@ public class TaskEditActivity extends AppCompatActivity {
         getExtras();
         setUpAppBar();
 
-
-
         if (isExistingTask) {
             setUpTaskName();
             setUpButton();
             setTaskChild();
         } else {
-            findViewById(R.id.group_existing_task_info).setVisibility(View.GONE);
-            TextView whoseTurn = findViewById(R.id.text_tasked_child_label);
-            whoseTurn.setText("");
+            hideComponents();
         }
     }
 
@@ -136,6 +135,12 @@ public class TaskEditActivity extends AppCompatActivity {
 
         isExistingTask = intent.getBooleanExtra(EXTRA_IS_NEW_TASK, false);
         taskNumber = intent.getIntExtra(EXTRA_TASK_NUMBER, 0);
+    }
+
+    private void hideComponents() {
+        findViewById(R.id.group_existing_task_info).setVisibility(View.GONE);
+        TextView whoseTurn = findViewById(R.id.text_tasked_child_label);
+        whoseTurn.setText("");
     }
 
     private void saveAndExit() {

@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 import ca.sfu.cmpt276.be.parentapp.controller.DataManager;
 
+/**
+ * Task represents a single task in the app. It holds a child that is currently in charge and manages
+ * who the next child in charge will be.
+ */
 public class Task {
 
     private String name;

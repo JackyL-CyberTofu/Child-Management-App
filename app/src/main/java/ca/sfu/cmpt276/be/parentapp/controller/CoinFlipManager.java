@@ -30,12 +30,6 @@ public class CoinFlipManager {
         observers.remove(obs);
     }
 
-    private void notifyValueHasChanged() {
-        for (CoinObserver obs : observers) {
-            obs.notifyCounterChanged();
-        }
-    }
-
     public String flipRandomCoin(String userChoice, boolean userOverride) {
 
         Random rand = new Random();
@@ -98,15 +92,21 @@ public class CoinFlipManager {
         return coinFlipQueue;
     }
 
+    public String getCoinFlipID(int index) { return this.coinFlipHistory.get(index).getPickerId(); }
+
     public ArrayList<Coin> getCoinList() {
         return this.coinFlipHistory;
+    }
+
+    private void notifyValueHasChanged() {
+        for (CoinObserver obs : observers) {
+            obs.notifyCounterChanged();
+        }
     }
 
     private void serializeCoinflips() {
         dataManager.serializeCoinflips();
     }
-
-    public String getCoinFlipID(int index) { return this.coinFlipHistory.get(index).getPickerId(); }
 
     public interface CoinObserver {
         void notifyCounterChanged();

@@ -35,6 +35,9 @@ import ca.sfu.cmpt276.be.parentapp.controller.TimeoutService;
 import ca.sfu.cmpt276.be.parentapp.model.TimeConverter;
 import ca.sfu.cmpt276.be.parentapp.controller.TimeoutManager;
 
+/**
+ * TimeoutActivity manages the timeout screen in the app.
+ */
 public class TimeoutActivity extends AppCompatActivity {
     private ConstraintLayout setting;
     private ConstraintLayout timer;
@@ -50,13 +53,13 @@ public class TimeoutActivity extends AppCompatActivity {
     }
 
 
-    // Broadcast Receiver from TimeouService when the time is ticking
-    // It updates UI on the TimeoutActivity(How much time is left)
+    // Broadcast Receiver from TimeoutService when the time is ticking
 
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+    // It updates UI on the TimeoutActivity(How much time is left)
+    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.i("Braodcast Received", String.valueOf(intent.getAction()));
+            Log.i("Broadcast Received", String.valueOf(intent.getAction()));
             String action = intent.getAction();
             switch(action) {
                 case "TIME_TICKED":
@@ -76,11 +79,6 @@ public class TimeoutActivity extends AppCompatActivity {
         }
     };
 
-    private void removeNotifications() {
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancel(0);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         createIntentFilterAndRegisterReceiver();
@@ -91,13 +89,13 @@ public class TimeoutActivity extends AppCompatActivity {
         assignViewComponents();
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        NumberPicker numberPicker = findViewById(R.id.number_picker);
+        NumberPicker numberPicker = findViewById(R.id.number_picker_hour);
         setupNumberPicker(numberPicker, 99);
 
-        NumberPicker numberPicker2 = findViewById(R.id.number_picker_2);
+        NumberPicker numberPicker2 = findViewById(R.id.number_picker_min);
         setupNumberPicker(numberPicker2, 60);
 
-        NumberPicker numberPicker3 = findViewById(R.id.number_picker_3);
+        NumberPicker numberPicker3 = findViewById(R.id.number_picker_sec);
         setupNumberPicker(numberPicker3, 60);
 
         setupTimerShortcuts(numberPicker, numberPicker2, numberPicker3);
@@ -127,6 +125,47 @@ public class TimeoutActivity extends AppCompatActivity {
         setUpNavBar();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (timeoutManager.isTimerRunning()) {
+            switchTimerDisplay();
+        } else {
+            switchSettingDisplay();
+        }
+        createIntentFilterAndRegisterReceiver();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(broadcastReceiver);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void removeNotifications() {
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(0);
+    }
+
     private void popUpAlarmTurningOffDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(TimeoutActivity.this);
         builder.setTitle("Time's up!");
@@ -140,33 +179,6 @@ public class TimeoutActivity extends AppCompatActivity {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (timeoutManager.isTimerRunning()) {
-            switchTimerDisplay();
-        } else {
-            switchSettingDisplay();
-        }
-        createIntentFilterAndRegisterReceiver();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(broadcastReceiver);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 
     private void createIntentFilterAndRegisterReceiver() {
@@ -233,7 +245,8 @@ public class TimeoutActivity extends AppCompatActivity {
     private void updateGUI(Intent intent) {
         Bundle bundle = intent.getExtras();
         timeoutManager.setTempTime((long) bundle.get("TimeLeft"));
-        String updatedTime = TimeConverter.toStringForMilSeconds(timeoutManager.getTempTime() + TimeConverter.getSecondInMilSeconds());
+        String updatedTime = TimeConverter.toStringForMilSeconds(timeoutManager.getTempTime() +
+                TimeConverter.getSecondInMilSeconds());
         countdownText.setText(updatedTime);
     }
 
@@ -270,14 +283,16 @@ public class TimeoutActivity extends AppCompatActivity {
 
     private void startTimer() {
         if (timeoutManager.isFirstState()) {
-            NumberPicker numberPicker = findViewById(R.id.number_picker);
-            NumberPicker numberPicker2 = findViewById(R.id.number_picker_2);
-            NumberPicker numberPicker3 = findViewById(R.id.number_picker_3);
+            NumberPicker numberPicker = findViewById(R.id.number_picker_hour);
+            NumberPicker numberPicker2 = findViewById(R.id.number_picker_min);
+            NumberPicker numberPicker3 = findViewById(R.id.number_picker_sec);
 
             String sHour = Integer.toString(numberPicker.getValue());
             String sMin = Integer.toString(numberPicker2.getValue());
             String sSecond = Integer.toString(numberPicker3.getValue());
-            timeoutManager.setTimeChosen((Long.parseLong(sHour) * TimeConverter.getHourInMilSeconds()) + (Long.parseLong(sMin) * TimeConverter.getMinInMilSeconds()) + (Long.parseLong(sSecond) * TimeConverter.getSecondInMilSeconds()));
+            timeoutManager.setTimeChosen((Long.parseLong(sHour) * TimeConverter.getHourInMilSeconds()) +
+                    (Long.parseLong(sMin) * TimeConverter.getMinInMilSeconds()) +
+                    (Long.parseLong(sSecond) * TimeConverter.getSecondInMilSeconds()));
             timeoutManager.setTempTime(timeoutManager.getTimeChosen());
         } else {
             timeoutManager.setTimeChosen(timeoutManager.getTempTime());
@@ -339,14 +354,5 @@ public class TimeoutActivity extends AppCompatActivity {
             },0);
             return true;
         });
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

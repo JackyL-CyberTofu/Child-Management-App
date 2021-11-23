@@ -30,7 +30,7 @@ import ca.sfu.cmpt276.be.parentapp.controller.ChildManager;
  * ChildListActivity shows all the Children stored in the app.
  */
 public class ChildListActivity extends AppCompatActivity {
-    private static ChildManager childManager = new ChildManager();
+    private static final ChildManager childManager = new ChildManager();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setupAnimation();
@@ -45,6 +45,22 @@ public class ChildListActivity extends AppCompatActivity {
         setUpNavBar();
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showChildren();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+
+    public static Intent makeIntent(Context context) {
+        return new Intent(context, ChildListActivity.class);
     }
 
     private void setupAnimation() {
@@ -78,23 +94,6 @@ public class ChildListActivity extends AppCompatActivity {
             },0);
             return true;
         });
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        showChildren();
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        finish();
-        return true;
-    }
-
-    public static Intent makeIntent(Context context) {
-        return new Intent(context, ChildListActivity.class);
     }
 
     private void setUpListViewClick() {
@@ -141,9 +140,6 @@ public class ChildListActivity extends AppCompatActivity {
             image.setImageBitmap(imageManager.getPortrait(ChildListActivity.this, currentChild.getId()));
 
             return itemView;
-
-
-
         }
 
     }
