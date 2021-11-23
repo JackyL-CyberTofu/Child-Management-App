@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import java.util.Objects;
 
@@ -20,6 +22,12 @@ public class HelpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_help);
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        setReferenceLinkClickable();
+    }
+
+    private void setReferenceLinkClickable() {
+        TextView textLink = (TextView) findViewById(R.id.text_reference_description);
+        textLink.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     @Override
