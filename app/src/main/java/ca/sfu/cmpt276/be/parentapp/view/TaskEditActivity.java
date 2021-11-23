@@ -40,12 +40,16 @@ public class TaskEditActivity extends AppCompatActivity {
         getExtras();
         setUpAppBar();
 
+
+
         if (isExistingTask) {
             setUpTaskName();
             setUpButton();
             setTaskChild();
         } else {
             findViewById(R.id.group_existing_task_info).setVisibility(View.GONE);
+            TextView whoseTurn = findViewById(R.id.text_tasked_child_label);
+            whoseTurn.setText("");
         }
     }
 
@@ -83,7 +87,6 @@ public class TaskEditActivity extends AppCompatActivity {
 
     public static Intent makeIntent(Context context, int taskNum) {
         Intent taskEditIntent = new Intent(context, TaskEditActivity.class);
-
         taskEditIntent.putExtra(EXTRA_TASK_NUMBER, taskNum);
         taskEditIntent.putExtra(EXTRA_IS_NEW_TASK, true);
 
