@@ -66,4 +66,6 @@
     <string name="choose_image">Choose Image</string>
     <string name="use_camera">Use camera</string>
     <string name="string_queue">Queue:</string>
+    <string name="button_take_breath_label">Take Breath</string>
+    <string name="button_breath_inhale_label">Breath</string>
 </resources>

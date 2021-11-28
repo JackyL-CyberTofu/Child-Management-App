@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setUpTaskButton();
         setUpHelpButton();
         setUpNavigation();
+        setUpBreathButton();
     }
 
     @Override
@@ -73,6 +74,21 @@ public class MainActivity extends AppCompatActivity {
         toChildren.setOnClickListener(v -> {
             Intent childActivity = ChildListActivity.makeIntent(MainActivity.this);
             startActivity(childActivity);
+        });
+
+        CardView button2 = findViewById(R.id.button_coin_flip);
+
+        button2.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), CoinFlipActivity.class);
+            startActivity(intent);
+        });
+    }
+
+    private void setUpBreathButton() {
+        CardView toBreath = findViewById(R.id.button_breath);
+        toBreath.setOnClickListener(v -> {
+            Intent breathActivity = new Intent(getApplicationContext(), BreathActivity.class);
+            startActivity(breathActivity);
         });
 
         CardView button2 = findViewById(R.id.button_coin_flip);
