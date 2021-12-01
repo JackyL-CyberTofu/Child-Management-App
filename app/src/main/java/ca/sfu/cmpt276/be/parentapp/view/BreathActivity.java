@@ -15,6 +15,10 @@ import ca.sfu.cmpt276.be.parentapp.R;
 
 
 public class BreathActivity extends AppCompatActivity {
+    public static final int EXHALE_TIME = 3000;
+    public static final int INHALE_TIME = 3000;
+    public static final int INHALE_TIME_MAX = 10000;
+
     private State currentState = new InhaleState(this);
 
     private State idleState = new IdleState(this);
@@ -100,6 +104,8 @@ public class BreathActivity extends AppCompatActivity {
         @Override
         public void handleEnter() {
             super.handleEnter();
+            Button breathButton = findViewById(R.id.button_breath);
+            breathButton.setText("Begin");
             context.setState(inhaleState);
         }
 
@@ -122,6 +128,7 @@ public class BreathActivity extends AppCompatActivity {
 
 
     private class InhaleState extends State {
+        private boolean doGoExhale = false;
         public InhaleState(BreathActivity context) {
             super(context);
         }
@@ -141,15 +148,17 @@ public class BreathActivity extends AppCompatActivity {
         @Override
         public void handlePress() {
             super.handlePress();
+            timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     runOnUiThread(() -> {
                         InhaleState.super.context.makeToast("Now you can breath out");
+                        doGoExhale = true;
                     });
 
                 }
-            }, 3000);
+            }, INHALE_TIME);
 
             timer.schedule(new TimerTask() {
                 @Override
@@ -159,13 +168,22 @@ public class BreathActivity extends AppCompatActivity {
                     });
 
                 }
-            }, 10000);
+            }, INHALE_TIME_MAX);
+
         }
 
         @Override
         public void handleRelease() {
             super.handleRelease();
-            context.setState(exhaleState);
+            if (doGoExhale) {
+                context.setState(exhaleState);
+            } else {
+                try {
+                    timer.cancel();
+                } catch (IllegalStateException e) {
+                    //do nothing as this is fine
+                }
+            }
         }
     }
 
@@ -192,7 +210,7 @@ public class BreathActivity extends AppCompatActivity {
                         context.setState(inhaleState);
                     });
                 }
-            }, 3000);
+            }, EXHALE_TIME);
         }
 
         @Override
