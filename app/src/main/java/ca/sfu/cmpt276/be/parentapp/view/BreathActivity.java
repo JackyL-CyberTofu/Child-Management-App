@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -13,15 +15,16 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import org.w3c.dom.Text;
+import androidx.fragment.app.FragmentManager;
 
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import ca.sfu.cmpt276.be.parentapp.R;
+import ca.sfu.cmpt276.be.parentapp.controller.DataManager;
 
 
 public class BreathActivity extends AppCompatActivity {
@@ -41,6 +44,8 @@ public class BreathActivity extends AppCompatActivity {
 
     private int breaths = DEFAULT_BREATHS;
 
+    DataManager dataManager = DataManager.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,9 +60,31 @@ public class BreathActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        dataManager.serializeBreaths();
+    }
+
+    @Override
     public boolean onSupportNavigateUp() {
         super.onBackPressed();
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.coinflip, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.coinHistoryButton) {
+            FragmentManager manager = getSupportFragmentManager();
+            HistoryFragment history = new HistoryFragment();
+            history.show(manager, "HistoryDialog");
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @SuppressLint("SetTextI18n")
@@ -171,7 +198,7 @@ public class BreathActivity extends AppCompatActivity {
         });
     }
 
-    public void setState(State newState) {
+    private void setState(State newState) {
         currentState.handleExit();
         currentState = newState;
         currentState.handleEnter();
@@ -197,31 +224,6 @@ public class BreathActivity extends AppCompatActivity {
     private void stopInhaleAnimation() {
     }
 
-    private abstract static class State {
-        public BreathActivity context;
-        public Timer timer = new Timer();
-        public State(BreathActivity context) {
-            this.context = context;
-        }
-
-        public void handleEnter() {
-        }
-
-        public void handleExit() {
-        }
-
-        public void handlePress() {
-        }
-
-        public void handleRelease() {
-        }
-
-        public BreathActivity getContext() {
-            return context;
-        }
-
-    }
-
     private void manageGroupVisibility(int visibleType) {
         ImageButton upButton = findViewById(R.id.button_increase_breath);
         ImageButton downButton = findViewById(R.id.button_decrease_breath);
@@ -243,6 +245,32 @@ public class BreathActivity extends AppCompatActivity {
             bottomText.setText(R.string.text_breath_picker_bottom_idle);
             topText.setText(R.string.text_breath_picker_top_idle);
         }
+    }
+
+    private abstract static class State {
+        public BreathActivity context;
+        public Timer timer = new Timer();
+
+        public State(BreathActivity context) {
+            this.context = context;
+        }
+
+        public void handleEnter() {
+        }
+
+        public void handleExit() {
+        }
+
+        public void handlePress() {
+        }
+
+        public void handleRelease() {
+        }
+
+        public BreathActivity getContext() {
+            return context;
+        }
+
     }
 
     private class BeginState extends State {
@@ -275,7 +303,6 @@ public class BreathActivity extends AppCompatActivity {
             super.handleRelease();
         }
     }
-
 
     private class InhaleState extends State {
         private boolean doGoExhale = false;
@@ -352,6 +379,7 @@ public class BreathActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     runOnUiThread(() -> {
+                        dataManager.incrementBreath();
                         if (breaths == 1) {
                             setState(beginState);
                             setButtonText(R.string.button_breath_finish_label);
@@ -367,7 +395,7 @@ public class BreathActivity extends AppCompatActivity {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    runOnUiThread(() -> stopAnimation());
+                    runOnUiThread(() -> BreathActivity.this.stopAnimation());
                 }
             }, EXHALE_TIME_MAX);
         }

@@ -82,4 +82,10 @@
     <string name="text_breath_help_exhale_begin">Exhale slowly</string>
     <string name="text_breath_help_exhale_end">Hold down the button and breath in</string>
     <string name="title_breath_activity">Breath Helper</string>
+    <string name="text_breath_history_flavour">Which is around %d seconds of breathing, wow!</string>
+    <string name="text_breath_history_count">%d Breaths</string>
+    <string name="text_breath_history_count_single">%d Breath</string>
+    <string name="text_breath_history_header">In total you have taken</string>
+    <string name="title_breath_history_frag">Breath History</string>
+    <string name="button_positive_breath_history">Neat</string>
 </resources>
