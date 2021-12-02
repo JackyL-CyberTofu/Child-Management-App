@@ -3,7 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_breath.xml" value="0.5" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/drawable/breath_circle.xml" value="0.2625" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_breath.xml" value="0.25" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_child_config.xml" value="0.17831813576494426" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_child_list.xml" value="0.21693840579710144" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_coin_flip_history.xml" value="0.2953125" />

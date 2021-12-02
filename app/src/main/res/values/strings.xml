@@ -68,4 +68,8 @@
     <string name="string_queue">Queue:</string>
     <string name="button_take_breath_label">Take Breath</string>
     <string name="button_breath_inhale_label">Breath</string>
+    <string name="text_breath_picker_top_idle">Let\'s take</string>
+    <string name="text_breath_picker_bottom_idle">breaths together</string>
+    <string name="text_breath_picker_top_active">There are</string>
+    <string name="text_breath_picker_bottom_active">breaths remaining</string>
 </resources>
