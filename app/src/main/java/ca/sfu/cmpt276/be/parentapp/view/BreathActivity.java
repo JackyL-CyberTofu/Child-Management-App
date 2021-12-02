@@ -1,19 +1,19 @@
 package ca.sfu.cmpt276.be.parentapp.view;
 
 import android.annotation.SuppressLint;
-import android.media.Image;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.Group;
 
 import org.w3c.dom.Text;
 
@@ -29,7 +29,9 @@ public class BreathActivity extends AppCompatActivity {
     public static final int INHALE_TIME = 3000;
     public static final int INHALE_TIME_MAX = 10000;
     public static final int EXHALE_TIME_MAX = 10000;
-    public static final int DEFAULT_BREATHS = 3;
+    public static final int DEFAULT_BREATHS = 1;
+    public static final int FADE_ANIMATION_TIME = 600;
+    public static final int MAX_BREATHS = 10;
 
     private State currentState = new InhaleState(this);
 
@@ -44,7 +46,7 @@ public class BreathActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_breath);
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Breath Helper");
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.title_breath_activity);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setUpBreathButton();
@@ -95,12 +97,20 @@ public class BreathActivity extends AppCompatActivity {
             breaths = Integer.parseInt(breathCount.getText().toString());
         }
 
+        if (breaths > MAX_BREATHS) {
+            breathCount.setText("" + MAX_BREATHS);
+        }
+
     }
 
     @SuppressLint("SetTextI18n")
     private void addBreathCount() {
         TextView breathCount = findViewById(R.id.field_breaths);
-        breaths = (Integer.parseInt(breathCount.getText().toString()) + 1);
+        int currentBreath = Integer.parseInt(breathCount.getText().toString());
+        if (currentBreath <= MAX_BREATHS) {
+            breaths = (Integer.parseInt(breathCount.getText().toString()));
+            breaths++;
+        }
         breathCount.setText("" + breaths);
     }
 
@@ -134,17 +144,42 @@ public class BreathActivity extends AppCompatActivity {
         });
     }
 
-    private void setLabel(String label) {
+    private void setLabel(int labelId) {
+        AlphaAnimation fadeOut = new AlphaAnimation(1.0f, 0.0f);
+        AlphaAnimation fadeIn = new AlphaAnimation(0.0f, 1.0f);
+
+        fadeOut.setDuration(FADE_ANIMATION_TIME);
+        fadeIn.setDuration(FADE_ANIMATION_TIME);
+
         TextView labelText = findViewById(R.id.text_directions);
-        labelText.setText("" + label);
+        labelText.startAnimation(fadeOut);
+
+        fadeOut.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                labelText.setText(labelId);
+                labelText.startAnimation(fadeIn);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
     }
-
-
 
     public void setState(State newState) {
         currentState.handleExit();
         currentState = newState;
         currentState.handleEnter();
+    }
+
+    private void setButtonText(int stringId) {
+        Button breathButton = findViewById(R.id.button_breath);
+        breathButton.setText(stringId);
     }
 
     private void cancelAnimation() {
@@ -162,8 +197,7 @@ public class BreathActivity extends AppCompatActivity {
     private void stopInhaleAnimation() {
     }
 
-
-    private abstract class State {
+    private abstract static class State {
         public BreathActivity context;
         public Timer timer = new Timer();
         public State(BreathActivity context) {
@@ -171,16 +205,9 @@ public class BreathActivity extends AppCompatActivity {
         }
 
         public void handleEnter() {
-            timer = new Timer();
         }
 
         public void handleExit() {
-            try {
-                timer.cancel();
-            } catch (IllegalStateException e) {
-                //this is fine it means the timer already stopped
-                e.printStackTrace();
-            }
         }
 
         public void handlePress() {
@@ -193,40 +220,6 @@ public class BreathActivity extends AppCompatActivity {
             return context;
         }
 
-    }
-
-    private class BeginState extends State {
-
-        public BeginState(BreathActivity context) {
-            super(context);
-        }
-
-        @Override
-        public void handleEnter() {
-            super.handleEnter();
-            Button breathButton = findViewById(R.id.button_breath);
-            breathButton.setText("Begin");
-            setLabel("Select number of breaths and press the button to start");
-
-            manageGroupVisibility(View.VISIBLE);
-        }
-
-        @Override
-        public void handleExit() {
-            super.handleExit();
-        }
-
-        @Override
-        public void handlePress() {
-            super.handlePress();
-            context.setState(inhaleState);
-            context.currentState.handlePress();
-        }
-
-        @Override
-        public void handleRelease() {
-            super.handleRelease();
-        }
     }
 
     private void manageGroupVisibility(int visibleType) {
@@ -252,6 +245,37 @@ public class BreathActivity extends AppCompatActivity {
         }
     }
 
+    private class BeginState extends State {
+
+        public BeginState(BreathActivity context) {
+            super(context);
+        }
+
+        @Override
+        public void handleEnter() {
+            super.handleEnter();
+            setButtonText(R.string.button_breath_begin_label);
+            setLabel(R.string.text_breath_help_begin);
+            manageGroupVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public void handleExit() {
+            super.handleExit();
+        }
+
+        @Override
+        public void handlePress() {
+            super.handlePress();
+            context.setState(inhaleState);
+            context.currentState.handlePress();
+        }
+        @Override
+        public void handleRelease() {
+            super.handleRelease();
+        }
+    }
+
 
     private class InhaleState extends State {
         private boolean doGoExhale = false;
@@ -262,16 +286,14 @@ public class BreathActivity extends AppCompatActivity {
         @Override
         public void handleEnter() {
             super.handleEnter();
-            Button breathButton = findViewById(R.id.button_breath);
-            breathButton.setText("Inhale");
-
-            setLabel("Hold down the button and breath in");
-
+            setButtonText(R.string.button_breath_inhale_label);
+            setLabel(R.string.text_breath_help_inhale_start);
             manageGroupVisibility(View.INVISIBLE);
         }
 
         @Override
         public void handleExit() {
+            timer.cancel();
             super.handleExit();
         }
 
@@ -283,7 +305,7 @@ public class BreathActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     runOnUiThread(() -> {
-                        setLabel("Breath out and let go of the button");
+                        setLabel(R.string.text_breath_help_inhale_finish);
                         doGoExhale = true;
                     });
 
@@ -293,11 +315,10 @@ public class BreathActivity extends AppCompatActivity {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    runOnUiThread(() -> setLabel("You should really breath out and let go of the button now"));
+                    runOnUiThread(() -> setLabel(R.string.text_breath_help_inhale_long));
                     stopInhaleAnimation();
                 }
             }, INHALE_TIME_MAX);
-
             doInhaleAnimation();
         }
 
@@ -308,11 +329,7 @@ public class BreathActivity extends AppCompatActivity {
                 context.setState(exhaleState);
                 cancelAnimation();
             } else {
-                try {
-                    timer.cancel();
-                } catch (IllegalStateException e) {
-                    //do nothing as this is fine
-                }
+                timer.cancel();
             }
         }
     }
@@ -326,26 +343,21 @@ public class BreathActivity extends AppCompatActivity {
         @Override
         public void handleEnter() {
             super.handleEnter();
-            Button breathButton = findViewById(R.id.button_breath);
-            breathButton.setText("Exhale");
-
+            setButtonText(R.string.button_breath_exhale_label);
             doExhaleAnimation();
+            setLabel(R.string.text_breath_help_exhale_begin);
 
-            setLabel("Exhale slowly");
-
+            timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     runOnUiThread(() -> {
                         if (breaths == 1) {
                             setState(beginState);
-                            Button breathButton = findViewById(R.id.button_breath);
-                            breathButton.setText("Good Job!");
+                            setButtonText(R.string.button_breath_finish_label);
                         } else {
-                            setLabel("Hold down the button and breath in");
-                            Button breathButton = findViewById(R.id.button_breath);
-                            breathButton.setText("Inhale");
                             context.setState(inhaleState);
+                            setLabel(R.string.text_breath_help_exhale_end);
                             minusBreathCount();
                         }
                     });
@@ -355,19 +367,16 @@ public class BreathActivity extends AppCompatActivity {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    runOnUiThread(() -> {
-                        stopAnimation();
-                    });
+                    runOnUiThread(() -> stopAnimation());
                 }
             }, EXHALE_TIME_MAX);
         }
 
         @Override
         public void handleExit() {
+            timer.cancel();
             super.handleExit();
-
         }
-
         @Override
         public void handlePress() {
             super.handlePress();

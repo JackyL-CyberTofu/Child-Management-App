@@ -67,9 +67,19 @@
     <string name="use_camera">Use camera</string>
     <string name="string_queue">Queue:</string>
     <string name="button_take_breath_label">Take Breath</string>
-    <string name="button_breath_inhale_label">Breath</string>
     <string name="text_breath_picker_top_idle">Let\'s take</string>
     <string name="text_breath_picker_bottom_idle">breaths together</string>
     <string name="text_breath_picker_top_active">There are</string>
     <string name="text_breath_picker_bottom_active">breaths remaining</string>
+    <string name="button_breath_exhale_label">Exhale</string>
+    <string name="button_breath_finish_label">Good job!</string>
+    <string name="button_breath_inhale_label">Inhale</string>
+    <string name="button_breath_begin_label">Begin</string>
+    <string name="text_breath_help_begin">Select number of breaths and press the button to start</string>
+    <string name="text_breath_help_inhale_start">Hold down the button and breath in</string>
+    <string name="text_breath_help_inhale_finish">Breath out and let go of the button</string>
+    <string name="text_breath_help_inhale_long">Consider letting go of the button now</string>
+    <string name="text_breath_help_exhale_begin">Exhale slowly</string>
+    <string name="text_breath_help_exhale_end">Hold down the button and breath in</string>
+    <string name="title_breath_activity">Breath Helper</string>
 </resources>

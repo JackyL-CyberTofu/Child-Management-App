@@ -12,7 +12,7 @@
         android:layout_height="300dp"
         android:background="@drawable/breath_circle"
         android:foreground="?android:attr/selectableItemBackground"
-        android:text="@string/button_breath_inhale_label"
+        android:textSize="24sp"
         android:theme="@android:style/ThemeOverlay.Material.Dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -107,10 +107,5 @@
             android:textSize="20sp" />
     </LinearLayout>
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/group_disappear_when_breath"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="button_decrease_breath,button_increase_breath,text_breaths_label_bot" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
