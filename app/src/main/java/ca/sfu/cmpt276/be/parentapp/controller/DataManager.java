@@ -92,6 +92,7 @@ public class DataManager {
 
     public void serializeTasks() {
         Gson gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeJSONReader() {})
                 .create();
         String gsonTasks = gson.toJson(taskList);
         saveOption.save(TASK_SAVENAME, gsonTasks);
