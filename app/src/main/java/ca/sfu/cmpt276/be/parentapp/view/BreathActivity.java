@@ -115,6 +115,25 @@ public class BreathActivity extends AppCompatActivity {
         increaseButton.setOnClickListener(v -> addBreathCount());
     }
 
+    @SuppressLint("ClickableViewAccessibility")
+    private void setUpBreathButton() {
+        Button breath = findViewById(R.id.button_breath);
+
+        setState(beginState);
+        breath.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                breath.performClick();
+                currentState.handlePress();
+            }
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                breath.getBackground().clearColorFilter();
+                currentState.handleRelease();
+            }
+
+            return true;
+        });
+    }
+
     @SuppressLint("SetTextI18n")
     private void setBreathCount() {
         TextView breathCount = findViewById(R.id.field_breaths);
@@ -152,23 +171,10 @@ public class BreathActivity extends AppCompatActivity {
         breathCount.setText("" + breaths);
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    private void setUpBreathButton() {
-        Button breath = findViewById(R.id.button_breath);
-
-        setState(beginState);
-        breath.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                breath.performClick();
-                currentState.handlePress();
-            }
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                breath.getBackground().clearColorFilter();
-                currentState.handleRelease();
-            }
-
-            return true;
-        });
+    private void setState(State newState) {
+        currentState.handleExit();
+        currentState = newState;
+        currentState.handleEnter();
     }
 
     private void setLabel(int labelId) {
@@ -196,12 +202,6 @@ public class BreathActivity extends AppCompatActivity {
             public void onAnimationRepeat(Animation animation) {
             }
         });
-    }
-
-    private void setState(State newState) {
-        currentState.handleExit();
-        currentState = newState;
-        currentState.handleEnter();
     }
 
     private void setButtonText(int stringId) {
@@ -409,6 +409,7 @@ public class BreathActivity extends AppCompatActivity {
         public void handlePress() {
             super.handlePress();
         }
+
         @Override
         public void handleRelease() {
             super.handleRelease();
