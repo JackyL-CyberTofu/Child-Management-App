@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -47,6 +48,7 @@ public class TimeoutActivity extends AppCompatActivity {
     private Button cancelButton;
 
     private TimeoutManager timeoutManager;
+    private ProgressBar progressBar;
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, TimeoutActivity.class);
@@ -65,6 +67,7 @@ public class TimeoutActivity extends AppCompatActivity {
                 case "TIME_TICKED":
                     Log.i("Ticking", String.valueOf(intent.getAction()));
                     updateGUI(intent);
+                    updateProgressBar();
                     break;
                 case "TIME_OUT":
                     switchSettingDisplay();
@@ -260,11 +263,22 @@ public class TimeoutActivity extends AppCompatActivity {
         timer.setVisibility(View.VISIBLE);
     }
 
+    private void setProgressBar(){
+        progressBar.setMax((int) timeoutManager.getTimeChosen());
+        progressBar.setProgress(0);
+    }
+
+    private void updateProgressBar(){
+        int progress = progressBar.getProgress()+1;
+        progressBar.setProgress(progress);
+    }
+
     private void assignViewComponents() {
         countdownText = findViewById(R.id.text_view_countdown);
         startButton = findViewById(R.id.button_start_countdown);
         stopButton = findViewById(R.id.button_pause_timer);
         cancelButton = findViewById(R.id.button_cancel_timer);
+        progressBar = findViewById(R.id.progress_bar_timer);
 
         setting = findViewById(R.id.setting);
         timer = findViewById(R.id.timer);
@@ -302,6 +316,7 @@ public class TimeoutActivity extends AppCompatActivity {
         serviceIntent.setAction("START_TIMING");
         serviceIntent.putExtra("Time", timeoutManager.getTimeChosen());
         startService(serviceIntent);
+        setProgressBar();
 
         stopButton.setText(R.string.pause);
         timeoutManager.setTimerRunning(true);
