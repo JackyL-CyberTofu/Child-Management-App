@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/text_breath_total_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_breath_history_header" />
+
+    <TextView
+        android:id="@+id/text_breath_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_breath_history_count"
+        android:textColor="@color/PaleBlue"
+        android:textSize="34sp"
+        android:padding="10dp"/>
+
+    <TextView
+        android:id="@+id/text_breath_total_flavour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_breath_history_flavour" />
+
+</LinearLayout>

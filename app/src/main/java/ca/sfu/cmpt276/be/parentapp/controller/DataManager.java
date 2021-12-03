@@ -25,11 +25,13 @@ public class DataManager {
     public static final String COINFLIP_SAVENAME = "JsonCoinflip";
     public static final String COINFLIP_QUEUE_SAVENAME = "JsonCoinFlipQueue";
     private static final String TASK_SAVENAME = "JsonTasks";
+    private static final String BREATH_SAVENAME = "JsonBreaths";
 
     private ArrayList<Child> childList = new ArrayList<>();
     private ArrayList<Coin> coinFlipHistory = new ArrayList<>();
     private ArrayList<Task> taskList = new ArrayList<>();
     private ArrayList<Child> coinFlipQueue = new ArrayList<>();
+    private int totalBreaths = 0;
 
     private SaveManager saveOption;
     private static DataManager instance;
@@ -72,6 +74,10 @@ public class DataManager {
             taskList = gson.fromJson(jsonTasks, new TypeToken<ArrayList<Task>>() {
             }.getType());
         }
+        String jsonBreaths = saveOption.load(BREATH_SAVENAME);
+        if (!jsonBreaths.isEmpty()) {
+            totalBreaths = gson.fromJson(jsonBreaths, Integer.class);
+        }
     }
 
     public void serializeChildren() {
@@ -97,6 +103,12 @@ public class DataManager {
         saveOption.save(TASK_SAVENAME, gsonTasks);
     }
 
+    public void serializeBreaths() {
+        Gson gson = new GsonBuilder().create();
+        String gsonBreaths = gson.toJson(totalBreaths);
+        saveOption.save(BREATH_SAVENAME, gsonBreaths);
+    }
+
     public ArrayList<Child> getChildList() {
         return childList;
     }
@@ -118,6 +130,14 @@ public class DataManager {
             }
         }
         return false;
+    }
+
+    public int getTotalBreaths() {
+        return totalBreaths;
+    }
+
+    public void incrementBreath() {
+        totalBreaths++;
     }
 
     private void reassignChildren() {
