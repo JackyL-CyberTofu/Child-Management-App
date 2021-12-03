@@ -67,7 +67,6 @@ public class TimeoutActivity extends AppCompatActivity {
                 case "TIME_TICKED":
                     Log.i("Ticking", String.valueOf(intent.getAction()));
                     updateGUI(intent);
-                    updateProgressBar();
                     break;
                 case "TIME_OUT":
                     switchSettingDisplay();
@@ -251,6 +250,7 @@ public class TimeoutActivity extends AppCompatActivity {
         String updatedTime = TimeConverter.toStringForMilSeconds(timeoutManager.getTempTime() +
                 TimeConverter.getSecondInMilSeconds());
         countdownText.setText(updatedTime);
+        updateProgressBar();
     }
 
     private void switchSettingDisplay() {
@@ -269,7 +269,7 @@ public class TimeoutActivity extends AppCompatActivity {
     }
 
     private void updateProgressBar(){
-        int progress = progressBar.getProgress()+1;
+        int progress = progressBar.getProgress()+10;
         progressBar.setProgress(progress);
     }
 
