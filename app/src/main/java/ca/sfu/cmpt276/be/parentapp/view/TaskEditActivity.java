@@ -19,9 +19,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import ca.sfu.cmpt276.be.parentapp.R;
+import ca.sfu.cmpt276.be.parentapp.controller.DataManager;
 import ca.sfu.cmpt276.be.parentapp.controller.ImageManager;
 import ca.sfu.cmpt276.be.parentapp.controller.TaskManager;
 import ca.sfu.cmpt276.be.parentapp.model.Child;
@@ -37,7 +39,7 @@ public class TaskEditActivity extends AppCompatActivity {
 
     private boolean isExistingTask;
     private int taskNumber;
-
+    ArrayList<Child> childList;
     private final TaskManager taskManager = new TaskManager();
 
 
@@ -53,8 +55,10 @@ public class TaskEditActivity extends AppCompatActivity {
             setUpTaskName();
             setUpButton();
             setTaskChild();
+            childList = taskManager.get(taskNumber).getAllChild();
         } else {
             hideComponents();
+            childList = new ArrayList<>();
         }
 
         ArrayAdapter<Child> adapter = new MyListAdapter();
@@ -181,7 +185,7 @@ public class TaskEditActivity extends AppCompatActivity {
 
     private class MyListAdapter extends ArrayAdapter<Child> {
         public MyListAdapter() {
-            super(TaskEditActivity.this, R.layout.layout_standard, taskManager.get(taskNumber).getAllChild());
+            super(TaskEditActivity.this, R.layout.layout_standard, childList);
         }
 
         @Override
@@ -193,15 +197,12 @@ public class TaskEditActivity extends AppCompatActivity {
 
             ImageView image_child = (ImageView) itemView.findViewById(R.id.image_child);
             ImageManager imageManager = new ImageManager();
-            image_child.setImageBitmap(imageManager.getPortrait(TaskEditActivity.this, taskManager.get(taskNumber).getChild(position).getId()));
-
             TextView text_upper = (TextView) itemView.findViewById(R.id.text_child);
             if(isExistingTask) {
-                text_upper.setText(taskManager.get(taskNumber).getChild(position).getName()+" @ "+taskManager.get(taskNumber).getTime(position));
+                text_upper.setText(taskManager.get(taskNumber).getNameTime(position));
+                image_child.setImageBitmap(imageManager.getPortrait(TaskEditActivity.this, taskManager.get(taskNumber).getChild(position).getId()));
             }
 
-
-            //Fill the view
             return itemView;
         }
     }

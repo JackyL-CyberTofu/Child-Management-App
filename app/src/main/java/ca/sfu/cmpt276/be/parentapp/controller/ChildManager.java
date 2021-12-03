@@ -1,10 +1,13 @@
 package ca.sfu.cmpt276.be.parentapp.controller;
 
+import android.content.res.Resources;
+
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import ca.sfu.cmpt276.be.parentapp.R;
 import ca.sfu.cmpt276.be.parentapp.model.Child;
 
 /**
@@ -37,6 +40,7 @@ public class ChildManager implements Iterable<Child> {
     }
 
     public void remove(int index) {
+        edit(index, "(Deleted Child)");
         coinFlipQueue.remove(allChildren.get(index));
         allChildren.remove(index);
         saveList();
@@ -59,6 +63,7 @@ public class ChildManager implements Iterable<Child> {
     public void saveList() {
         DataManager.getInstance().serializeChildren();
         DataManager.getInstance().serializeCoinflips();
+        DataManager.getInstance().serializeTasks();
     }
 
     public boolean isEmpty() {

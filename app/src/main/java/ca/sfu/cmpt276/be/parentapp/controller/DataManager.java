@@ -1,5 +1,7 @@
 package ca.sfu.cmpt276.be.parentapp.controller;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
@@ -66,12 +68,13 @@ public class DataManager {
             coinFlipHistory = gson.fromJson(jsonCoinflip, new TypeToken<ArrayList<Coin>>() {
             }.getType());
         }
-        reassignChildren();
+
         String jsonTasks = saveOption.load(TASK_SAVENAME);
         if (!jsonTasks.isEmpty()) {
             taskList = gson.fromJson(jsonTasks, new TypeToken<ArrayList<Task>>() {
             }.getType());
         }
+        reassignChildren();
     }
 
     public void serializeChildren() {
@@ -132,11 +135,23 @@ public class DataManager {
         int index = 0;
         for (Child child : coinFlipQueue) {
             for (Child child2 : childList) {
-                if (child.getId().equals(child2.getId())){
+                if (child.getId().equals(child2.getId())) {
                     coinFlipQueue.set(index,child2);
                 }
             }
             index++;
+        }
+        index = 0;
+        for (Task task : taskList) {
+            for (Child child : task.getAllChild()) {
+                for (Child child2 : childList) {
+                    if (child.getId().equals(child2.getId())) {
+                        task.getAllChild().set(index,child2);
+                    }
+                }
+                index++;
+            }
+            index = 0;
         }
     }
 
