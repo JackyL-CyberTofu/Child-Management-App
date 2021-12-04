@@ -6,20 +6,25 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import ca.sfu.cmpt276.be.parentapp.R;
 import ca.sfu.cmpt276.be.parentapp.controller.ImageManager;
 import ca.sfu.cmpt276.be.parentapp.controller.TaskManager;
+import ca.sfu.cmpt276.be.parentapp.model.Child;
 import ca.sfu.cmpt276.be.parentapp.model.Task;
 
 /**
@@ -31,7 +36,7 @@ public class TaskEditActivity extends AppCompatActivity {
 
     private boolean isExistingTask;
     private int taskNumber;
-
+    ArrayList<Child> childList;
     private final TaskManager taskManager = new TaskManager();
 
 
@@ -47,9 +52,16 @@ public class TaskEditActivity extends AppCompatActivity {
             setUpTaskName();
             setUpButton();
             setTaskChild();
+            childList = taskManager.get(taskNumber).getHistory();
         } else {
             hideComponents();
+            childList = new ArrayList<>();
         }
+
+        ArrayAdapter<Child> adapter = new MyListAdapter();
+        ListView list = (ListView) findViewById(R.id.listview_task_history);
+        list.setAdapter(adapter);
+
     }
 
     @Override
@@ -167,4 +179,29 @@ public class TaskEditActivity extends AppCompatActivity {
         taskManager.remove(taskNumber);
         finish();
     }
+
+    private class MyListAdapter extends ArrayAdapter<Child> {
+        public MyListAdapter() {
+            super(TaskEditActivity.this, R.layout.layout_standard, childList);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View itemView = convertView;
+            if (itemView == null) {
+                itemView = getLayoutInflater().inflate(R.layout.layout_standard, parent, false);
+            }
+
+            ImageView image_child = (ImageView) itemView.findViewById(R.id.image_child);
+            ImageManager imageManager = new ImageManager();
+            TextView text = (TextView) itemView.findViewById(R.id.text_child);
+            if(isExistingTask) {
+                text.setText(taskManager.get(taskNumber).getHistoryTime(position));
+                image_child.setImageBitmap(imageManager.getPortrait(TaskEditActivity.this, taskManager.get(taskNumber).getChild(position).getId()));
+            }
+
+            return itemView;
+        }
+    }
+
 }

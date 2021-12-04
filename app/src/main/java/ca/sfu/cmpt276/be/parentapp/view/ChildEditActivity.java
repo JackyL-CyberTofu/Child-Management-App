@@ -152,9 +152,7 @@ public class ChildEditActivity extends AppCompatActivity{
             deleteExistingChild();
         }
 
-        if (!(dataManager.checkIfInHistory(currentChild))) {
-            imageManager.deletePortrait(ChildEditActivity.this, currentChild.getId());
-        }
+        imageManager.deletePortrait(ChildEditActivity.this, currentChild.getId());
         finish();
     }
 

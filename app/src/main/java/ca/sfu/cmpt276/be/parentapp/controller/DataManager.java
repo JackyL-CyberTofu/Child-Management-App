@@ -78,6 +78,7 @@ public class DataManager {
         if (!jsonBreaths.isEmpty()) {
             totalBreaths = gson.fromJson(jsonBreaths, Integer.class);
         }
+        reassignChildren();
     }
 
     public void serializeChildren() {
@@ -98,6 +99,7 @@ public class DataManager {
 
     public void serializeTasks() {
         Gson gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeJSONReader() {})
                 .create();
         String gsonTasks = gson.toJson(taskList);
         saveOption.save(TASK_SAVENAME, gsonTasks);
@@ -156,6 +158,18 @@ public class DataManager {
                 }
             }
             index++;
+        }
+        index = 0;
+        for (Task task : taskList) {
+            for (Child child : task.getHistory()) {
+                for (Child child2 : childList) {
+                    if (child.getId().equals(child2.getId())) {
+                        task.getHistory().set(index,child2);
+                    }
+                }
+                index++;
+            }
+            index = 0;
         }
     }
 
