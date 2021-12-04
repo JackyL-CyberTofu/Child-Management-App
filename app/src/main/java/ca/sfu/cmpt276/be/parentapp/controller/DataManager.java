@@ -161,10 +161,10 @@ public class DataManager {
         }
         index = 0;
         for (Task task : taskList) {
-            for (Child child : task.getAllChild()) {
+            for (Child child : task.getHistory()) {
                 for (Child child2 : childList) {
                     if (child.getId().equals(child2.getId())) {
-                        task.getAllChild().set(index,child2);
+                        task.getHistory().set(index,child2);
                     }
                 }
                 index++;

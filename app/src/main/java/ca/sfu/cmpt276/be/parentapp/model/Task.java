@@ -32,13 +32,13 @@ public class Task {
 
     public Child getChild(int index) { return childHistory.get(index); }
 
-    public String getNameTime(int index) {
+    public String getHistoryTime(int index) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         String time = formatter.format(this.timeHistory.get(index));
         return childHistory.get(index).getName()+" "+time;
     }
 
-    public ArrayList<Child> getAllChild(){ return childHistory; }
+    public ArrayList<Child> getHistory(){ return childHistory; }
 
     public void setName(String editName) {
         name = editName;

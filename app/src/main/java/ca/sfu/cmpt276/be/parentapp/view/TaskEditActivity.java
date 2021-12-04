@@ -18,16 +18,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 
 import ca.sfu.cmpt276.be.parentapp.R;
-import ca.sfu.cmpt276.be.parentapp.controller.DataManager;
 import ca.sfu.cmpt276.be.parentapp.controller.ImageManager;
 import ca.sfu.cmpt276.be.parentapp.controller.TaskManager;
 import ca.sfu.cmpt276.be.parentapp.model.Child;
-import ca.sfu.cmpt276.be.parentapp.model.Coin;
 import ca.sfu.cmpt276.be.parentapp.model.Task;
 
 /**
@@ -55,7 +52,7 @@ public class TaskEditActivity extends AppCompatActivity {
             setUpTaskName();
             setUpButton();
             setTaskChild();
-            childList = taskManager.get(taskNumber).getAllChild();
+            childList = taskManager.get(taskNumber).getHistory();
         } else {
             hideComponents();
             childList = new ArrayList<>();
@@ -197,9 +194,9 @@ public class TaskEditActivity extends AppCompatActivity {
 
             ImageView image_child = (ImageView) itemView.findViewById(R.id.image_child);
             ImageManager imageManager = new ImageManager();
-            TextView text_upper = (TextView) itemView.findViewById(R.id.text_child);
+            TextView text = (TextView) itemView.findViewById(R.id.text_child);
             if(isExistingTask) {
-                text_upper.setText(taskManager.get(taskNumber).getNameTime(position));
+                text.setText(taskManager.get(taskNumber).getHistoryTime(position));
                 image_child.setImageBitmap(imageManager.getPortrait(TaskEditActivity.this, taskManager.get(taskNumber).getChild(position).getId()));
             }
 
