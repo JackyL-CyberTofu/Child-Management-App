@@ -116,6 +116,8 @@ public class TimeoutActivity extends AppCompatActivity {
 
         if (timeoutManager.isTimerRunning()) {
             switchTimerDisplay();
+            setProgressBar();
+            updateProgressBar();
         } else {
             switchSettingDisplay();
         }
@@ -265,7 +267,7 @@ public class TimeoutActivity extends AppCompatActivity {
 
     private void setProgressBar(){
         progressBar.setMax((int) timeoutManager.getTimeChosen());
-        progressBar.setProgress(0);
+        progressBar.setProgress((int) timeoutManager.getTimeChosen());
     }
 
     private void updateProgressBar(){
@@ -307,6 +309,7 @@ public class TimeoutActivity extends AppCompatActivity {
                     (Long.parseLong(sMin) * TimeConverter.getMinInMilSeconds()) +
                     (Long.parseLong(sSecond) * TimeConverter.getSecondInMilSeconds()));
             timeoutManager.setTempTime(timeoutManager.getTimeChosen());
+            setProgressBar();
         } else {
             timeoutManager.setTimeChosen(timeoutManager.getTempTime());
         }
@@ -315,7 +318,6 @@ public class TimeoutActivity extends AppCompatActivity {
         serviceIntent.setAction("START_TIMING");
         serviceIntent.putExtra("Time", timeoutManager.getTimeChosen());
         startService(serviceIntent);
-        setProgressBar();
 
         stopButton.setText(R.string.pause);
         timeoutManager.setTimerRunning(true);
