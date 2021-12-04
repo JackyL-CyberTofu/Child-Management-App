@@ -269,8 +269,7 @@ public class TimeoutActivity extends AppCompatActivity {
     }
 
     private void updateProgressBar(){
-        int progress = progressBar.getProgress()+10;
-        progressBar.setProgress(progress);
+        progressBar.setProgress((int) timeoutManager.getTempTime());
     }
 
     private void assignViewComponents() {
