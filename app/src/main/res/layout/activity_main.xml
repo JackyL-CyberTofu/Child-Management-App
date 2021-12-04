@@ -252,7 +252,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@null"
+                        android:background="@drawable/ic_baseline_nature_people_24"
                         android:contentDescription="@string/string_none" />
 
                     <TextView
