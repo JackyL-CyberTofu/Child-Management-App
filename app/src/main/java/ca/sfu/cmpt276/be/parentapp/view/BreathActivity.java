@@ -3,6 +3,7 @@ package ca.sfu.cmpt276.be.parentapp.view;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -38,7 +39,8 @@ public class BreathActivity extends AppCompatActivity {
     public static final int DEFAULT_BREATHS = 1;
     public static final int FADE_ANIMATION_TIME = 600;
     public static final int MAX_BREATHS = 10;
-    public static final int SHADOW_SCALE = 2;
+    public static final int SHADOW_SCALE = 3;
+    public static final int RESET_TIME = 1000;
 
     private State currentState = new InhaleState(this);
 
@@ -211,11 +213,17 @@ public class BreathActivity extends AppCompatActivity {
     private void setButtonText(int stringId) {
         Button breathButton = findViewById(R.id.button_breath);
         breathButton.setText(stringId);
+
     }
 
     private void cancelAnimation() {
         ImageView breathCircle = findViewById(R.id.image_breath_circle);
-        breathCircle.animate().cancel();
+
+        ObjectAnimator animation = ObjectAnimator.ofPropertyValuesHolder(breathCircle,
+                PropertyValuesHolder.ofFloat("scaleX", 1),
+                PropertyValuesHolder.ofFloat("scaleY", 1));
+        animation.setDuration(RESET_TIME);
+        animation.start();
     }
 
     private void doInhaleAnimation() {
@@ -223,13 +231,13 @@ public class BreathActivity extends AppCompatActivity {
         ObjectAnimator animation = ObjectAnimator.ofPropertyValuesHolder(breathCircle,
                 PropertyValuesHolder.ofFloat("scaleX", SHADOW_SCALE),
                 PropertyValuesHolder.ofFloat("scaleY", SHADOW_SCALE));
-        animation.setDuration(EXHALE_TIME);
+        animation.setDuration(INHALE_TIME_MAX).setAutoCancel(true);
         animation.start();
     }
 
     private void doExhaleAnimation() {
         ImageView breathCircle = findViewById(R.id.image_breath_circle);
-
+        breathCircle.setColorFilter(Color.GREEN);
         ObjectAnimator animation = ObjectAnimator.ofPropertyValuesHolder(breathCircle,
                 PropertyValuesHolder.ofFloat("scaleX", 1),
                 PropertyValuesHolder.ofFloat("scaleY", 1));
@@ -326,6 +334,7 @@ public class BreathActivity extends AppCompatActivity {
 
         @Override
         public void handleEnter() {
+            doGoExhale = false;
             super.handleEnter();
             setButtonText(R.string.button_breath_inhale_label);
             setLabel(R.string.text_breath_help_inhale_start);
@@ -347,6 +356,7 @@ public class BreathActivity extends AppCompatActivity {
                 public void run() {
                     runOnUiThread(() -> {
                         setLabel(R.string.text_breath_help_inhale_finish);
+                        setButtonText(R.string.button_breath_exhale_label);
                         doGoExhale = true;
                     });
 
@@ -367,9 +377,9 @@ public class BreathActivity extends AppCompatActivity {
             super.handleRelease();
             if (doGoExhale) {
                 context.setState(exhaleState);
-                cancelAnimation();
             } else {
                 timer.cancel();
+                cancelAnimation();
             }
         }
     }

@@ -71,9 +71,9 @@
     <string name="text_breath_picker_bottom_idle">breaths together</string>
     <string name="text_breath_picker_top_active">There are</string>
     <string name="text_breath_picker_bottom_active">breaths remaining</string>
-    <string name="button_breath_exhale_label">Exhale</string>
+    <string name="button_breath_exhale_label">Out</string>
     <string name="button_breath_finish_label">Good job!</string>
-    <string name="button_breath_inhale_label">Inhale</string>
+    <string name="button_breath_inhale_label">In</string>
     <string name="button_breath_begin_label">Begin</string>
     <string name="text_breath_help_begin">Select number of breaths and press the button to start</string>
     <string name="text_breath_help_inhale_start">Hold down the button and breath in</string>
