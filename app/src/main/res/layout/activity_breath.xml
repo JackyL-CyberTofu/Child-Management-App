@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".view.BreathActivity">
 
+    <ImageView
+        android:id="@+id/image_breath_circle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha=".25"
+        android:background="@drawable/breath_circle"
+        android:backgroundTint="#40000000"
+        app:layout_constraintBottom_toBottomOf="@+id/button_breath"
+        app:layout_constraintEnd_toEndOf="@+id/button_breath"
+        app:layout_constraintStart_toStartOf="@+id/button_breath"
+        app:layout_constraintTop_toTopOf="@+id/button_breath"
+        app:srcCompat="@drawable/breath_circle"
+        android:contentDescription="@string/cd_breath_circle" />
+
     <Button
         android:id="@+id/button_breath"
         android:layout_width="300dp"
@@ -57,6 +71,7 @@
             android:layout_marginBottom="10dp"
             android:text="@string/text_breath_picker_top_idle"
             android:textAlignment="center"
+            android:labelFor="@+id/field_breaths"
             android:textSize="20sp" />
 
         <LinearLayout
@@ -73,7 +88,8 @@
                 android:layout_weight="1"
                 android:backgroundTint="@color/PaleBlue"
                 app:icon="@drawable/ic_baseline_keyboard_arrow_down_24_white"
-                app:srcCompat="@drawable/ic_baseline_keyboard_arrow_down_24_white" />
+                app:srcCompat="@drawable/ic_baseline_keyboard_arrow_down_24_white"
+                android:contentDescription="@string/cd_button_decrease_breath" />
 
             <EditText
                 android:id="@+id/field_breaths"
@@ -84,7 +100,9 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="number"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:importantForAutofill="no"
+                />
 
             <ImageButton
                 android:id="@+id/button_increase_breath"
@@ -93,7 +111,8 @@
                 android:layout_weight="1"
                 android:backgroundTint="@color/PaleBlue"
                 app:icon="@drawable/ic_baseline_keyboard_arrow_up_24_white"
-                app:srcCompat="@drawable/ic_baseline_keyboard_arrow_up_24_white" />
+                app:srcCompat="@drawable/ic_baseline_keyboard_arrow_up_24_white"
+                android:contentDescription="@string/cd_button_increase_breath" />
 
         </LinearLayout>
 
@@ -104,8 +123,11 @@
             android:layout_marginTop="10dp"
             android:text="@string/text_breath_picker_bottom_idle"
             android:textAlignment="center"
+            android:labelFor="@+id/field_breaths"
             android:textSize="20sp" />
     </LinearLayout>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

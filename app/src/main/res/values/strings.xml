@@ -88,4 +88,7 @@
     <string name="text_breath_history_header">In total you have taken</string>
     <string name="title_breath_history_frag">Breath History</string>
     <string name="button_positive_breath_history">Neat</string>
+    <string name="cd_button_increase_breath">Increase breaths</string>
+    <string name="cd_button_decrease_breath">Decrease breaths</string>
+    <string name="cd_breath_circle">Breathing animation image</string>
 </resources>

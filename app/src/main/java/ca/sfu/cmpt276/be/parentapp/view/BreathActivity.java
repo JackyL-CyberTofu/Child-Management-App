@@ -1,5 +1,7 @@
 package ca.sfu.cmpt276.be.parentapp.view;
 
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
@@ -13,6 +15,7 @@ import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,6 +38,7 @@ public class BreathActivity extends AppCompatActivity {
     public static final int DEFAULT_BREATHS = 1;
     public static final int FADE_ANIMATION_TIME = 600;
     public static final int MAX_BREATHS = 10;
+    public static final int SHADOW_SCALE = 2;
 
     private State currentState = new InhaleState(this);
 
@@ -210,18 +214,28 @@ public class BreathActivity extends AppCompatActivity {
     }
 
     private void cancelAnimation() {
+        ImageView breathCircle = findViewById(R.id.image_breath_circle);
+        breathCircle.animate().cancel();
     }
 
     private void doInhaleAnimation() {
+        ImageView breathCircle = findViewById(R.id.image_breath_circle);
+        ObjectAnimator animation = ObjectAnimator.ofPropertyValuesHolder(breathCircle,
+                PropertyValuesHolder.ofFloat("scaleX", SHADOW_SCALE),
+                PropertyValuesHolder.ofFloat("scaleY", SHADOW_SCALE));
+        animation.setDuration(EXHALE_TIME);
+        animation.start();
     }
 
     private void doExhaleAnimation() {
-    }
+        ImageView breathCircle = findViewById(R.id.image_breath_circle);
 
-    private void stopAnimation() {
-    }
+        ObjectAnimator animation = ObjectAnimator.ofPropertyValuesHolder(breathCircle,
+                PropertyValuesHolder.ofFloat("scaleX", 1),
+                PropertyValuesHolder.ofFloat("scaleY", 1));
+        animation.setDuration(EXHALE_TIME);
+        animation.start();
 
-    private void stopInhaleAnimation() {
     }
 
     private void manageGroupVisibility(int visibleType) {
@@ -343,7 +357,6 @@ public class BreathActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     runOnUiThread(() -> setLabel(R.string.text_breath_help_inhale_long));
-                    stopInhaleAnimation();
                 }
             }, INHALE_TIME_MAX);
             doInhaleAnimation();
@@ -370,8 +383,8 @@ public class BreathActivity extends AppCompatActivity {
         @Override
         public void handleEnter() {
             super.handleEnter();
-            setButtonText(R.string.button_breath_exhale_label);
             doExhaleAnimation();
+            setButtonText(R.string.button_breath_exhale_label);
             setLabel(R.string.text_breath_help_exhale_begin);
 
             timer = new Timer();
@@ -395,7 +408,7 @@ public class BreathActivity extends AppCompatActivity {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    runOnUiThread(() -> BreathActivity.this.stopAnimation());
+                    runOnUiThread(() -> BreathActivity.this.cancelAnimation());
                 }
             }, EXHALE_TIME_MAX);
         }
