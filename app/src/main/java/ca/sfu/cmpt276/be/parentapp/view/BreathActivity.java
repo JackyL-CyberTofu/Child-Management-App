@@ -3,7 +3,6 @@ package ca.sfu.cmpt276.be.parentapp.view;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -36,8 +35,8 @@ public class BreathActivity extends AppCompatActivity {
     public static final int INHALE_TIME = 3000;
     public static final int INHALE_TIME_MAX = 10000;
     public static final int EXHALE_TIME_MAX = 10000;
-    public static final int DEFAULT_BREATHS = 1;
-    public static final int FADE_ANIMATION_TIME = 600;
+    public static final int DEFAULT_BREATHS = 3;
+    public static final int FADE_ANIMATION_TIME = 300;
     public static final int MAX_BREATHS = 10;
     public static final int SHADOW_SCALE = 3;
     public static final int RESET_TIME = 1000;
@@ -63,6 +62,12 @@ public class BreathActivity extends AppCompatActivity {
         setUpBreathButton();
         setUpConfigButtons();
         setUpBreathField();
+    }
+
+    private void setDefaultBreath() {
+        TextView breathField = findViewById(R.id.field_breaths);
+        breathField.setText(""+DEFAULT_BREATHS);
+        breaths = DEFAULT_BREATHS;
     }
 
     @Override
@@ -96,7 +101,6 @@ public class BreathActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     private void setUpBreathField() {
         TextView breathField = findViewById(R.id.field_breaths);
-        breathField.setText(""+DEFAULT_BREATHS);
         breathField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -128,7 +132,7 @@ public class BreathActivity extends AppCompatActivity {
         setState(beginState);
         breath.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                breath.performClick();
+                v.performClick();
                 currentState.handlePress();
             }
             if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -237,7 +241,6 @@ public class BreathActivity extends AppCompatActivity {
 
     private void doExhaleAnimation() {
         ImageView breathCircle = findViewById(R.id.image_breath_circle);
-        breathCircle.setColorFilter(Color.GREEN);
         ObjectAnimator animation = ObjectAnimator.ofPropertyValuesHolder(breathCircle,
                 PropertyValuesHolder.ofFloat("scaleX", 1),
                 PropertyValuesHolder.ofFloat("scaleY", 1));
@@ -267,6 +270,12 @@ public class BreathActivity extends AppCompatActivity {
             bottomText.setText(R.string.text_breath_picker_bottom_idle);
             topText.setText(R.string.text_breath_picker_top_idle);
         }
+    }
+
+    private void setButtonColour(int resId) {
+        Button breathButton = findViewById(R.id.button_breath);
+        ImageView breathShadow = findViewById(R.id.image_breath_circle);
+        breathButton.getBackground().setTint(resId);
     }
 
     private abstract static class State {
@@ -307,6 +316,8 @@ public class BreathActivity extends AppCompatActivity {
             setButtonText(R.string.button_breath_begin_label);
             setLabel(R.string.text_breath_help_begin);
             manageGroupVisibility(View.VISIBLE);
+            setButtonColour(R.color.PaleBlue);
+            setDefaultBreath();
         }
 
         @Override
@@ -338,6 +349,7 @@ public class BreathActivity extends AppCompatActivity {
             super.handleEnter();
             setButtonText(R.string.button_breath_inhale_label);
             setLabel(R.string.text_breath_help_inhale_start);
+            setButtonColour(R.color.MintGreen);
             manageGroupVisibility(View.INVISIBLE);
         }
 
@@ -396,6 +408,7 @@ public class BreathActivity extends AppCompatActivity {
             doExhaleAnimation();
             setButtonText(R.string.button_breath_exhale_label);
             setLabel(R.string.text_breath_help_exhale_begin);
+            setButtonColour(R.color.CreamOrange);
 
             timer = new Timer();
             timer.schedule(new TimerTask() {
