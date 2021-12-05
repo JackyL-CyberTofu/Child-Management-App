@@ -11,3 +11,11 @@ Injun Lee - Repo Master
 Jacky Lim - Team Member
 Joshua Li - Product Owner
 Randy Letran - Scrum Master
+
+--------------------------------
+
+Iteration 3 Scrum roles:
+Injun Lee - Scrum Master
+Jacky Lim - Product Owner
+Joshua Li - Repo Master
+Randy Letran - Team Member
