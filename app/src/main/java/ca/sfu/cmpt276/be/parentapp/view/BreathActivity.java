@@ -64,6 +64,7 @@ public class BreathActivity extends AppCompatActivity {
         setUpBreathField();
     }
 
+    @SuppressLint("SetTextI18n")
     private void setDefaultBreath() {
         TextView breathField = findViewById(R.id.field_breaths);
         breathField.setText(""+DEFAULT_BREATHS);
@@ -98,7 +99,6 @@ public class BreathActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressLint("SetTextI18n")
     private void setUpBreathField() {
         TextView breathField = findViewById(R.id.field_breaths);
         breathField.addTextChangedListener(new TextWatcher() {
@@ -272,10 +272,12 @@ public class BreathActivity extends AppCompatActivity {
         }
     }
 
-    private void setButtonColour(int resId) {
-        Button breathButton = findViewById(R.id.button_breath);
-        ImageView breathShadow = findViewById(R.id.image_breath_circle);
-        breathButton.getBackground().setTint(resId);
+    private void setButtonBackground(int resId) {
+        findViewById(R.id.image_breath_exhale).setVisibility(View.INVISIBLE);
+        findViewById(R.id.image_breath_inhale).setVisibility(View.INVISIBLE);
+        findViewById(R.id.image_breath_begin).setVisibility(View.INVISIBLE);
+
+        findViewById(resId).setVisibility(View.VISIBLE);
     }
 
     private abstract static class State {
@@ -316,7 +318,7 @@ public class BreathActivity extends AppCompatActivity {
             setButtonText(R.string.button_breath_begin_label);
             setLabel(R.string.text_breath_help_begin);
             manageGroupVisibility(View.VISIBLE);
-            setButtonColour(R.color.PaleBlue);
+            setButtonBackground(R.id.image_breath_begin);
             setDefaultBreath();
         }
 
@@ -349,7 +351,6 @@ public class BreathActivity extends AppCompatActivity {
             super.handleEnter();
             setButtonText(R.string.button_breath_inhale_label);
             setLabel(R.string.text_breath_help_inhale_start);
-            setButtonColour(R.color.MintGreen);
             manageGroupVisibility(View.INVISIBLE);
         }
 
@@ -362,6 +363,7 @@ public class BreathActivity extends AppCompatActivity {
         @Override
         public void handlePress() {
             super.handlePress();
+            setButtonBackground(R.id.image_breath_inhale);
             timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
@@ -369,6 +371,7 @@ public class BreathActivity extends AppCompatActivity {
                     runOnUiThread(() -> {
                         setLabel(R.string.text_breath_help_inhale_finish);
                         setButtonText(R.string.button_breath_exhale_label);
+                        setButtonBackground(R.id.image_breath_exhale);
                         doGoExhale = true;
                     });
 
@@ -408,7 +411,7 @@ public class BreathActivity extends AppCompatActivity {
             doExhaleAnimation();
             setButtonText(R.string.button_breath_exhale_label);
             setLabel(R.string.text_breath_help_exhale_begin);
-            setButtonColour(R.color.CreamOrange);
+            setButtonBackground(R.id.image_breath_exhale);
 
             timer = new Timer();
             timer.schedule(new TimerTask() {
@@ -419,9 +422,11 @@ public class BreathActivity extends AppCompatActivity {
                         if (breaths == 1) {
                             setState(beginState);
                             setButtonText(R.string.button_breath_finish_label);
+                            setButtonBackground(R.id.image_breath_begin);
                         } else {
                             context.setState(inhaleState);
                             setLabel(R.string.text_breath_help_exhale_end);
+                            setButtonBackground(R.id.image_breath_inhale);
                             minusBreathCount();
                         }
                     });
@@ -431,7 +436,7 @@ public class BreathActivity extends AppCompatActivity {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    runOnUiThread(() -> BreathActivity.this.cancelAnimation());
+                    runOnUiThread(BreathActivity.this::cancelAnimation);
                 }
             }, EXHALE_TIME_MAX);
         }
@@ -452,8 +457,6 @@ public class BreathActivity extends AppCompatActivity {
         }
 
     }
-
-
 }
 
 

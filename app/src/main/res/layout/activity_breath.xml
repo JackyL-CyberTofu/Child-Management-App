@@ -11,23 +11,58 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:alpha=".25"
-        android:background="@drawable/breath_circle"
         android:backgroundTint="#40000000"
+        android:contentDescription="@string/cd_breath_circle"
         app:layout_constraintBottom_toBottomOf="@+id/button_breath"
         app:layout_constraintEnd_toEndOf="@+id/button_breath"
         app:layout_constraintStart_toStartOf="@+id/button_breath"
         app:layout_constraintTop_toTopOf="@+id/button_breath"
-        app:srcCompat="@drawable/breath_circle"
+        app:srcCompat="@drawable/breath_circle_shadow" />
+
+    <ImageView
+        android:id="@+id/image_breath_begin"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/breath_circle_begin"
+        app:layout_constraintBottom_toBottomOf="@+id/button_breath"
+        app:layout_constraintEnd_toEndOf="@+id/button_breath"
+        app:layout_constraintStart_toStartOf="@+id/button_breath"
+        app:layout_constraintTop_toTopOf="@+id/button_breath"
+        app:srcCompat="@drawable/breath_circle_begin"
+        android:contentDescription="@string/cd_breath_circle" />
+
+    <ImageView
+        android:id="@+id/image_breath_exhale"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/breath_circle_exhale"
+        app:layout_constraintBottom_toBottomOf="@+id/button_breath"
+        app:layout_constraintEnd_toEndOf="@+id/button_breath"
+        app:layout_constraintStart_toStartOf="@+id/button_breath"
+        app:layout_constraintTop_toTopOf="@+id/button_breath"
+        app:srcCompat="@drawable/breath_circle_exhale"
+        android:contentDescription="@string/cd_breath_circle" />
+
+    <ImageView
+        android:id="@+id/image_breath_inhale"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/breath_circle_inhale"
+        app:layout_constraintBottom_toBottomOf="@+id/button_breath"
+        app:layout_constraintEnd_toEndOf="@+id/button_breath"
+        app:layout_constraintStart_toStartOf="@+id/button_breath"
+        app:layout_constraintTop_toTopOf="@+id/button_breath"
+        app:srcCompat="@drawable/breath_circle_inhale"
         android:contentDescription="@string/cd_breath_circle" />
 
     <Button
         android:id="@+id/button_breath"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:background="@drawable/breath_circle"
+        android:backgroundTint="#00FFFFFF"
+        android:background="@android:color/transparent"
         android:foreground="?android:attr/selectableItemBackground"
-        android:textSize="24sp"
-        android:theme="@android:style/ThemeOverlay.Material.Dark"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
