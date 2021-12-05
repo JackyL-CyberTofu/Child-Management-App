@@ -3,6 +3,7 @@ package ca.sfu.cmpt276.be.parentapp.view;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.annotation.SuppressLint;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -49,7 +50,8 @@ public class BreathActivity extends AppCompatActivity {
 
     private int breaths = DEFAULT_BREATHS;
 
-    DataManager dataManager = DataManager.getInstance();
+    private final DataManager dataManager = DataManager.getInstance();
+    private MediaPlayer player = new MediaPlayer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +69,7 @@ public class BreathActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     private void setDefaultBreath() {
         TextView breathField = findViewById(R.id.field_breaths);
-        breathField.setText(""+DEFAULT_BREATHS);
+        breathField.setText("" + DEFAULT_BREATHS);
         breaths = DEFAULT_BREATHS;
     }
 
@@ -103,10 +105,13 @@ public class BreathActivity extends AppCompatActivity {
         TextView breathField = findViewById(R.id.field_breaths);
         breathField.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {setBreathCount();}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                setBreathCount();
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -249,6 +254,7 @@ public class BreathActivity extends AppCompatActivity {
 
     }
 
+
     private void manageGroupVisibility(int visibleType) {
         ImageButton upButton = findViewById(R.id.button_increase_breath);
         ImageButton downButton = findViewById(R.id.button_decrease_breath);
@@ -280,6 +286,17 @@ public class BreathActivity extends AppCompatActivity {
         findViewById(resId).setVisibility(View.VISIBLE);
     }
 
+    private void playSound(int soundId) {
+        if (player.isPlaying()) {
+            player.stop();
+            player.release();
+            player = new MediaPlayer();
+        }
+
+        player = MediaPlayer.create(BreathActivity.this, soundId);
+        player.start();
+    }
+
     private abstract static class State {
         public BreathActivity context;
         public Timer timer = new Timer();
@@ -304,9 +321,11 @@ public class BreathActivity extends AppCompatActivity {
             return context;
         }
 
+
     }
 
     private class BeginState extends State {
+
 
         public BeginState(BreathActivity context) {
             super(context);
@@ -333,14 +352,17 @@ public class BreathActivity extends AppCompatActivity {
             context.setState(inhaleState);
             context.currentState.handlePress();
         }
+
         @Override
         public void handleRelease() {
             super.handleRelease();
         }
+
     }
 
     private class InhaleState extends State {
         private boolean doGoExhale = false;
+
         public InhaleState(BreathActivity context) {
             super(context);
         }
@@ -364,6 +386,9 @@ public class BreathActivity extends AppCompatActivity {
         public void handlePress() {
             super.handlePress();
             setButtonBackground(R.id.image_breath_inhale);
+
+            playSound(R.raw.breath_in_sound);
+
             timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
@@ -413,6 +438,8 @@ public class BreathActivity extends AppCompatActivity {
             setLabel(R.string.text_breath_help_exhale_begin);
             setButtonBackground(R.id.image_breath_exhale);
 
+            playSound(R.raw.breath_out_sound);
+
             timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
@@ -436,7 +463,11 @@ public class BreathActivity extends AppCompatActivity {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    runOnUiThread(BreathActivity.this::cancelAnimation);
+                    runOnUiThread(() -> {
+                                cancelAnimation();
+                                player.stop();
+                            }
+                    );
                 }
             }, EXHALE_TIME_MAX);
         }
@@ -446,6 +477,7 @@ public class BreathActivity extends AppCompatActivity {
             timer.cancel();
             super.handleExit();
         }
+
         @Override
         public void handlePress() {
             super.handlePress();

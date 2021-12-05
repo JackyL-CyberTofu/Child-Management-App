@@ -56,7 +56,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ca.sfu.cmpt276.be.parentapp.databinding.ActivityCoinflipBinding binding = ActivityCoinflipBinding.inflate(getLayoutInflater());
+        ActivityCoinflipBinding binding = ActivityCoinflipBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
