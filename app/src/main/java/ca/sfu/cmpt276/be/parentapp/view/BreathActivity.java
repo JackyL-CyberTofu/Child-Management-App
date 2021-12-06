@@ -69,6 +69,7 @@ public class BreathActivity extends AppCompatActivity {
         setUpNavBar();
     }
 
+
     @SuppressLint("SetTextI18n")
     private void setDefaultBreath() {
         TextView breathField = findViewById(R.id.field_breaths);
@@ -80,6 +81,7 @@ public class BreathActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         dataManager.serializeBreaths();
+        pauseAudio();
     }
 
     @Override
@@ -297,14 +299,18 @@ public class BreathActivity extends AppCompatActivity {
     }
 
     private void playSound(int soundId) {
+        pauseAudio();
+        player = MediaPlayer.create(BreathActivity.this, soundId);
+        player.start();
+    }
+
+
+    private void pauseAudio() {
         if (player.isPlaying()) {
             player.stop();
             player.release();
             player = new MediaPlayer();
         }
-
-        player = MediaPlayer.create(BreathActivity.this, soundId);
-        player.start();
     }
 
     private abstract static class State {
