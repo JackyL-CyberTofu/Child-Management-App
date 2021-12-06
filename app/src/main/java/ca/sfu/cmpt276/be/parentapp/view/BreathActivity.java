@@ -23,6 +23,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -64,6 +66,7 @@ public class BreathActivity extends AppCompatActivity {
         setUpBreathButton();
         setUpConfigButtons();
         setUpBreathField();
+        setUpNavBar();
     }
 
     @SuppressLint("SetTextI18n")
@@ -99,6 +102,15 @@ public class BreathActivity extends AppCompatActivity {
             history.show(manager, "HistoryDialog");
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setUpNavBar() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.item_breath);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            bottomNavigationView.postDelayed(() -> MainActivity.navigate(this, item, R.id.item_breath), 0);
+            return true;
+        });
     }
 
     private void setUpBreathField() {
@@ -251,9 +263,7 @@ public class BreathActivity extends AppCompatActivity {
                 PropertyValuesHolder.ofFloat("scaleY", 1));
         animation.setDuration(EXHALE_TIME);
         animation.start();
-
     }
-
 
     private void manageGroupVisibility(int visibleType) {
         ImageButton upButton = findViewById(R.id.button_increase_breath);

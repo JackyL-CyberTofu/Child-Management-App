@@ -92,21 +92,21 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_breath"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/button_breath">
 
         <TextView
             android:id="@+id/text_breaths_label_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:labelFor="@+id/field_breaths"
             android:text="@string/text_breath_picker_top_idle"
             android:textAlignment="center"
-            android:labelFor="@+id/field_breaths"
             android:textSize="20sp" />
 
         <LinearLayout
@@ -122,9 +122,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="@color/PaleBlue"
+                android:contentDescription="@string/cd_button_decrease_breath"
                 app:icon="@drawable/ic_baseline_keyboard_arrow_down_24_white"
-                app:srcCompat="@drawable/ic_baseline_keyboard_arrow_down_24_white"
-                android:contentDescription="@string/cd_button_decrease_breath" />
+                app:srcCompat="@drawable/ic_baseline_keyboard_arrow_down_24_white" />
 
             <EditText
                 android:id="@+id/field_breaths"
@@ -134,10 +134,9 @@
                 android:layout_marginEnd="15dp"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="number"
-                android:textAlignment="center"
                 android:importantForAutofill="no"
-                />
+                android:inputType="number"
+                android:textAlignment="center" />
 
             <ImageButton
                 android:id="@+id/button_increase_breath"
@@ -145,9 +144,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="@color/PaleBlue"
+                android:contentDescription="@string/cd_button_increase_breath"
                 app:icon="@drawable/ic_baseline_keyboard_arrow_up_24_white"
-                app:srcCompat="@drawable/ic_baseline_keyboard_arrow_up_24_white"
-                android:contentDescription="@string/cd_button_increase_breath" />
+                app:srcCompat="@drawable/ic_baseline_keyboard_arrow_up_24_white" />
 
         </LinearLayout>
 
@@ -156,11 +155,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:labelFor="@+id/field_breaths"
             android:text="@string/text_breath_picker_bottom_idle"
             android:textAlignment="center"
-            android:labelFor="@+id/field_breaths"
             android:textSize="20sp" />
     </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bottom_navigation"
+        app:menu="@menu/menu_navigation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
 
 
 

@@ -82,25 +82,7 @@ public class TaskListActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.item_tasks);
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            bottomNavigationView.postDelayed(() -> {
-                int id = item.getItemId();
-                if (id == R.id.item_home){
-                    finish();
-                    overridePendingTransition(0, 0);
-                } else if (id == R.id.item_timeout){
-                    startActivity(new Intent(getApplicationContext(), TimeoutActivity.class));
-                    overridePendingTransition(0, 0);
-                    finish();
-                } else if (id == R.id.item_child){
-                    startActivity(new Intent(getApplicationContext(), ChildListActivity.class));
-                    overridePendingTransition(0, 0);
-                    finish();
-                } else if (id == R.id.item_coinflip){
-                    startActivity(new Intent(getApplicationContext(), CoinFlipActivity.class));
-                    overridePendingTransition(0, 0);
-                    finish();
-                }
-            },0);
+            bottomNavigationView.postDelayed(() -> MainActivity.navigate(this, item, R.id.item_tasks), 0);
             return true;
         });
     }

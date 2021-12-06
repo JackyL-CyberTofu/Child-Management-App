@@ -1,14 +1,14 @@
 package ca.sfu.cmpt276.be.parentapp.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import ca.sfu.cmpt276.be.parentapp.R;
 import ca.sfu.cmpt276.be.parentapp.controller.DataManager;
@@ -33,16 +33,35 @@ public class MainActivity extends AppCompatActivity {
         setUpTimeoutButton();
         setUpTaskButton();
         setUpHelpButton();
-        setUpNavigation();
         setUpBreathButton();
     }
 
-    @Override
-    public void onResume() {
+    public static void navigate(Context context, MenuItem menuItem, int current) {
+        int id = menuItem.getItemId();
+        if (id == current) {
+            return;
+        }
+        Activity currentActivity = (Activity) context;
 
-        super.onResume();
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setSelectedItemId(R.id.item_home);
+        switch (id) {
+            case (R.id.item_breath):
+                currentActivity.startActivity(new Intent(context, BreathActivity.class));
+                break;
+            case (R.id.item_timeout):
+                currentActivity.startActivity(new Intent(context, TimeoutActivity.class));
+                break;
+            case (R.id.item_tasks):
+                currentActivity.startActivity(new Intent(context, TaskListActivity.class));
+                break;
+            case (R.id.item_coinflip):
+                currentActivity.startActivity(new Intent(context, CoinFlipActivity.class));
+                break;
+            case (R.id.item_child):
+                currentActivity.startActivity(new Intent(context, ChildListActivity.class));
+                break;
+        }
+        currentActivity.overridePendingTransition(0, 0);
+        currentActivity.finish();
     }
 
     private void setUpHelpButton() {
@@ -118,29 +137,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setUpNavigation() {
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setSelectedItemId(R.id.item_home);
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            bottomNavigationView.postDelayed(() -> {
-                int id = item.getItemId();
-                if (id == R.id.item_tasks){
-                    startActivity(new Intent(getApplicationContext(), TaskListActivity.class));
-                    overridePendingTransition(0, 0);
-                } else if (id == R.id.item_timeout){
-                    startActivity(new Intent(getApplicationContext(), TimeoutActivity.class));
-                    overridePendingTransition(0, 0);
-                } else if (id == R.id.item_child){
-                    startActivity(new Intent(getApplicationContext(), ChildListActivity.class));
-                    overridePendingTransition(0, 0);
-                } else if (id == R.id.item_coinflip){
-                    startActivity(new Intent(getApplicationContext(), CoinFlipActivity.class));
-                    overridePendingTransition(0, 0);
-                }
-            },0);
-            return true;
-        });
-    }
+
+
 
     private void loadData() {
         DataManager.getInstance().deserializeData();

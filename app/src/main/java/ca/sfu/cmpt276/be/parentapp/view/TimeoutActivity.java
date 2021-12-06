@@ -5,12 +5,6 @@ package ca.sfu.cmpt276.be.parentapp.view;
  * Users can set their customized time. When user start the timer, it is working on the TimeoutService.
  */
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.NotificationManagerCompat;
-
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
@@ -25,15 +19,21 @@ import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.NotificationManagerCompat;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Objects;
 
-import ca.sfu.cmpt276.be.parentapp.controller.AlarmService;
 import ca.sfu.cmpt276.be.parentapp.R;
+import ca.sfu.cmpt276.be.parentapp.controller.AlarmService;
+import ca.sfu.cmpt276.be.parentapp.controller.TimeoutManager;
 import ca.sfu.cmpt276.be.parentapp.controller.TimeoutService;
 import ca.sfu.cmpt276.be.parentapp.model.TimeConverter;
-import ca.sfu.cmpt276.be.parentapp.controller.TimeoutManager;
 
 /**
  * TimeoutActivity manages the timeout screen in the app.
@@ -333,25 +333,7 @@ public class TimeoutActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.item_timeout);
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            bottomNavigationView.postDelayed(() -> {
-                int id = item.getItemId();
-                if (id == R.id.item_home){
-                    finish();
-                    overridePendingTransition(0, 0);
-                } else if (id == R.id.item_tasks){
-                    startActivity(new Intent(getApplicationContext(), TaskListActivity.class));
-                    overridePendingTransition(0, 0);
-                    finish();
-                } else if (id == R.id.item_child){
-                    startActivity(new Intent(getApplicationContext(), ChildListActivity.class));
-                    overridePendingTransition(0, 0);
-                    finish();
-                } else if (id == R.id.item_coinflip){
-                    startActivity(new Intent(getApplicationContext(), CoinFlipActivity.class));
-                    overridePendingTransition(0, 0);
-                    finish();
-                }
-            },0);
+            bottomNavigationView.postDelayed(() -> MainActivity.navigate(this, item, R.id.item_timeout), 0);
             return true;
         });
     }

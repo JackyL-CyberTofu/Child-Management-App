@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/item_home"
-        android:title="Home"
-        android:icon="@drawable/ic_baseline_home_24"
-    />
-
 
     <item
         android:id="@+id/item_child"
-        android:title="Children"
+        android:title="@string/button_home_children"
         android:icon="@drawable/ic_baseline_people_24"
         />
     <item
         android:id="@+id/item_timeout"
-        android:title="Timeout"
+        android:title="@string/button_home_timeout"
         android:icon="@drawable/ic_baseline_timer_24"
         />
 
     <item
         android:id="@+id/item_coinflip"
-        android:title="Coinflip"
+        android:title="@string/button_home_coinflip"
         android:icon="@drawable/rounded_rectangle"
         />
 
     <item
         android:id="@+id/item_tasks"
-        android:title="Tasks"
+        android:title="@string/button_home_tasks"
         android:icon="@drawable/ic_baseline_view_list_24"
+        />
+
+    <item
+        android:id="@+id/item_breath"
+        android:title="@string/button_home_breath"
+        android:icon="@drawable/ic_baseline_nature_people_24"
         />
 
 

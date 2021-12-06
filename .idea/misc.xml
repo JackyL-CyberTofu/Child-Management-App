@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/drawable-night/ic_baseline_help_outline_24.xml" value="0.2953125" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/drawable-night/ic_baseline_people_24.xml" value="0.31302083333333336" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/drawable-night/rounded_rectangle.xml" value="0.2953125" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/drawable/breath_button.xml" value="0.28888888888888886" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/drawable/breath_circle.xml" value="0.2625" />
@@ -13,8 +14,11 @@
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/drawable/breath_circle_shadow.xml" value="0.2953125" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/drawable/ic_baseline_help_outline_24.xml" value="0.2953125" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/drawable/ic_baseline_highlight_off_24.xml" value="0.2953125" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/drawable/ic_baseline_nature_people_24.xml" value="0.31302083333333336" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/drawable/ic_baseline_nature_people_24_night.xml" value="0.31302083333333336" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/drawable/ic_baseline_people_24.xml" value="0.31302083333333336" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/drawable/rounded_rectangle.xml" value="0.2953125" />
-        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_breath.xml" value="0.22" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_breath.xml" value="0.5" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_child_config.xml" value="0.17831813576494426" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_child_list.xml" value="0.21693840579710144" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_coin_flip_history.xml" value="0.2953125" />
