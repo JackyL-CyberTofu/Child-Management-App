@@ -1,6 +1,9 @@
 package ca.sfu.cmpt276.be.parentapp.view;
 
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.annotation.SuppressLint;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,11 +16,14 @@ import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Objects;
 import java.util.Timer;
@@ -32,9 +38,11 @@ public class BreathActivity extends AppCompatActivity {
     public static final int INHALE_TIME = 3000;
     public static final int INHALE_TIME_MAX = 10000;
     public static final int EXHALE_TIME_MAX = 10000;
-    public static final int DEFAULT_BREATHS = 1;
-    public static final int FADE_ANIMATION_TIME = 600;
+    public static final int DEFAULT_BREATHS = 3;
+    public static final int FADE_ANIMATION_TIME = 300;
     public static final int MAX_BREATHS = 10;
+    public static final int SHADOW_SCALE = 3;
+    public static final int RESET_TIME = 1000;
 
     private State currentState = new InhaleState(this);
 
@@ -44,7 +52,8 @@ public class BreathActivity extends AppCompatActivity {
 
     private int breaths = DEFAULT_BREATHS;
 
-    DataManager dataManager = DataManager.getInstance();
+    private final DataManager dataManager = DataManager.getInstance();
+    private MediaPlayer player = new MediaPlayer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +66,22 @@ public class BreathActivity extends AppCompatActivity {
         setUpBreathButton();
         setUpConfigButtons();
         setUpBreathField();
+        setUpNavBar();
+    }
+
+
+    @SuppressLint("SetTextI18n")
+    private void setDefaultBreath() {
+        TextView breathField = findViewById(R.id.field_breaths);
+        breathField.setText("" + DEFAULT_BREATHS);
+        breaths = DEFAULT_BREATHS;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         dataManager.serializeBreaths();
+        pauseAudio();
     }
 
     @Override
@@ -87,16 +106,26 @@ public class BreathActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressLint("SetTextI18n")
+    private void setUpNavBar() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.item_breath);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            bottomNavigationView.postDelayed(() -> MainActivity.navigate(this, item, R.id.item_breath), 0);
+            return true;
+        });
+    }
+
     private void setUpBreathField() {
         TextView breathField = findViewById(R.id.field_breaths);
-        breathField.setText(""+DEFAULT_BREATHS);
         breathField.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {setBreathCount();}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                setBreathCount();
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -122,7 +151,7 @@ public class BreathActivity extends AppCompatActivity {
         setState(beginState);
         breath.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                breath.performClick();
+                v.performClick();
                 currentState.handlePress();
             }
             if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -207,21 +236,35 @@ public class BreathActivity extends AppCompatActivity {
     private void setButtonText(int stringId) {
         Button breathButton = findViewById(R.id.button_breath);
         breathButton.setText(stringId);
+
     }
 
     private void cancelAnimation() {
+        ImageView breathCircle = findViewById(R.id.image_breath_circle);
+
+        ObjectAnimator animation = ObjectAnimator.ofPropertyValuesHolder(breathCircle,
+                PropertyValuesHolder.ofFloat("scaleX", 1),
+                PropertyValuesHolder.ofFloat("scaleY", 1));
+        animation.setDuration(RESET_TIME);
+        animation.start();
     }
 
     private void doInhaleAnimation() {
+        ImageView breathCircle = findViewById(R.id.image_breath_circle);
+        ObjectAnimator animation = ObjectAnimator.ofPropertyValuesHolder(breathCircle,
+                PropertyValuesHolder.ofFloat("scaleX", SHADOW_SCALE),
+                PropertyValuesHolder.ofFloat("scaleY", SHADOW_SCALE));
+        animation.setDuration(INHALE_TIME_MAX).setAutoCancel(true);
+        animation.start();
     }
 
     private void doExhaleAnimation() {
-    }
-
-    private void stopAnimation() {
-    }
-
-    private void stopInhaleAnimation() {
+        ImageView breathCircle = findViewById(R.id.image_breath_circle);
+        ObjectAnimator animation = ObjectAnimator.ofPropertyValuesHolder(breathCircle,
+                PropertyValuesHolder.ofFloat("scaleX", 1),
+                PropertyValuesHolder.ofFloat("scaleY", 1));
+        animation.setDuration(EXHALE_TIME);
+        animation.start();
     }
 
     private void manageGroupVisibility(int visibleType) {
@@ -244,6 +287,29 @@ public class BreathActivity extends AppCompatActivity {
             breathField.setEnabled(true);
             bottomText.setText(R.string.text_breath_picker_bottom_idle);
             topText.setText(R.string.text_breath_picker_top_idle);
+        }
+    }
+
+    private void setButtonBackground(int resId) {
+        findViewById(R.id.image_breath_exhale).setVisibility(View.INVISIBLE);
+        findViewById(R.id.image_breath_inhale).setVisibility(View.INVISIBLE);
+        findViewById(R.id.image_breath_begin).setVisibility(View.INVISIBLE);
+
+        findViewById(resId).setVisibility(View.VISIBLE);
+    }
+
+    private void playSound(int soundId) {
+        pauseAudio();
+        player = MediaPlayer.create(BreathActivity.this, soundId);
+        player.start();
+    }
+
+
+    private void pauseAudio() {
+        if (player.isPlaying()) {
+            player.stop();
+            player.release();
+            player = new MediaPlayer();
         }
     }
 
@@ -271,9 +337,11 @@ public class BreathActivity extends AppCompatActivity {
             return context;
         }
 
+
     }
 
     private class BeginState extends State {
+
 
         public BeginState(BreathActivity context) {
             super(context);
@@ -285,6 +353,8 @@ public class BreathActivity extends AppCompatActivity {
             setButtonText(R.string.button_breath_begin_label);
             setLabel(R.string.text_breath_help_begin);
             manageGroupVisibility(View.VISIBLE);
+            setButtonBackground(R.id.image_breath_begin);
+            setDefaultBreath();
         }
 
         @Override
@@ -298,20 +368,24 @@ public class BreathActivity extends AppCompatActivity {
             context.setState(inhaleState);
             context.currentState.handlePress();
         }
+
         @Override
         public void handleRelease() {
             super.handleRelease();
         }
+
     }
 
     private class InhaleState extends State {
         private boolean doGoExhale = false;
+
         public InhaleState(BreathActivity context) {
             super(context);
         }
 
         @Override
         public void handleEnter() {
+            doGoExhale = false;
             super.handleEnter();
             setButtonText(R.string.button_breath_inhale_label);
             setLabel(R.string.text_breath_help_inhale_start);
@@ -327,12 +401,18 @@ public class BreathActivity extends AppCompatActivity {
         @Override
         public void handlePress() {
             super.handlePress();
+            setButtonBackground(R.id.image_breath_inhale);
+
+            playSound(R.raw.breath_in_sound);
+
             timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     runOnUiThread(() -> {
                         setLabel(R.string.text_breath_help_inhale_finish);
+                        setButtonText(R.string.button_breath_exhale_label);
+                        setButtonBackground(R.id.image_breath_exhale);
                         doGoExhale = true;
                     });
 
@@ -343,7 +423,6 @@ public class BreathActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     runOnUiThread(() -> setLabel(R.string.text_breath_help_inhale_long));
-                    stopInhaleAnimation();
                 }
             }, INHALE_TIME_MAX);
             doInhaleAnimation();
@@ -354,9 +433,9 @@ public class BreathActivity extends AppCompatActivity {
             super.handleRelease();
             if (doGoExhale) {
                 context.setState(exhaleState);
-                cancelAnimation();
             } else {
                 timer.cancel();
+                cancelAnimation();
             }
         }
     }
@@ -370,9 +449,12 @@ public class BreathActivity extends AppCompatActivity {
         @Override
         public void handleEnter() {
             super.handleEnter();
-            setButtonText(R.string.button_breath_exhale_label);
             doExhaleAnimation();
+            setButtonText(R.string.button_breath_exhale_label);
             setLabel(R.string.text_breath_help_exhale_begin);
+            setButtonBackground(R.id.image_breath_exhale);
+
+            playSound(R.raw.breath_out_sound);
 
             timer = new Timer();
             timer.schedule(new TimerTask() {
@@ -383,9 +465,11 @@ public class BreathActivity extends AppCompatActivity {
                         if (breaths == 1) {
                             setState(beginState);
                             setButtonText(R.string.button_breath_finish_label);
+                            setButtonBackground(R.id.image_breath_begin);
                         } else {
                             context.setState(inhaleState);
                             setLabel(R.string.text_breath_help_exhale_end);
+                            setButtonBackground(R.id.image_breath_inhale);
                             minusBreathCount();
                         }
                     });
@@ -395,7 +479,11 @@ public class BreathActivity extends AppCompatActivity {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    runOnUiThread(() -> BreathActivity.this.stopAnimation());
+                    runOnUiThread(() -> {
+                                cancelAnimation();
+                                player.stop();
+                            }
+                    );
                 }
             }, EXHALE_TIME_MAX);
         }
@@ -405,6 +493,7 @@ public class BreathActivity extends AppCompatActivity {
             timer.cancel();
             super.handleExit();
         }
+
         @Override
         public void handlePress() {
             super.handlePress();
@@ -416,8 +505,6 @@ public class BreathActivity extends AppCompatActivity {
         }
 
     }
-
-
 }
 
 
