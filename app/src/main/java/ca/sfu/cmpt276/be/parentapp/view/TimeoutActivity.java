@@ -51,17 +51,13 @@ public class TimeoutActivity extends AppCompatActivity {
     private Button cancelButton;
     private ProgressBar progressBar;
     private SeekBar seekBar;
-
     private TimeoutManager timeoutManager;
-
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, TimeoutActivity.class);
     }
 
-
     // Broadcast Receiver from TimeoutService when the time is ticking
-
     // It updates UI on the TimeoutActivity(How much time is left)
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -123,9 +119,7 @@ public class TimeoutActivity extends AppCompatActivity {
                 SpeedRate rateChosen = SpeedRate.values()[i];
 
                 // Update speed rate text in the activity
-                TextView textView = findViewById(R.id.text_speed_rate);
-                String rateInText = String_Speed_Rate + rateChosen.toString();
-                textView.setText(rateInText);
+                updateTextOfSpeedRate(rateChosen);
 
                 // Kill Service First
                 stopTimer();
@@ -135,25 +129,13 @@ public class TimeoutActivity extends AppCompatActivity {
                     Log.d("get Temp Time",String.valueOf((long) (TimeConverter.getRelativeTimeLeft(timeoutManager.getCurrentRate(), rateChosen)) * timeoutManager.getTempTime()));
                     long tempTimeConverted = (long) (TimeConverter.getRelativeTimeLeft(timeoutManager.getCurrentRate(), rateChosen) * timeoutManager.getTempTime());
                     timeoutManager.setCurrentRate(rateChosen);
-
-                    Intent serviceIntent = new Intent(getApplicationContext(), TimeoutService.class);
-                    serviceIntent.setAction("START_TIMING");
-                    serviceIntent.putExtra("Time", tempTimeConverted);
-                    startService(serviceIntent);
-                    Log.d("Service when progress bar", "hqqq");
-
-                    stopButton.setText(R.string.pause);
-                    timeoutManager.setTimerRunning(true);
-                    timeoutManager.setFirstState(false);
-                    timeoutManager.setPauseClicked(false);
+                    startServiceSpeedRateChanged(tempTimeConverted);
                 }
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
 
             }
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
@@ -174,6 +156,24 @@ public class TimeoutActivity extends AppCompatActivity {
             popUpAlarmTurningOffDialog();
         }
         setUpNavBar();
+    }
+
+    private void updateTextOfSpeedRate(SpeedRate rateChosen) {
+        TextView textView = findViewById(R.id.text_speed_rate);
+        String rateInText = String_Speed_Rate + rateChosen.toString();
+        textView.setText(rateInText);
+    }
+
+    private void startServiceSpeedRateChanged(long tempTimeConverted) {
+        Intent serviceIntent = new Intent(getApplicationContext(), TimeoutService.class);
+        serviceIntent.setAction("START_TIMING");
+        serviceIntent.putExtra("Time", tempTimeConverted);
+        startService(serviceIntent);
+
+        stopButton.setText(R.string.pause);
+        timeoutManager.setTimerRunning(true);
+        timeoutManager.setFirstState(false);
+        timeoutManager.setPauseClicked(false);
     }
 
     @Override
@@ -371,16 +371,7 @@ public class TimeoutActivity extends AppCompatActivity {
             setProgressBar();
         }
 
-        Intent serviceIntent = new Intent(getApplicationContext(), TimeoutService.class);
-        serviceIntent.setAction("START_TIMING");
-        serviceIntent.putExtra("Time", timeoutManager.getTempTime());
-        startService(serviceIntent);
-        Log.d("Service when using startTimerMethod()", "hqqq");
-
-        stopButton.setText(R.string.pause);
-        timeoutManager.setTimerRunning(true);
-        timeoutManager.setFirstState(false);
-        timeoutManager.setPauseClicked(false);
+        startServiceSpeedRateChanged(timeoutManager.getTempTime());
     }
 
     private void stopTimer() {
