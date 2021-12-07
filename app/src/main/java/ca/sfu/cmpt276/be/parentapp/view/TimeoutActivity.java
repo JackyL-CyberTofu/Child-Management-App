@@ -66,11 +66,9 @@ public class TimeoutActivity extends AppCompatActivity {
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            //Log.i("Broadcast Received", String.valueOf(intent.getAction()));
             String action = intent.getAction();
             switch(action) {
                 case "TIME_TICKED":
-                    //Log.i("Ticking", String.valueOf(intent.getAction()));
                     updateGUI(intent);
                     break;
                 case "TIME_OUT":
@@ -132,13 +130,11 @@ public class TimeoutActivity extends AppCompatActivity {
                 // Kill Service First
                 stopTimer();
 
-                // Update TempTime
+                // Create new service depending no the speed.
                 if(!timeoutManager.isFirstState()){
                     Log.d("get Temp Time",String.valueOf((long) (TimeConverter.getRelativeTimeLeft(timeoutManager.getCurrentRate(), rateChosen)) * timeoutManager.getTempTime()));
                     long tempTimeConverted = (long) (TimeConverter.getRelativeTimeLeft(timeoutManager.getCurrentRate(), rateChosen) * timeoutManager.getTempTime());
-                    //timeoutManager.setTempTime(tempTimeConverted);
                     timeoutManager.setCurrentRate(rateChosen);
-
 
                     Intent serviceIntent = new Intent(getApplicationContext(), TimeoutService.class);
                     serviceIntent.setAction("START_TIMING");
@@ -177,7 +173,6 @@ public class TimeoutActivity extends AppCompatActivity {
         if (timeoutManager.isAlarmRunning()) {
             popUpAlarmTurningOffDialog();
         }
-
         setUpNavBar();
     }
 
@@ -309,7 +304,6 @@ public class TimeoutActivity extends AppCompatActivity {
     private void updateGUI(Intent intent) {
         Bundle bundle = intent.getExtras();
         long timeLeftConverted = (long) bundle.get("TimeLeft");
-        //Log.d("GUI",String.valueOf(timeLeftConverted));
         timeoutManager.setTempTime(timeLeftConverted);
         timeLeftConverted = (long) TimeConverter.getRelativeTimeLeft(timeLeftConverted, timeoutManager.getCurrentRate());
         String updatedTime = TimeConverter.toStringForMilSeconds(timeLeftConverted +
@@ -394,7 +388,6 @@ public class TimeoutActivity extends AppCompatActivity {
         timeoutManager.setTimerRunning(false);
         timeoutManager.setPauseClicked(true);
         stopButton.setText(R.string.resume);
-        //Log.d("Time left from stopTimer", String.valueOf(timeoutManager.getTempTime()));
     }
 
     private void cancelTimer() {
