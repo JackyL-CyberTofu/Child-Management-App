@@ -15,7 +15,10 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import ca.sfu.cmpt276.be.parentapp.R;
+import ca.sfu.cmpt276.be.parentapp.controller.AlarmService;
+import ca.sfu.cmpt276.be.parentapp.model.SpeedRate;
 import ca.sfu.cmpt276.be.parentapp.model.TimeConverter;
+import ca.sfu.cmpt276.be.parentapp.controller.TimeoutManager;
 import ca.sfu.cmpt276.be.parentapp.view.TimeoutActivity;
 
 /**
@@ -75,7 +78,8 @@ public class TimeoutService extends Service {
                 PendingIntent pendingIntent = stackBuilder.getPendingIntent(1, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 // Calculate the time left
-                String updatedTime = TimeConverter.toStringForMilSeconds(millisecondsLeft + TimeConverter.getSecondInMilSeconds());
+                long timeLeftConverted = (long) TimeConverter.getRelativeTimeLeft(millisecondsLeft, TimeoutManager.getInstance().getCurrentRate());
+                String updatedTime = TimeConverter.toStringForMilSeconds(timeLeftConverted + TimeConverter.getSecondInMilSeconds());
 
                 // Create a notification for Showing time left.
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "TIMER")
@@ -97,6 +101,8 @@ public class TimeoutService extends Service {
                 TimeoutManager timeoutManager = TimeoutManager.getInstance();
                 timeoutManager.setAlarmRunning(true);
                 timeoutManager.setTimerRunning(false);
+                timeoutManager.setCurrentRate(SpeedRate.HUNDRED);
+                timeoutManager.setPauseClicked(false);
                 Intent finishIntent = new Intent("TIME_OUT");
                 sendBroadcast(finishIntent);
 
@@ -121,11 +127,11 @@ public class TimeoutService extends Service {
                 // Create a notification for time-out!
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "TIMER")
                         .setSmallIcon(R.drawable.ic_baseline_timer_24)
-                        .setContentTitle(getString(R.string.notif_timeout_title))
-                        .setContentText(getString(R.string.notif_timeout_body))
+                        .setContentTitle("Timeout")
+                        .setContentText("Time's up!")
                         .setContentIntent(pendingIntent)
                         .setPriority(NotificationCompat.PRIORITY_MAX)
-                        .addAction(R.drawable.ic_stop_alarm, getString(R.string.notification_dismiss_title), stopAlarmPendingIntent)
+                        .addAction(R.drawable.ic_stop_alarm, getString(R.string.dismiss), stopAlarmPendingIntent)
                         .setAutoCancel(true);
                 // Notification Channel
                 createNotificationChannel();

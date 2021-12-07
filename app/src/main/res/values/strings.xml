@@ -89,6 +89,7 @@
     <string name="button_home_coinflip">Coinflip</string>
     <string name="button_home_tasks">Tasks</string>
     <string name="button_home_breath">Breath</string>
+    <string name="text_default_speed_rate">Speed Rate : 100%</string>
     <string name="warning_empty_child">Please enter a name for the child.</string>
     <string name="dialog_error_title">Error</string>
     <string name="dialog_error_body">Unable to save image</string>
