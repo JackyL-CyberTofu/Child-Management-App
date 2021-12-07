@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_quarter"
+        android:title="@string/item_quarter"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_half"
+        android:title="@string/item_half"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_3o4"
+        android:title="@string/item_3fourth"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_full"
+        android:title="@string/item_full"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_double"
+        android:title="@string/item_double"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_triple"
+        android:title="@string/item_triple"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_quadruple"
+        android:title="@string/item_quadruple"
+        app:showAsAction="never"/>
+</menu>

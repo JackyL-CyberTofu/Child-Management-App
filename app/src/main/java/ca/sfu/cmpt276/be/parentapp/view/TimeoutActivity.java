@@ -1,10 +1,5 @@
 package ca.sfu.cmpt276.be.parentapp.view;
 
-/*
- * TimeoutActivity represents a feature of countdown timer in the app.
- * Users can set their customized time. When user start the timer, it is working on the TimeoutService.
- */
-
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
@@ -13,12 +8,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.ProgressBar;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -50,7 +46,6 @@ public class TimeoutActivity extends AppCompatActivity {
     private Button stopButton;
     private Button cancelButton;
     private ProgressBar progressBar;
-    private SeekBar seekBar;
     private TimeoutManager timeoutManager;
 
     public static Intent makeIntent(Context context) {
@@ -87,60 +82,11 @@ public class TimeoutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_timeout);
 
         timeoutManager = TimeoutManager.getInstance();
-        assignViewComponents();
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        NumberPicker numberPicker = findViewById(R.id.number_picker_hour);
-        setupNumberPicker(numberPicker, 99);
-
-        NumberPicker numberPicker2 = findViewById(R.id.number_picker_min);
-        setupNumberPicker(numberPicker2, 60);
-
-        NumberPicker numberPicker3 = findViewById(R.id.number_picker_sec);
-        setupNumberPicker(numberPicker3, 60);
-
-        setupTimerShortcuts(numberPicker, numberPicker2, numberPicker3);
-
-        startButton.setOnClickListener(v -> {
-            timeoutManager.setFirstState(true);
-            startOrStop();
-        });
-
-        stopButton.setOnClickListener(v -> startOrStop());
-
-        cancelButton.setOnClickListener(v -> {
-            timeoutManager.setFirstState(true);
-            cancelTimer();
-        });
-
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                SpeedRate rateChosen = SpeedRate.values()[i];
-
-                // Update speed rate text in the activity
-                updateTextOfSpeedRate(rateChosen);
-
-                // Kill Service First
-                stopTimer();
-
-                // Create new service depending no the speed.
-                if(!timeoutManager.isFirstState()){
-                    Log.d("get Temp Time",String.valueOf((long) (TimeConverter.getRelativeTimeLeft(timeoutManager.getCurrentRate(), rateChosen)) * timeoutManager.getTempTime()));
-                    long tempTimeConverted = (long) (TimeConverter.getRelativeTimeLeft(timeoutManager.getCurrentRate(), rateChosen) * timeoutManager.getTempTime());
-                    timeoutManager.setCurrentRate(rateChosen);
-                    startServiceSpeedRateChanged(tempTimeConverted);
-                }
-            }
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
+        assignViewComponents();
+        setUpNumbers();
+        setUpButtons();
 
         if (timeoutManager.isTimerRunning() || timeoutManager.isPauseClicked()) {
             switchTimerDisplay();
@@ -156,6 +102,109 @@ public class TimeoutActivity extends AppCompatActivity {
             popUpAlarmTurningOffDialog();
         }
         setUpNavBar();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(broadcastReceiver);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        long timeLeftConverted = timeoutManager.getTempTime();
+        timeLeftConverted = (long) TimeConverter.getRelativeTimeLeft(timeLeftConverted, timeoutManager.getCurrentRate());
+        String updatedTime = TimeConverter.toStringForMilSeconds(timeLeftConverted +
+                TimeConverter.getSecondInMilSeconds());
+        countdownText.setText(updatedTime);
+
+        if (timeoutManager.isTimerRunning() || timeoutManager.isPauseClicked()) {
+            switchTimerDisplay();
+        } else {
+            switchSettingDisplay();
+        }
+        createIntentFilterAndRegisterReceiver();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.time_selector_appbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case (R.id.menu_quarter):
+                changeSpeed(0);
+                break;
+            case (R.id.menu_half):
+                changeSpeed(1);
+                break;
+            case (R.id.menu_3o4):
+                changeSpeed(2);
+                break;
+            case (R.id.menu_full):
+                changeSpeed(3);
+                break;
+            case (R.id.menu_double):
+                changeSpeed(4);
+                break;
+            case (R.id.menu_triple):
+                changeSpeed(5);
+                break;
+            case (R.id.menu_quadruple):
+                changeSpeed(6);
+                break;
+            case (android.R.id.home):
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void changeSpeed(int speed) {
+        SpeedRate rateChosen = SpeedRate.values()[speed];
+
+        updateTextOfSpeedRate(rateChosen);
+
+        stopTimer();
+
+        if(!timeoutManager.isFirstState()){
+            Log.d("get Temp Time",String.valueOf((long) (TimeConverter.getRelativeTimeLeft(timeoutManager.getCurrentRate(), rateChosen)) * timeoutManager.getTempTime()));
+            long tempTimeConverted = (long) (TimeConverter.getRelativeTimeLeft(timeoutManager.getCurrentRate(), rateChosen) * timeoutManager.getTempTime());
+            timeoutManager.setCurrentRate(rateChosen);
+            startServiceSpeedRateChanged(tempTimeConverted);
+        }
+    }
+
+    private void setUpButtons() {
+        startButton.setOnClickListener(v -> {
+            timeoutManager.setFirstState(true);
+            startOrStop();
+        });
+
+        stopButton.setOnClickListener(v -> startOrStop());
+
+        cancelButton.setOnClickListener(v -> {
+            timeoutManager.setFirstState(true);
+            cancelTimer();
+        });
+    }
+
+    private void setUpNumbers() {
+        NumberPicker numberPicker = findViewById(R.id.number_picker_hour);
+        setupNumberPicker(numberPicker, 99);
+
+        NumberPicker numberPicker2 = findViewById(R.id.number_picker_min);
+        setupNumberPicker(numberPicker2, 60);
+
+        NumberPicker numberPicker3 = findViewById(R.id.number_picker_sec);
+        setupNumberPicker(numberPicker3, 60);
+
+        setupTimerShortcuts(numberPicker, numberPicker2, numberPicker3);
     }
 
     private void updateTextOfSpeedRate(SpeedRate rateChosen) {
@@ -176,50 +225,6 @@ public class TimeoutActivity extends AppCompatActivity {
         timeoutManager.setPauseClicked(false);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        seekBar.setProgress(timeoutManager.getCurrentRate().ordinal());
-
-        Long timeLeftConverted = timeoutManager.getTempTime();
-        timeLeftConverted = (long) TimeConverter.getRelativeTimeLeft(timeLeftConverted, timeoutManager.getCurrentRate());
-        String updatedTime = TimeConverter.toStringForMilSeconds(timeLeftConverted +
-                TimeConverter.getSecondInMilSeconds());
-        countdownText.setText(updatedTime);
-
-        if (timeoutManager.isTimerRunning() || timeoutManager.isPauseClicked()) {
-            switchTimerDisplay();
-        } else {
-            switchSettingDisplay();
-        }
-        createIntentFilterAndRegisterReceiver();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(broadcastReceiver);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     private void removeNotifications() {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(0);
@@ -238,6 +243,7 @@ public class TimeoutActivity extends AppCompatActivity {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+        allowScreenSleep();
     }
 
     private void createIntentFilterAndRegisterReceiver() {
@@ -337,7 +343,6 @@ public class TimeoutActivity extends AppCompatActivity {
         stopButton = findViewById(R.id.button_pause_timer);
         cancelButton = findViewById(R.id.button_cancel_timer);
         progressBar = findViewById(R.id.progress_bar_timer);
-        seekBar = findViewById(R.id.seek_bar_speed_rate);
 
         setting = findViewById(R.id.setting);
         timer = findViewById(R.id.timer);
@@ -356,7 +361,6 @@ public class TimeoutActivity extends AppCompatActivity {
 
     private void startTimer() {
         if (timeoutManager.isFirstState()) {
-            seekBar.setProgress(timeoutManager.getCurrentRate().ordinal());
             NumberPicker numberPicker = findViewById(R.id.number_picker_hour);
             NumberPicker numberPicker2 = findViewById(R.id.number_picker_min);
             NumberPicker numberPicker3 = findViewById(R.id.number_picker_sec);
@@ -369,6 +373,7 @@ public class TimeoutActivity extends AppCompatActivity {
                     (Long.parseLong(sSecond) * TimeConverter.getSecondInMilSeconds()));
             timeoutManager.setTempTime(timeoutManager.getTimeChosen());
             setProgressBar();
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
         startServiceSpeedRateChanged(timeoutManager.getTempTime());
@@ -386,11 +391,15 @@ public class TimeoutActivity extends AppCompatActivity {
         timeoutManager.setTimerRunning(false);
         timeoutManager.setPauseClicked(false);
         timeoutManager.setCurrentRate(SpeedRate.HUNDRED);
-        seekBar.setProgress(timeoutManager.getCurrentRate().ordinal());
         countdownText.setText("");
         switchSettingDisplay();
         removeNotification();
+        allowScreenSleep();
         Log.d("Cancel Timer", String.valueOf(timeoutManager.getTempTime()));
+    }
+
+    private void allowScreenSleep() {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
     }
 
     private void removeNotification() {
