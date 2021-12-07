@@ -61,7 +61,8 @@
         <a href="https://github.com/lopspower/CircularImageView">Circular Imageview Library</a>\n
         <a href="https://en.wikipedia.org/wiki/Quarter_(Canadian_coin)#/media/File:Quarter_Obverse_2010.png">Coin Image</a>\n
         <a href="https://unsplash.com/photos/TEmj-jIovk4">Light Mode Background</a>\n
-        <a href="https://unsplash.com/photos/Uf-_p8zZiT8">Dark Mode Background</a>
+        <a href="https://unsplash.com/photos/Uf-_p8zZiT8">Dark Mode Background</a>\n
+        <a href="https://www.youtube.com/watch?v=3uFWnIGmiMQ">Breathing Sounds</a>
     </string>
     <string name="choose_image">Choose Image</string>
     <string name="use_camera">Use camera</string>
@@ -71,9 +72,9 @@
     <string name="text_breath_picker_bottom_idle">breaths together</string>
     <string name="text_breath_picker_top_active">There are</string>
     <string name="text_breath_picker_bottom_active">breaths remaining</string>
-    <string name="button_breath_exhale_label">Exhale</string>
+    <string name="button_breath_exhale_label">Out</string>
     <string name="button_breath_finish_label">Good job!</string>
-    <string name="button_breath_inhale_label">Inhale</string>
+    <string name="button_breath_inhale_label">In</string>
     <string name="button_breath_begin_label">Begin</string>
     <string name="text_breath_help_begin">Select number of breaths and press the button to start</string>
     <string name="text_breath_help_inhale_start">Hold down the button and breath in</string>
@@ -88,5 +89,12 @@
     <string name="text_breath_history_header">In total you have taken</string>
     <string name="title_breath_history_frag">Breath History</string>
     <string name="button_positive_breath_history">Neat</string>
-    <string name="_100">Speed Rate : 100%</string>
+    <string name="cd_button_increase_breath">Increase breaths</string>
+    <string name="cd_button_decrease_breath">Decrease breaths</string>
+    <string name="cd_breath_circle">Breathing animation image</string>
+    <string name="button_home_children">Children</string>
+    <string name="button_home_timeout">Timeout</string>
+    <string name="button_home_coinflip">Coinflip</string>
+    <string name="button_home_tasks">Tasks</string>
+    <string name="button_home_breath">Breath</string>
 </resources>

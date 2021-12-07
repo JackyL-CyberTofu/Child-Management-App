@@ -56,7 +56,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ca.sfu.cmpt276.be.parentapp.databinding.ActivityCoinflipBinding binding = ActivityCoinflipBinding.inflate(getLayoutInflater());
+        ActivityCoinflipBinding binding = ActivityCoinflipBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
@@ -107,7 +107,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
         return super.onOptionsItemSelected(item);
     }
 
-    public void verifyListEmpty () {
+    public void verifyListEmpty() {
         if (childManager.isEmpty()) {
             userOverride = true;
         }
@@ -199,28 +199,11 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.item_coinflip);
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            bottomNavigationView.postDelayed(() -> {
-                int id = item.getItemId();
-                if (id == R.id.item_home){
-                    finish();
-                    overridePendingTransition(0, 0);
-                } else if (id == R.id.item_timeout){
-                    startActivity(new Intent(getApplicationContext(), TimeoutActivity.class));
-                    overridePendingTransition(0, 0);
-                    finish();
-                } else if (id == R.id.item_child){
-                    startActivity(new Intent(getApplicationContext(), ChildListActivity.class));
-                    overridePendingTransition(0, 0);
-                    finish();
-                } else if (id == R.id.item_tasks){
-                    startActivity(new Intent(getApplicationContext(), TaskListActivity.class));
-                    overridePendingTransition(0, 0);
-                    finish();
-                }
-            },0);
+            bottomNavigationView.postDelayed(() -> MainActivity.navigate(this, item, R.id.item_coinflip), 0);
             return true;
         });
     }
+
     private class SpinnerListener implements android.widget.AdapterView.OnItemSelectedListener {
 
 
@@ -230,13 +213,13 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
                 coinFlipManager.moveToFrontQueue(i);
                 userOverride = false;
                 spinner.setSelection(0);
-            }
-            else {
+            } else {
                 userOverride = true;
             }
             verifyListEmpty();
             updateUIElements();
         }
+
         @Override
         public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -254,6 +237,7 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
         public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
             return getCustomView(position, parent);
         }
+
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             return getCustomView(position, parent);

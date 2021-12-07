@@ -3,6 +3,22 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/drawable-night/ic_baseline_help_outline_24.xml" value="0.2953125" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/drawable-night/ic_baseline_people_24.xml" value="0.31302083333333336" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/drawable-night/rounded_rectangle.xml" value="0.2953125" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/drawable/breath_button.xml" value="0.28888888888888886" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/drawable/breath_circle.xml" value="0.2625" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/drawable/breath_circle_begin.xml" value="0.2953125" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/drawable/breath_circle_exhale.xml" value="0.2953125" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/drawable/breath_circle_inhale.xml" value="0.2953125" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/drawable/breath_circle_shadow.xml" value="0.2953125" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/drawable/ic_baseline_help_outline_24.xml" value="0.2953125" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/drawable/ic_baseline_highlight_off_24.xml" value="0.2953125" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/drawable/ic_baseline_nature_people_24.xml" value="0.31302083333333336" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/drawable/ic_baseline_nature_people_24_night.xml" value="0.31302083333333336" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/drawable/ic_baseline_people_24.xml" value="0.31302083333333336" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/drawable/rounded_rectangle.xml" value="0.2953125" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_breath.xml" value="0.5" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_child_config.xml" value="0.17831813576494426" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_child_list.xml" value="0.21693840579710144" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_coin_flip_history.xml" value="0.2953125" />
@@ -14,12 +30,15 @@
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_task_edit.xml" value="0.2953125" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_task_list.xml" value="0.21693840579710144" />
-        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_timeout.xml" value="0.25" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/activity_timeout.xml" value="0.5" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/breath_history_layout.xml" value="0.33" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/layout_child_item.xml" value="0.17760416666666667" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/layout_coinflip.xml" value="0.2953125" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/layout_standard.xml" value="0.2953125" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/layout/layout_task.xml" value="0.22760416666666666" />
         <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/menu/coinflip.xml" value="0.2953125" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/menu/menu_navigation.xml" value="0.29635416666666664" />
+        <entry key="..\:/JavaProjects/Fall2021/CMPT276/Project/app/src/main/res/menu/save_delete_appbar.xml" value="0.25925925925925924" />
         <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/drawable-v24/ic_baseline_timer_24.xml" value="0.2984375" />
         <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2552083333333333" />
         <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2552083333333333" />
@@ -35,7 +54,7 @@
         <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_main.xml" value="0.2390625" />
         <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_task_edit.xml" value="0.259963768115942" />
         <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_task_list.xml" value="0.259963768115942" />
-        <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_timeout.xml" value="0.6" />
+        <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_timeout.xml" value="0.2390625" />
         <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/layout_child_item.xml" value="0.2390625" />
         <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/layout_coinflip.xml" value="0.259963768115942" />
         <entry key="..\:/Users/6youw/AndroidStudioProjects/ParentApp/app/src/main/res/layout/layout_coinflip_modified.xml" value="0.259963768115942" />
@@ -53,9 +72,11 @@
         <entry key="app/src/main/res/layout/activity_coinflip.xml" value="0.16639254385964913" />
         <entry key="app/src/main/res/layout/activity_edit_child.xml" value="0.1411629686304514" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.625" />
+        <entry key="app/src/main/res/layout/activity_task_edit.xml" value="0.12545289855072464" />
         <entry key="app/src/main/res/layout/activity_timeout.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_view.xml" value="0.1411629686304514" />
         <entry key="app/src/main/res/layout/layout_child_item.xml" value="0.1411629686304514" />
+        <entry key="app/src/main/res/layout/layout_standard.xml" value="0.1899696048632219" />
       </map>
     </option>
   </component>

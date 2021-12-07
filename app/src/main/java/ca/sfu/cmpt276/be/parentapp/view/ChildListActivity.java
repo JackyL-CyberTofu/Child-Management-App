@@ -1,9 +1,5 @@
 package ca.sfu.cmpt276.be.parentapp.view;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +11,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback;
@@ -22,9 +22,9 @@ import com.google.android.material.transition.platform.MaterialContainerTransfor
 import java.util.Objects;
 
 import ca.sfu.cmpt276.be.parentapp.R;
+import ca.sfu.cmpt276.be.parentapp.controller.ChildManager;
 import ca.sfu.cmpt276.be.parentapp.controller.ImageManager;
 import ca.sfu.cmpt276.be.parentapp.model.Child;
-import ca.sfu.cmpt276.be.parentapp.controller.ChildManager;
 
 /**
  * ChildListActivity shows all the Children stored in the app.
@@ -72,26 +72,7 @@ public class ChildListActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.item_child);
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            bottomNavigationView.postDelayed(() -> {
-                int id = item.getItemId();
-                if (id == R.id.item_home){
-                    finish();
-                    overridePendingTransition(0, 0);
-                } else if (id == R.id.item_timeout){
-                    startActivity(new Intent(getApplicationContext(), TimeoutActivity.class));
-                    overridePendingTransition(0, 0);
-                    finish();
-                } else if (id == R.id.item_tasks){
-                    startActivity(new Intent(getApplicationContext(), TaskListActivity.class));
-                    overridePendingTransition(0, 0);
-                    finish();
-                } else if (id == R.id.item_coinflip){
-                    startActivity(new Intent(getApplicationContext(), CoinFlipActivity.class));
-                    overridePendingTransition(0, 0);
-                    finish();
-                }
-
-            },0);
+            bottomNavigationView.postDelayed(() -> MainActivity.navigate(this, item, R.id.item_child),0);
             return true;
         });
     }

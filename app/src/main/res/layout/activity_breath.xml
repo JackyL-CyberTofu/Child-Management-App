@@ -6,14 +6,63 @@
     android:layout_height="match_parent"
     tools:context=".view.BreathActivity">
 
+    <ImageView
+        android:id="@+id/image_breath_circle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha=".25"
+        android:backgroundTint="#40000000"
+        android:contentDescription="@string/cd_breath_circle"
+        app:layout_constraintBottom_toBottomOf="@+id/button_breath"
+        app:layout_constraintEnd_toEndOf="@+id/button_breath"
+        app:layout_constraintStart_toStartOf="@+id/button_breath"
+        app:layout_constraintTop_toTopOf="@+id/button_breath"
+        app:srcCompat="@drawable/breath_circle_shadow" />
+
+    <ImageView
+        android:id="@+id/image_breath_begin"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/breath_circle_begin"
+        app:layout_constraintBottom_toBottomOf="@+id/button_breath"
+        app:layout_constraintEnd_toEndOf="@+id/button_breath"
+        app:layout_constraintStart_toStartOf="@+id/button_breath"
+        app:layout_constraintTop_toTopOf="@+id/button_breath"
+        app:srcCompat="@drawable/breath_circle_begin"
+        android:contentDescription="@string/cd_breath_circle" />
+
+    <ImageView
+        android:id="@+id/image_breath_exhale"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/breath_circle_exhale"
+        app:layout_constraintBottom_toBottomOf="@+id/button_breath"
+        app:layout_constraintEnd_toEndOf="@+id/button_breath"
+        app:layout_constraintStart_toStartOf="@+id/button_breath"
+        app:layout_constraintTop_toTopOf="@+id/button_breath"
+        app:srcCompat="@drawable/breath_circle_exhale"
+        android:contentDescription="@string/cd_breath_circle" />
+
+    <ImageView
+        android:id="@+id/image_breath_inhale"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/breath_circle_inhale"
+        app:layout_constraintBottom_toBottomOf="@+id/button_breath"
+        app:layout_constraintEnd_toEndOf="@+id/button_breath"
+        app:layout_constraintStart_toStartOf="@+id/button_breath"
+        app:layout_constraintTop_toTopOf="@+id/button_breath"
+        app:srcCompat="@drawable/breath_circle_inhale"
+        android:contentDescription="@string/cd_breath_circle" />
+
     <Button
         android:id="@+id/button_breath"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:background="@drawable/breath_circle"
+        android:backgroundTint="#00FFFFFF"
+        android:background="@android:color/transparent"
         android:foreground="?android:attr/selectableItemBackground"
-        android:textSize="24sp"
-        android:theme="@android:style/ThemeOverlay.Material.Dark"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -43,18 +92,19 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_breath"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/button_breath">
 
         <TextView
             android:id="@+id/text_breaths_label_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:labelFor="@+id/field_breaths"
             android:text="@string/text_breath_picker_top_idle"
             android:textAlignment="center"
             android:textSize="20sp" />
@@ -72,6 +122,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="@color/PaleBlue"
+                android:contentDescription="@string/cd_button_decrease_breath"
                 app:icon="@drawable/ic_baseline_keyboard_arrow_down_24_white"
                 app:srcCompat="@drawable/ic_baseline_keyboard_arrow_down_24_white" />
 
@@ -83,6 +134,7 @@
                 android:layout_marginEnd="15dp"
                 android:layout_weight="1"
                 android:ems="10"
+                android:importantForAutofill="no"
                 android:inputType="number"
                 android:textAlignment="center" />
 
@@ -92,6 +144,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="@color/PaleBlue"
+                android:contentDescription="@string/cd_button_increase_breath"
                 app:icon="@drawable/ic_baseline_keyboard_arrow_up_24_white"
                 app:srcCompat="@drawable/ic_baseline_keyboard_arrow_up_24_white" />
 
@@ -102,10 +155,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:labelFor="@+id/field_breaths"
             android:text="@string/text_breath_picker_bottom_idle"
             android:textAlignment="center"
             android:textSize="20sp" />
     </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bottom_navigation"
+        app:menu="@menu/menu_navigation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
