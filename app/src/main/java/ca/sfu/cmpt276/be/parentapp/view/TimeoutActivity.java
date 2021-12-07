@@ -170,7 +170,7 @@ public class TimeoutActivity extends AppCompatActivity {
         serviceIntent.putExtra("Time", tempTimeConverted);
         startService(serviceIntent);
 
-        stopButton.setText(R.string.pause);
+        stopButton.setText(R.string.button_stop_time);
         timeoutManager.setTimerRunning(true);
         timeoutManager.setFirstState(false);
         timeoutManager.setPauseClicked(false);
@@ -378,7 +378,7 @@ public class TimeoutActivity extends AppCompatActivity {
         stopService(new Intent(getApplicationContext(), TimeoutService.class));
         timeoutManager.setTimerRunning(false);
         timeoutManager.setPauseClicked(true);
-        stopButton.setText(R.string.resume);
+        stopButton.setText(R.string.button_resume_time);
     }
 
     private void cancelTimer() {

@@ -27,7 +27,6 @@ import java.util.Objects;
 
 import ca.sfu.cmpt276.be.parentapp.R;
 import ca.sfu.cmpt276.be.parentapp.controller.ChildManager;
-import ca.sfu.cmpt276.be.parentapp.controller.DataManager;
 import ca.sfu.cmpt276.be.parentapp.controller.ImageManager;
 import ca.sfu.cmpt276.be.parentapp.model.Child;
 
@@ -117,7 +116,7 @@ public class ChildEditActivity extends AppCompatActivity{
         String newName = childNameEditText.getText().toString();
 
         if (newName.isEmpty()) {
-            Toast.makeText(this, "Please enter a name for the child.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.warning_empty_child), Toast.LENGTH_SHORT).show();
         } else {
             save(newName);
             finish();
@@ -146,7 +145,6 @@ public class ChildEditActivity extends AppCompatActivity{
 
     private void deleteAndExit() {
         ImageManager imageManager = new ImageManager();
-        DataManager dataManager = DataManager.getInstance();
 
         if (doEdit) {
             deleteExistingChild();
@@ -242,16 +240,16 @@ public class ChildEditActivity extends AppCompatActivity{
 
     private void generateWarningDialog() {
         new MaterialAlertDialogBuilder(ChildEditActivity.this)
-                .setTitle("Error")
-                .setMessage("Unable to save image")
+                .setTitle(R.string.dialog_error_title)
+                .setMessage(R.string.dialog_error_body)
                 .setPositiveButton(android.R.string.ok, null)
                 .show();
     }
 
     private void generateDeleteWarnDialog() {
         new MaterialAlertDialogBuilder(ChildEditActivity.this)
-                .setTitle("Deleting Child")
-                .setMessage("Are you sure you want to do this?")
+                .setTitle(R.string.dialog_warn_title)
+                .setMessage(R.string.dialog_warn_body)
                 .setPositiveButton(android.R.string.ok, (dialog, which) -> deleteAndExit())
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
@@ -260,8 +258,8 @@ public class ChildEditActivity extends AppCompatActivity{
     private void generateBackWarnDialog() {
         if (didUserEdit) {
             new MaterialAlertDialogBuilder(ChildEditActivity.this)
-                    .setTitle("Discard Changes")
-                    .setMessage("Changes will not be saved, are you sure?")
+                    .setTitle(R.string.dialog_discard_title)
+                    .setMessage(R.string.dialog_discard_body)
                     .setPositiveButton(android.R.string.ok, (dialog, which) -> exitWithBack())
                     .setNegativeButton(android.R.string.cancel, null)
                     .show();

@@ -137,9 +137,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-
-
     private void loadData() {
         DataManager.getInstance().deserializeData();
     }

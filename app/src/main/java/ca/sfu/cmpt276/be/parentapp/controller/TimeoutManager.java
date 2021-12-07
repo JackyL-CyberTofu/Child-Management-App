@@ -5,7 +5,6 @@ import ca.sfu.cmpt276.be.parentapp.model.SpeedRate;
 /**
  * TimeoutManager contains a data to deal with countdown timer feature.
  */
-
 public class TimeoutManager {
     private static TimeoutManager instance;
     private boolean isTimerRunning = false;

@@ -34,7 +34,7 @@ public class TaskListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list);
 
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Tasks");
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.appbar_list_task);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         showTasks();

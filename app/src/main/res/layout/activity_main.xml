@@ -59,13 +59,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/ic_baseline_people_24"
-                        android:contentDescription="@string/children" />
+                        android:contentDescription="@string/button_child_title" />
 
                     <TextView
                         android:id="@+id/text_child_nav"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/children" />
+                        android:text="@string/button_child_title" />
 
                 </LinearLayout>
 
@@ -93,13 +93,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/ic_baseline_access_time_24"
-                        android:contentDescription="@string/timeout" />
+                        android:contentDescription="@string/button_timeout_title" />
 
                     <TextView
                         android:id="@+id/text_timeout_nav"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/timeout" />
+                        android:text="@string/button_timeout_title" />
 
                 </LinearLayout>
 
@@ -139,13 +139,13 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:background="@drawable/ic_baseline_circle_24"
-                        android:contentDescription="@string/coinflip" />
+                        android:contentDescription="@string/button_coinflip_title" />
 
                     <TextView
                         android:id="@+id/text_coinflip_nav"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/coinflip" />
+                        android:text="@string/button_coinflip_title" />
 
                 </LinearLayout>
 

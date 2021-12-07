@@ -32,7 +32,9 @@ import java.util.TimerTask;
 import ca.sfu.cmpt276.be.parentapp.R;
 import ca.sfu.cmpt276.be.parentapp.controller.DataManager;
 
-
+/**
+ * BreathActivity leads the user through deep breathing exercises. Implemented with states.
+ */
 public class BreathActivity extends AppCompatActivity {
     public static final int EXHALE_TIME = 3000;
     public static final int INHALE_TIME = 3000;
