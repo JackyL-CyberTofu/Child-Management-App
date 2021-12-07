@@ -15,10 +15,8 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import ca.sfu.cmpt276.be.parentapp.R;
-import ca.sfu.cmpt276.be.parentapp.controller.AlarmService;
 import ca.sfu.cmpt276.be.parentapp.model.SpeedRate;
 import ca.sfu.cmpt276.be.parentapp.model.TimeConverter;
-import ca.sfu.cmpt276.be.parentapp.controller.TimeoutManager;
 import ca.sfu.cmpt276.be.parentapp.view.TimeoutActivity;
 
 /**
@@ -131,7 +129,7 @@ public class TimeoutService extends Service {
                         .setContentText("Time's up!")
                         .setContentIntent(pendingIntent)
                         .setPriority(NotificationCompat.PRIORITY_MAX)
-                        .addAction(R.drawable.ic_stop_alarm, getString(R.string.dismiss), stopAlarmPendingIntent)
+                        .addAction(R.drawable.ic_stop_alarm, getString(R.string.notification_dismiss_title), stopAlarmPendingIntent)
                         .setAutoCancel(true);
                 // Notification Channel
                 createNotificationChannel();
