@@ -108,4 +108,5 @@
     <string name="appbar_coinflip_history">History</string>
     <string name="appbar_timeout">Timeout</string>
     <string name="appbar_coinflip">Coin Flip</string>
+    <string name="task_history_label">Completion History</string>
 </resources>
