@@ -188,6 +188,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:id="@+id/text_speed_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="116dp"
+            android:text="@string/text_default_speed_rate"
+            android:textColor="@android:color/darker_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_3"
             android:layout_width="wrap_content"
@@ -229,18 +240,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.50" />
-
-        <SeekBar
-            android:id="@+id/seek_bar_speed_rate"
-            style="@style/Widget.AppCompat.SeekBar.Discrete"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:max="6"
-            android:progress="3"
-            app:layout_constraintBottom_toTopOf="@+id/guideline_7"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline_6" />
 
         <ProgressBar
             android:id="@+id/progress_bar_timer"
@@ -294,17 +293,6 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/button_pause_timer"
             app:layout_constraintTop_toTopOf="@+id/guideline_5" />
-
-
-        <TextView
-            android:id="@+id/text_speed_rate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_default_speed_rate"
-            app:layout_constraintBottom_toTopOf="@+id/guideline_8"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline_7" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
