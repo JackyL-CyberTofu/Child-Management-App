@@ -88,4 +88,5 @@
     <string name="text_breath_history_header">In total you have taken</string>
     <string name="title_breath_history_frag">Breath History</string>
     <string name="button_positive_breath_history">Neat</string>
+    <string name="_100">Speed Rate : 100%</string>
 </resources>

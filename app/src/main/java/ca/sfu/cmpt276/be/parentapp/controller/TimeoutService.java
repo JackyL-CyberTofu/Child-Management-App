@@ -16,6 +16,7 @@ import androidx.core.app.NotificationManagerCompat;
 
 import ca.sfu.cmpt276.be.parentapp.R;
 import ca.sfu.cmpt276.be.parentapp.controller.AlarmService;
+import ca.sfu.cmpt276.be.parentapp.model.SpeedRate;
 import ca.sfu.cmpt276.be.parentapp.model.TimeConverter;
 import ca.sfu.cmpt276.be.parentapp.controller.TimeoutManager;
 import ca.sfu.cmpt276.be.parentapp.view.TimeoutActivity;
@@ -77,7 +78,8 @@ public class TimeoutService extends Service {
                 PendingIntent pendingIntent = stackBuilder.getPendingIntent(1, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 // Calculate the time left
-                String updatedTime = TimeConverter.toStringForMilSeconds(millisecondsLeft + TimeConverter.getSecondInMilSeconds());
+                long timeLeftConverted = (long) TimeConverter.getRelativeTimeLeft(millisecondsLeft, TimeoutManager.getInstance().getCurrentRate());
+                String updatedTime = TimeConverter.toStringForMilSeconds(timeLeftConverted + TimeConverter.getSecondInMilSeconds());
 
                 // Create a notification for Showing time left.
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "TIMER")
@@ -99,6 +101,8 @@ public class TimeoutService extends Service {
                 TimeoutManager timeoutManager = TimeoutManager.getInstance();
                 timeoutManager.setAlarmRunning(true);
                 timeoutManager.setTimerRunning(false);
+                timeoutManager.setCurrentRate(SpeedRate.HUNDRED);
+                timeoutManager.setPauseClicked(false);
                 Intent finishIntent = new Intent("TIME_OUT");
                 sendBroadcast(finishIntent);
 

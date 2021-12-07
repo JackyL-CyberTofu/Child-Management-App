@@ -1,5 +1,7 @@
 package ca.sfu.cmpt276.be.parentapp.controller;
 
+import ca.sfu.cmpt276.be.parentapp.model.SpeedRate;
+
 /**
  * TimeoutManager contains a data to deal with countdown timer feature.
  */
@@ -7,8 +9,10 @@ package ca.sfu.cmpt276.be.parentapp.controller;
 public class TimeoutManager {
     private static TimeoutManager instance;
     private boolean isTimerRunning = false;
+    private boolean isPauseClicked = false;
     private boolean firstState = true;
     private boolean isAlarmRunning = false;
+    private SpeedRate currentRate = SpeedRate.HUNDRED;
 
     private long timeChosen = 0;
     private long tempTime = 0;
@@ -58,5 +62,21 @@ public class TimeoutManager {
 
     public void setFirstState(boolean firstState) {
         this.firstState = firstState;
+    }
+
+    public SpeedRate getCurrentRate() {
+        return currentRate;
+    }
+
+    public void setCurrentRate(SpeedRate currentRate) {
+        this.currentRate = currentRate;
+    }
+
+    public boolean isPauseClicked() {
+        return isPauseClicked;
+    }
+
+    public void setPauseClicked(boolean pauseClicked) {
+        isPauseClicked = pauseClicked;
     }
 }

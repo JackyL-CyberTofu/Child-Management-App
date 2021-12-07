@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -33,6 +34,7 @@ import java.util.Objects;
 import ca.sfu.cmpt276.be.parentapp.controller.AlarmService;
 import ca.sfu.cmpt276.be.parentapp.R;
 import ca.sfu.cmpt276.be.parentapp.controller.TimeoutService;
+import ca.sfu.cmpt276.be.parentapp.model.SpeedRate;
 import ca.sfu.cmpt276.be.parentapp.model.TimeConverter;
 import ca.sfu.cmpt276.be.parentapp.controller.TimeoutManager;
 
@@ -40,15 +42,18 @@ import ca.sfu.cmpt276.be.parentapp.controller.TimeoutManager;
  * TimeoutActivity manages the timeout screen in the app.
  */
 public class TimeoutActivity extends AppCompatActivity {
+    public static final String String_Speed_Rate = "Speed Rate : ";
     private ConstraintLayout setting;
     private ConstraintLayout timer;
     private TextView countdownText;
     private Button startButton;
     private Button stopButton;
     private Button cancelButton;
+    private ProgressBar progressBar;
+    private SeekBar seekBar;
 
     private TimeoutManager timeoutManager;
-    private ProgressBar progressBar;
+
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, TimeoutActivity.class);
@@ -61,11 +66,11 @@ public class TimeoutActivity extends AppCompatActivity {
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.i("Broadcast Received", String.valueOf(intent.getAction()));
+            //Log.i("Broadcast Received", String.valueOf(intent.getAction()));
             String action = intent.getAction();
             switch(action) {
                 case "TIME_TICKED":
-                    Log.i("Ticking", String.valueOf(intent.getAction()));
+                    //Log.i("Ticking", String.valueOf(intent.getAction()));
                     updateGUI(intent);
                     break;
                 case "TIME_OUT":
@@ -114,10 +119,57 @@ public class TimeoutActivity extends AppCompatActivity {
             cancelTimer();
         });
 
-        if (timeoutManager.isTimerRunning()) {
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                SpeedRate rateChosen = SpeedRate.values()[i];
+
+                // Update speed rate text in the activity
+                TextView textView = findViewById(R.id.text_speed_rate);
+                String rateInText = String_Speed_Rate + rateChosen.toString();
+                textView.setText(rateInText);
+
+                // Kill Service First
+                stopTimer();
+
+                // Update TempTime
+                if(!timeoutManager.isFirstState()){
+                    Log.d("get Temp Time",String.valueOf((long) (TimeConverter.getRelativeTimeLeft(timeoutManager.getCurrentRate(), rateChosen)) * timeoutManager.getTempTime()));
+                    long tempTimeConverted = (long) (TimeConverter.getRelativeTimeLeft(timeoutManager.getCurrentRate(), rateChosen) * timeoutManager.getTempTime());
+                    //timeoutManager.setTempTime(tempTimeConverted);
+                    timeoutManager.setCurrentRate(rateChosen);
+
+
+                    Intent serviceIntent = new Intent(getApplicationContext(), TimeoutService.class);
+                    serviceIntent.setAction("START_TIMING");
+                    serviceIntent.putExtra("Time", tempTimeConverted);
+                    startService(serviceIntent);
+                    Log.d("Service when progress bar", "hqqq");
+
+                    stopButton.setText(R.string.pause);
+                    timeoutManager.setTimerRunning(true);
+                    timeoutManager.setFirstState(false);
+                    timeoutManager.setPauseClicked(false);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        if (timeoutManager.isTimerRunning() || timeoutManager.isPauseClicked()) {
             switchTimerDisplay();
             setProgressBar();
-            updateProgressBar();
+
+            long timeLeftConverted = (long) TimeConverter.getRelativeTimeLeft(timeoutManager.getTempTime(), timeoutManager.getCurrentRate());
+            updateProgressBar(timeLeftConverted);
         } else {
             switchSettingDisplay();
         }
@@ -132,7 +184,15 @@ public class TimeoutActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (timeoutManager.isTimerRunning()) {
+        seekBar.setProgress(timeoutManager.getCurrentRate().ordinal());
+
+        Long timeLeftConverted = timeoutManager.getTempTime();
+        timeLeftConverted = (long) TimeConverter.getRelativeTimeLeft(timeLeftConverted, timeoutManager.getCurrentRate());
+        String updatedTime = TimeConverter.toStringForMilSeconds(timeLeftConverted +
+                TimeConverter.getSecondInMilSeconds());
+        countdownText.setText(updatedTime);
+
+        if (timeoutManager.isTimerRunning() || timeoutManager.isPauseClicked()) {
             switchTimerDisplay();
         } else {
             switchSettingDisplay();
@@ -248,11 +308,14 @@ public class TimeoutActivity extends AppCompatActivity {
 
     private void updateGUI(Intent intent) {
         Bundle bundle = intent.getExtras();
-        timeoutManager.setTempTime((long) bundle.get("TimeLeft"));
-        String updatedTime = TimeConverter.toStringForMilSeconds(timeoutManager.getTempTime() +
+        long timeLeftConverted = (long) bundle.get("TimeLeft");
+        //Log.d("GUI",String.valueOf(timeLeftConverted));
+        timeoutManager.setTempTime(timeLeftConverted);
+        timeLeftConverted = (long) TimeConverter.getRelativeTimeLeft(timeLeftConverted, timeoutManager.getCurrentRate());
+        String updatedTime = TimeConverter.toStringForMilSeconds(timeLeftConverted +
                 TimeConverter.getSecondInMilSeconds());
         countdownText.setText(updatedTime);
-        updateProgressBar();
+        updateProgressBar(timeLeftConverted);
     }
 
     private void switchSettingDisplay() {
@@ -270,8 +333,8 @@ public class TimeoutActivity extends AppCompatActivity {
         progressBar.setProgress((int) timeoutManager.getTimeChosen());
     }
 
-    private void updateProgressBar(){
-        progressBar.setProgress((int) timeoutManager.getTempTime());
+    private void updateProgressBar(long timeLeftConverted){
+        progressBar.setProgress((int) timeLeftConverted);
     }
 
     private void assignViewComponents() {
@@ -280,6 +343,7 @@ public class TimeoutActivity extends AppCompatActivity {
         stopButton = findViewById(R.id.button_pause_timer);
         cancelButton = findViewById(R.id.button_cancel_timer);
         progressBar = findViewById(R.id.progress_bar_timer);
+        seekBar = findViewById(R.id.seek_bar_speed_rate);
 
         setting = findViewById(R.id.setting);
         timer = findViewById(R.id.timer);
@@ -298,6 +362,7 @@ public class TimeoutActivity extends AppCompatActivity {
 
     private void startTimer() {
         if (timeoutManager.isFirstState()) {
+            seekBar.setProgress(timeoutManager.getCurrentRate().ordinal());
             NumberPicker numberPicker = findViewById(R.id.number_picker_hour);
             NumberPicker numberPicker2 = findViewById(R.id.number_picker_min);
             NumberPicker numberPicker3 = findViewById(R.id.number_picker_sec);
@@ -310,34 +375,38 @@ public class TimeoutActivity extends AppCompatActivity {
                     (Long.parseLong(sSecond) * TimeConverter.getSecondInMilSeconds()));
             timeoutManager.setTempTime(timeoutManager.getTimeChosen());
             setProgressBar();
-        } else {
-            timeoutManager.setTimeChosen(timeoutManager.getTempTime());
         }
 
-        Intent serviceIntent = new Intent(this, TimeoutService.class);
+        Intent serviceIntent = new Intent(getApplicationContext(), TimeoutService.class);
         serviceIntent.setAction("START_TIMING");
-        serviceIntent.putExtra("Time", timeoutManager.getTimeChosen());
+        serviceIntent.putExtra("Time", timeoutManager.getTempTime());
         startService(serviceIntent);
+        Log.d("Service when using startTimerMethod()", "hqqq");
 
         stopButton.setText(R.string.pause);
         timeoutManager.setTimerRunning(true);
         timeoutManager.setFirstState(false);
+        timeoutManager.setPauseClicked(false);
     }
 
     private void stopTimer() {
-        Log.d("stopTimer", String.valueOf(timeoutManager.getTempTime()));
-        stopService(new Intent(this, TimeoutService.class));
+        stopService(new Intent(getApplicationContext(), TimeoutService.class));
         timeoutManager.setTimerRunning(false);
+        timeoutManager.setPauseClicked(true);
         stopButton.setText(R.string.resume);
+        //Log.d("Time left from stopTimer", String.valueOf(timeoutManager.getTempTime()));
     }
 
     private void cancelTimer() {
-        stopService(new Intent(this, TimeoutService.class));
+        stopService(new Intent(getApplicationContext(), TimeoutService.class));
         timeoutManager.setTimerRunning(false);
+        timeoutManager.setPauseClicked(false);
+        timeoutManager.setCurrentRate(SpeedRate.HUNDRED);
+        seekBar.setProgress(timeoutManager.getCurrentRate().ordinal());
         countdownText.setText("");
         switchSettingDisplay();
-
         removeNotification();
+        Log.d("Cancel Timer", String.valueOf(timeoutManager.getTempTime()));
     }
 
     private void removeNotification() {
