@@ -172,10 +172,10 @@ public class TimeoutActivity extends AppCompatActivity {
 
     private void popUpAlarmTurningOffDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(TimeoutActivity.this);
-        builder.setTitle("Time's up!");
-        builder.setMessage("You can turn off the alarm by clicking Yes button");
+        builder.setTitle(R.string.dialog_time_title);
+        builder.setMessage(R.string.dialog_time_body);
         builder.setIcon(R.drawable.ic_baseline_timer_24);
-        builder.setPositiveButton("Yes", (dialogInterface, i) -> {
+        builder.setPositiveButton(android.R.string.yes, (dialogInterface, i) -> {
             stopService(new Intent(getApplicationContext(), AlarmService.class));
             removeNotifications();
             TimeoutManager timeoutManager = TimeoutManager.getInstance();
@@ -319,7 +319,7 @@ public class TimeoutActivity extends AppCompatActivity {
         serviceIntent.putExtra("Time", timeoutManager.getTimeChosen());
         startService(serviceIntent);
 
-        stopButton.setText(R.string.pause);
+        stopButton.setText(R.string.button_stop_time);
         timeoutManager.setTimerRunning(true);
         timeoutManager.setFirstState(false);
     }
@@ -328,7 +328,7 @@ public class TimeoutActivity extends AppCompatActivity {
         Log.d("stopTimer", String.valueOf(timeoutManager.getTempTime()));
         stopService(new Intent(this, TimeoutService.class));
         timeoutManager.setTimerRunning(false);
-        stopButton.setText(R.string.resume);
+        stopButton.setText(R.string.button_resume_time);
     }
 
     private void cancelTimer() {

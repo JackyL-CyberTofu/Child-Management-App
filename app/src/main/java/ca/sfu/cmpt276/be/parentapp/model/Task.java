@@ -1,13 +1,9 @@
 package ca.sfu.cmpt276.be.parentapp.model;
 
-import android.content.res.Resources;
-import android.provider.ContactsContract;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-import ca.sfu.cmpt276.be.parentapp.R;
 import ca.sfu.cmpt276.be.parentapp.controller.DataManager;
 
 /**
@@ -47,7 +43,7 @@ public class Task {
     public Child getTaskedChild() {
         ArrayList<Child> childList = DataManager.getInstance().getChildList();
         if (childList.isEmpty()) {
-            return new Child("No Children Found (You should fix this layer)");
+            return new Child("No Children Found");
         }
 
         if (taskChildIndex >= childList.size()) {

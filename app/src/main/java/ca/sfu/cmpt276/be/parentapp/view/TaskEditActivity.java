@@ -134,11 +134,11 @@ public class TaskEditActivity extends AppCompatActivity {
     }
 
     private void setUpAppBar() {
-        Objects.requireNonNull(getSupportActionBar()).setTitle("New Task");
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.appbar_add_task);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (isExistingTask) {
-            Objects.requireNonNull(getSupportActionBar()).setTitle("Task");
+            Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.appbar_edit_task);
         }
     }
 
@@ -160,7 +160,7 @@ public class TaskEditActivity extends AppCompatActivity {
         String newName = taskName.getText().toString();
 
         if (newName.isEmpty()) {
-            Toast.makeText(this, "Please enter a name for the task.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.warning_empty_task), Toast.LENGTH_SHORT).show();
         } else {
             save(newName);
             finish();
