@@ -37,7 +37,7 @@ public class TimeConverter {
         // Relative time Left compared to the rate speed rate of 100%
         double timeLeftDouble = (double) timeLeft;
         switch(rate) {
-            case TWNETY_FIVE:
+            case TWENTY_FIVE:
                 timeLeftDouble = timeLeftDouble / 4;
                 break;
             case FIFTY:
@@ -65,7 +65,7 @@ public class TimeConverter {
         // Relative time Left compared to the rate speed rate of 100%
         double timeLeftDouble = (double) timeLeft;
         switch(rate) {
-            case TWNETY_FIVE:
+            case TWENTY_FIVE:
                 timeLeftDouble = timeLeftDouble * 4;
                 break;
             case FIFTY:
@@ -116,7 +116,7 @@ public class TimeConverter {
 
     public static int getSpeedRateInPercentage(SpeedRate rate) {
         switch(rate) {
-            case TWNETY_FIVE:
+            case TWENTY_FIVE:
                 return TWENTY_FIVE_INT;
             case FIFTY:
                 return FIFTY_INT;
