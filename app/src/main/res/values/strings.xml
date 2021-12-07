@@ -5,7 +5,7 @@
     <string name="add_button_description">Add new child</string>
     <string name="button_child_title">Children</string>
     <string name="button_timeout_title">Timeout</string>
-    <string name="button_coinflip_title">CoinFlip</string>
+    <string name="button_coinflip_title">Coin Flip</string>
     <string name="save_children_button">Save</string>
     <string name="delete_child_label">Delete</string>
     <string name="flip_tail_label">Flip Tails</string>
@@ -104,4 +104,8 @@
     <string name="dialog_time_body">You can turn off the alarm by clicking Yes button</string>
     <string name="notif_timeout_title">Timeout</string>
     <string name="notif_timeout_body">Time\'s up!</string>
+    <string name="appbar_help">Help</string>
+    <string name="appbar_coinflip_history">History</string>
+    <string name="appbar_timeout">Timeout</string>
+    <string name="appbar_coinflip">Coin Flip</string>
 </resources>
