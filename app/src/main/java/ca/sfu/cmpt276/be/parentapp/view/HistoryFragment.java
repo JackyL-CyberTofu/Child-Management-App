@@ -14,6 +14,10 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import ca.sfu.cmpt276.be.parentapp.R;
 import ca.sfu.cmpt276.be.parentapp.controller.DataManager;
 
+/**
+ * HistoryFragment is the fragment shown to the user when they want to know the number of breaths
+ * they have taken. It gets called in BreathActivity.
+ */
 public class HistoryFragment extends AppCompatDialogFragment {
 
     @NonNull

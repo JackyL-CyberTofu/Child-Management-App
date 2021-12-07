@@ -142,7 +142,7 @@ public class TaskEditActivity extends AppCompatActivity {
     }
 
     private void setUpCompletionHistory() {
-        ArrayAdapter<Child> adapter = new MyListAdapter();
+        ArrayAdapter<Child> adapter = new TaskHistoryAdapter();
         ListView list = (ListView) findViewById(R.id.listview_task_history);
         list.setAdapter(adapter);
 
@@ -198,8 +198,9 @@ public class TaskEditActivity extends AppCompatActivity {
         finish();
     }
 
-    private class MyListAdapter extends ArrayAdapter<Child> {
-        public MyListAdapter() {
+
+    private class TaskHistoryAdapter extends ArrayAdapter<Child> {
+        public TaskHistoryAdapter() {
             super(TaskEditActivity.this, R.layout.layout_standard, childList);
         }
 

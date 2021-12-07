@@ -13,7 +13,6 @@ import ca.sfu.cmpt276.be.parentapp.model.Coin;
  * Flips random side, stores the history of the coin flip, and
  * remembers the last child that picked
  */
-
 public class CoinFlipManager {
 
     private final DataManager dataManager = DataManager.getInstance();

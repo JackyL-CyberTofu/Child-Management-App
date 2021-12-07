@@ -41,7 +41,7 @@ public class FlipHistoryActivity extends AppCompatActivity {
 
 
 
-        ArrayAdapter<Coin> adapter = new MyListAdapter();
+        ArrayAdapter<Coin> adapter = new FlipHistoryAdapter();
         ListView list = (ListView) findViewById(R.id.list_game);
         list.setAdapter(adapter);
     }
@@ -54,8 +54,9 @@ public class FlipHistoryActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class MyListAdapter extends ArrayAdapter<Coin> {
-        public MyListAdapter() {
+
+    private class FlipHistoryAdapter extends ArrayAdapter<Coin> {
+        public FlipHistoryAdapter() {
             super(FlipHistoryActivity.this, R.layout.layout_coinflip, coinFlipHistory);
         }
 

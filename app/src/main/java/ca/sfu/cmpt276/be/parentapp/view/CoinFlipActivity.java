@@ -204,8 +204,6 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
     }
 
     private class SpinnerListener implements android.widget.AdapterView.OnItemSelectedListener {
-
-
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
             if (i < childManager.size()) {
@@ -221,13 +219,10 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
 
         @Override
         public void onNothingSelected(AdapterView<?> adapterView) {
-
         }
-
     }
 
     class SpinnerAdapter extends ArrayAdapter<Child> {
-
         public SpinnerAdapter(Context context, List<Child> childQueue) {
             super(context, R.layout.layout_standard, childQueue);
         }

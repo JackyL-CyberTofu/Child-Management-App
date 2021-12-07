@@ -21,7 +21,6 @@ import ca.sfu.cmpt276.be.parentapp.R;
  * It is run in the background by using Service. It is stopped when users click dismiss button in the notification
  * It can also be stopped by clicking "ok button" from alert dialog in the Timeout Activity.
  */
-
 public class AlarmService extends Service {
     private MediaPlayer mediaPlayer;
     private Vibrator vibrator;
