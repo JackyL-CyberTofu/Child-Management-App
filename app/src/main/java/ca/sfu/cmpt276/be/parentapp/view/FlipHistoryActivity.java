@@ -74,7 +74,7 @@ public class FlipHistoryActivity extends AppCompatActivity {
             String string_time = coinFlipManager.getCoinFlipGame(position).getDate();
 
             TextView text_upper = (TextView) itemView.findViewById(R.id.text_layout_child_name);
-            text_upper.setText(MessageFormat.format("{0}{1}{2}", string_result, getString(R.string.AT), string_time));
+            text_upper.setText(MessageFormat.format("{0}{1}{2}", string_result, getString(R.string.at_symbol), string_time));
 
             TextView text_lower = (TextView) itemView.findViewById(R.id.text_detail);
             if (coinFlipManager.getCoinFlipGame(position).getPicker()==null){

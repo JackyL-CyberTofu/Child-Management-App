@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,10 +59,7 @@ public class TaskEditActivity extends AppCompatActivity {
             childList = new ArrayList<>();
         }
 
-        ArrayAdapter<Child> adapter = new MyListAdapter();
-        ListView list = (ListView) findViewById(R.id.listview_task_history);
-        list.setAdapter(adapter);
-
+        setUpCompletionHistory();
     }
 
     @Override
@@ -129,16 +127,28 @@ public class TaskEditActivity extends AppCompatActivity {
             childPortrait.setImageBitmap(imageManager.getPortrait(TaskEditActivity.this,
                     taskManager.getTaskedChildId(taskNumber)));
         } else {
-            findViewById(R.id.group_tasked_child_info).setVisibility(View.GONE);
+            hideComponents();
+            findViewById(R.id.button_complete_task).setVisibility(View.VISIBLE);
         }
     }
 
     private void setUpAppBar() {
-        Objects.requireNonNull(getSupportActionBar()).setTitle("New Task");
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.appbar_add_task);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (isExistingTask) {
-            Objects.requireNonNull(getSupportActionBar()).setTitle("Task");
+            Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.appbar_edit_task);
+        }
+    }
+
+    private void setUpCompletionHistory() {
+        ArrayAdapter<Child> adapter = new MyListAdapter();
+        ListView list = (ListView) findViewById(R.id.listview_task_history);
+        list.setAdapter(adapter);
+
+        if (childList.isEmpty()) {
+            TextView completeHistory = findViewById(R.id.text_complete_history);
+            completeHistory.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -150,9 +160,17 @@ public class TaskEditActivity extends AppCompatActivity {
     }
 
     private void hideComponents() {
-        findViewById(R.id.group_existing_task_info).setVisibility(View.GONE);
-        TextView whoseTurn = findViewById(R.id.text_tasked_child_label);
-        whoseTurn.setText("");
+        Button completeButton = findViewById(R.id.button_complete_task);
+        TextView nextChild = findViewById(R.id.text_tasked_child_label);
+        ImageView childPortrait = findViewById(R.id.image_activity_tasked_child);
+        TextView childText = findViewById(R.id.text_activity_tasked_child);
+        LinearLayout childLayout = findViewById(R.id.layout_tasked_child);
+
+        completeButton.setVisibility(View.INVISIBLE);
+        nextChild.setVisibility(View.INVISIBLE);
+        childPortrait.setVisibility(View.INVISIBLE);
+        childText.setVisibility(View.INVISIBLE);
+        childLayout.setVisibility(View.INVISIBLE);
     }
 
     private void saveAndExit() {
@@ -160,7 +178,7 @@ public class TaskEditActivity extends AppCompatActivity {
         String newName = taskName.getText().toString();
 
         if (newName.isEmpty()) {
-            Toast.makeText(this, "Please enter a name for the task.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.warning_empty_task), Toast.LENGTH_SHORT).show();
         } else {
             save(newName);
             finish();

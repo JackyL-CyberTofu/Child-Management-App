@@ -65,7 +65,6 @@ public class CoinFlipActivity extends AppCompatActivity implements CoinFlipManag
 
         setupButton();
         initializeSpinner();
-
         setUpNavBar();
     }
 

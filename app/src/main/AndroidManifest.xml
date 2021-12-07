@@ -10,7 +10,6 @@
         android:name="android.hardware.camera2"
         android:required="true" />
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
@@ -28,7 +27,7 @@
         <activity
             android:name=".view.HelpActivity"
             android:exported="true"
-            android:label="Help"
+            android:label="@string/appbar_help"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
@@ -44,13 +43,13 @@
         <activity
             android:name=".view.FlipHistoryActivity"
             android:exported="false"
-            android:label="History"
+            android:label="@string/appbar_coinflip_history"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".view.TimeoutActivity"
             android:exported="false"
-            android:label="@string/timeout"
+            android:label="@string/appbar_timeout"
             android:parentActivityName=".view.MainActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
@@ -62,7 +61,7 @@
         <activity
             android:name=".view.CoinFlipActivity"
             android:exported="false"
-            android:label="Coin Flip"
+            android:label="@string/appbar_coinflip"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.BeParentApp.NoActionBar"
             tools:ignore="LockedOrientationActivity" />
@@ -74,7 +73,7 @@
         <activity
             android:name=".view.MainActivity"
             android:exported="true"
-            android:label="Parent App"
+            android:label="@string/app_name"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
